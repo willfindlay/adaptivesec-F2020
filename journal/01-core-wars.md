@@ -70,10 +70,21 @@ The very first thing I need to mention here is that at least two other people
 had the same idea as I did for using the proposed PCT instruction in an
 offensive manner (see above). Perhaps an interesting takeaway here is that users
 can often find unintended ways to abuse systems, regardless of the creator's
-intentions. This perfectly illustrates both the cat-and-mouse game that is
-security and why an adaptive solution might be necessary to ensure the security
-and stability of our systems going forward (as both attacks and defenses grow
-increasingly complex).
+intentions. Abstracting this concept and applying it to modern software systems
+perfectly illustrates both the cat-and-mouse game that is security and why an
+adaptive solution might be necessary to ensure the security and stability of our
+systems going forward (as both attacks and defenses grow increasingly complex).
+
+Aside from a few brief moments revisiting the mechanics of CoreWar (essentially
+re-hashing the first article), the rest of the article focuses primarily on
+real-world attacks and defenses and the common themes therein that often
+resurface in the CoreWar simulation itself. There is a lot to be said here and
+I have a lot more thoughts on this, so that will be my focus for the rest of
+this entry.
+
+## Third Article
+
+## Fourth Article
 
 ## Early Project Notes
 
