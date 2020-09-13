@@ -55,15 +55,25 @@ The GIF above shows my two IMP-GUNs racing across the battlefield. Curiously,
 a pattern emerges where each side's "bullets" chase the enemy's main program
 indefinitely, never quite catching up to it.
 
-Towards the end of the article, Dewdney discusses potential improvements to CoreWar,
-including a new PCT instruction that would prevent an address from being overwritten
-until it is next executed. This would provide programs with a way to defend themselves
-from crude guessing attacks that involve bombing distance addresses with 0s. However,
-I noted that this capability could also be used offensively against programs that copy themselves
-from location to location. The PCT instruction could cause holes in the resulting copy
-and thus interfere with the enemy's execution.
+Towards the end of the article, Dewdney discusses potential improvements to
+CoreWar, including a new PCT instruction that would prevent an address from
+being overwritten until it is next executed. This would provide programs with
+a way to defend themselves from crude guessing attacks that involve bombing
+distance addresses with 0s. However, I noted that this capability could also be
+used offensively against programs that copy themselves from location to
+location. The PCT instruction could cause holes in the resulting copy and thus
+interfere with the enemy's execution.
 
 ## Second Article
+
+The very first thing I need to mention here is that at least two other people
+had the same idea as I did for using the proposed PCT instruction in an
+offensive manner (see above). Perhaps an interesting takeaway here is that users
+can often find unintended ways to abuse systems, regardless of the creator's
+intentions. This perfectly illustrates both the cat-and-mouse game that is
+security and why an adaptive solution might be necessary to ensure the security
+and stability of our systems going forward (as both attacks and defenses grow
+increasingly complex).
 
 ## Early Project Notes
 
