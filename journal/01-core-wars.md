@@ -40,7 +40,13 @@ While I wasn't able to beat either the MICE or the CHANG1 programs, I found I wa
 able to grasp many of the core concepts and "design patterns" that were discussed
 in the article. By "design patterns" I am of course referring to common constructs
 that seem to show up in many CoreWar programs and are known to produce interesting or useful results.
-In a way, patterns like the DWARF, IMP, IMP-GUN, and IMP-STOMPER are similar to
+One example of such a design pattern, the IMP-GUN (spl 2; jmp -1; mov 0 1), allows you
+to continually launch a barrage of killer programs into a neighboring address space.
+The simulation at the above URL provides a visualization of the resulting programs in
+operation, and it is definitely cool to see your IMPs being fired into enemy territory
+in real time. In a way, patterns like the DWARF, IMP, IMP-GUN, and IMP-STOMPER are similar to
 the analogous structures we see between populations in biology --- the useful blueprints
 tend to show up time and time again.
+
+![My two IMP-GUNS racing across the address space.](./figs/imp-guns.gif "IMP-GUNS")
 
