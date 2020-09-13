@@ -55,3 +55,20 @@ The GIF above shows my two IMP-GUNs racing across the battlefield. Curiously,
 a pattern emerges where each side's "bullets" chase the enemy's main program
 indefinitely, never quite catching up to it.
 
+Towards the end of the article, Dewdney discusses potential improvements to CoreWar,
+including a new PCT instruction that would prevent an address from being overwritten
+until it is next executed. This would provide programs with a way to defend themselves
+from crude guessing attacks that involve bombing distance addresses with 0s. However,
+I noted that this capability could also be used offensively against programs that copy themselves
+from location to location. The PCT instruction could cause holes in the resulting copy
+and thus interfere with the enemy's execution.
+
+## Second Article
+
+## Early Project Notes
+
+- Thinking about doing something with eBPF, but what?
+    - More BPF LSM programs? (been there, done that --- but there is still a lot of low hanging fruit here, even from an adaptive security perspective)
+    - Perf events? Could be some really cool opportunities for modeling system behavior here... This would certainly be uncharted  territory, but there could be overhead concerns depending on sampling frequency
+    - Maybe some kind of network IDS that learns patterns in traffic? I have less experience here but it could be nice to try something different for a change
+- So far I've just been working on some preliminary experiments/brainstorming with different BPF programs, hoping to see what sticks
