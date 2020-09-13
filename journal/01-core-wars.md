@@ -85,10 +85,11 @@ this entry.
 Of particular interest to me was the description of a CoreWar-like sumulation
 that involved random mutations of programs, "Left Hand of God" by Stahl. This
 simulation sounds like a more simplistic and earlier version of the Tierra
-project (next week's reading). Unfortunately, it seems like the simulation
-was slightly too simplistic for its own good, producing no interesting results.
-I would be curious to find out whether "Left Hand of God" was an early inspiration
-for the Tierra work (it certainly seems that at least CoreWar played a significant role).
+project (next week's reading). Unfortunately, it seems like the simulation was
+slightly too simplistic for its own good, producing no interesting results.
+I would be curious to find out whether "Left Hand of God" was an early
+inspiration for the Tierra work (it certainly seems that at least CoreWar played
+a significant role).
 
 The "Animal" game is an interesting example of an otherwise benign program
 ruined by a terrible design choice. Such a program today would almost certainly
@@ -101,7 +102,23 @@ For instance, the Apple Worm exploited the fact that the Apple II offers very
 little memory protection, imposing no limited address space for a running
 program and zero separation between userspace and kernelspace.
 
+It was also interesting to see a very early example of a well-known attack, the
+fork bomb, arise out of a benign (albeit incredibly silly) programming error.
+
 ## Third Article
+
+It's cool to see CoreWar programs being designed to mimic behavioral patterns
+from the real world, such as COMMANDO which vaults into enemy territory to
+launch a sneak attack or MICE (the winner of the tournament) which reproduces
+like, well, mice. Here again we see several common patterns emerging among the
+most successful battle programs. While battle programs have not yet reached the
+level of sophistication proposed in the first article, they are certainly
+formidable and resilient despite the fact that the most successful ones are
+fewer than 12 lines in length.
+
+I absolutely loved reading the description of the battle between MICE and
+CHANG1. Especially since I could *watch* the battle in real time thanks to the
+CoreWar simulator linked above.
 
 ## Fourth Article
 
