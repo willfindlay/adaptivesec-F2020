@@ -82,6 +82,25 @@ resurface in the CoreWar simulation itself. There is a lot to be said here and
 I have a lot more thoughts on this, so that will be my focus for the rest of
 this entry.
 
+Of particular interest to me was the description of a CoreWar-like sumulation
+that involved random mutations of programs, "Left Hand of God" by Stahl. This
+simulation sounds like a more simplistic and earlier version of the Tierra
+project (next week's reading). Unfortunately, it seems like the simulation
+was slightly too simplistic for its own good, producing no interesting results.
+I would be curious to find out whether "Left Hand of God" was an early inspiration
+for the Tierra work (it certainly seems that at least CoreWar played a significant role).
+
+The "Animal" game is an interesting example of an otherwise benign program
+ruined by a terrible design choice. Such a program today would almost certainly
+be considered malware (although accidentally writing such a program would also
+be at least much more difficult if not impossible given the protection
+constraints imposed by modern operating systems). Indeed, a common theme among
+the early examples of malware discussed in this article is that many of them
+were made possible by an utter lack of protection in the host operating systems.
+For instance, the Apple Worm exploited the fact that the Apple II offers very
+little memory protection, imposing no limited address space for a running
+program and zero separation between userspace and kernelspace.
+
 ## Third Article
 
 ## Fourth Article
