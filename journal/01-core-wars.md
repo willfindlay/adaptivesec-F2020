@@ -1,8 +1,7 @@
----
-Title: "Research Journal 01: Core Wars"
-Author: William Findlay
-Date: Sept. 10, 2020
----
+# Research Journal 01: Core Wars
+
+William Findlay
+Sept. 10, 2020
 
 <!--
 # The Basic Idea
@@ -22,7 +21,7 @@ Date: Sept. 10, 2020
     - for example Apple II had no private address spaces or user/kernelspace separation, so a worm could just wipe the entire DOS
 -->
 
-# First Article
+## First Article
 
 Core War is probably one of the coolest things I have seen in a very long time.
 The idea is simple enough: two processes battling for control of a virtual
