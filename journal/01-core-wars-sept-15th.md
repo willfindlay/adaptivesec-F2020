@@ -1,7 +1,7 @@
 # Research Journal 01: Core Wars
 
 William Findlay
-Sept. 10, 2020
+Sept. 15, 2020
 
 ## First Article
 
