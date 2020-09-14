@@ -104,6 +104,25 @@ CoreWar simulator linked above.
 
 ## Fourth Article
 
+Kind of disappointing to hear about the media blaming CoreWar for contemporary
+viruses and worms. Really, the concept of malicious programs existed long before
+CoreWar and is rather symptomatic of poor security practices at the time. If
+anything, exercises like CoreWar help to illustrate the complexity of defending
+against attacks, especially in insecure environments, and bring awareness to the
+fact that people need to a bit more careful when deploying software in
+production.
+
+Of course, the mystery worm discussed in the article is the venerable Morris
+worm, a piece of literal computing history. The Morris worm appears to suffer
+from a similar fatal flaw to the Animal game discussed in the first article,
+albeit much larger in scale; despite being designed as a "benign" (certainly
+debatable) intellectual exercise, an improperly configured spread coefficient
+led to its virulent consumption of global computing resources. Spaf sums it up
+quite nicely in suggesting that Morris should have tested his re-infection
+coefficient in a simulation first. Unfortunately, the exponential nature of
+the Morris worm's infection vector means that even a 1/7 chance for reinfection
+can be crippling in practice.
+
 ## Random Thoughts
 
 - This is absolutely hilarious: "I abandoned this line of work after one production run in which a sterile mutant ate and killed the only fertile creature in the universe."
