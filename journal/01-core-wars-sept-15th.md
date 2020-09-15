@@ -137,3 +137,64 @@ can be crippling in practice.
     - Perf events? Could be some really cool opportunities for modeling system behavior here... This would certainly be uncharted  territory, but there could be overhead concerns depending on sampling frequency
     - Maybe some kind of network IDS that learns patterns in traffic? I have less experience here but it could be nice to try something different for a change
 - So far I've just been working on some preliminary experiments/brainstorming with different BPF programs, hoping to see what sticks
+
+## Cool CoreWar Programs
+
+Link to CoreWar: https://crypto.stanford.edu/~blynn/play/redcode.html
+
+The IMP-GUN:
+
+```
+spl 2
+jmp -1
+mov 0 1
+```
+
+The IMP-STOMPER:
+
+```
+mov #0 -1
+jmp -1
+```
+
+An IMP-GUN with an IMP-STOMPER:
+
+```
+spl 3
+mov #0 -1
+jmp -1
+spl 2
+jmp -1
+mov 0 1
+```
+
+MICE
+
+```
+jmp 2
+dat 0
+mov #12, -1
+mov @-2, <5
+djn -1, -3
+spl @3
+add #653, 2
+jmz -5, -6
+dat 833
+```
+
+CHANG1
+
+```
+jmp 4
+mov 2, -1
+jmp -1
+dat 9
+spl -2
+spl 4
+add #-16, -3
+mov -4, @-4
+jmp -4
+spl 2
+jmp -1
+mov 0, 1
+```
