@@ -47,7 +47,7 @@ of a Reaper mechanism like in Tierra, the resource consumption of such a model
 would be prohibitive.
 
 While Tierra probably wouldn't be viable for use in production environments
-(nor, I would posit, was it intended to be, despite what the author might say in
+(nor would I posit that it was intended to be, despite what the author might say in
 his abstract), I think that we can certainly borrow some of its ideas and
 possibly apply them in a more production-friendly manner. For instance, while
 Tierra's evolution occurs on a microscopic (per-bit per-instruction) level, this
@@ -93,4 +93,4 @@ classifiers and dependency graphs.
 - Monoculture vs polyculture
     - Polyculture is bad for security on an individual level
     - But paradoxically it is better for security on the group level (attackers developing exploits need to be running 50 different versions of 50 different exploit software for example)
-    - A lot of modern software seems to sit somewhere in the middle
+    - A lot of modern software seems to sit somewhere in the middle, but tending toward monoculture, at least across versions of popular libraries and open source projects
