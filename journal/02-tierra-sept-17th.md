@@ -73,7 +73,10 @@ instruction set would almost exclusively need to be virtualized without proper
 hardware support in traditional Von Neumann architectures. Secondly, production
 code (in general) is not *meant* to change over time, and certainly such changes
 should not have any chance at breaking existing functionality or introducing
-non-deterministic behavior.
+non-deterministic behavior. Further, we generally do not want code replication
+itself uncontrollably in production environments --- even with the introduction
+of a Reaper mechanism like in Tierra, the resource consumption of such a model
+would be prohibitive.
 
 While Tierra probably wouldn't be viable for use in production environments
 (nor, I would posit, was it intended to be, despite what the author might say in
