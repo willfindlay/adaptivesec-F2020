@@ -12,6 +12,10 @@ Sept. 17, 2020
 - For Tierran, creating an evolvable environment for programs requires:
     - Shrinking the instruction set (to mimic natural proteins and amino acids)
     - Addressing instructions by their "templates" rather than individually, to mimic complementarity (https://en.m.wikipedia.org/wiki/Complementarity_(molecular_biology)) in biology
+- 3 ingredients for adaptation:
+    - sex, speciation, and death
+    - Tierra doesn't really have the first, but does have the other two
+    - The Reaper = death, population sizes ~ speciation
 - How does this relate to (adaptive) security?
     - "Changing the game" involves creating an environment in which it no longer pays dividends to be an attacker
     - Creating software that can evolve could help add diversity to the environment (reduces the impact of finding common exploits)
@@ -62,6 +66,28 @@ accomplishes the goals it set out to achieve (namely to establish a baseline for
 comparison between life on Earth and life under other paradigms). However, it
 remains for me to consider both its practicality (or lack thereof) for
 real-world systems and its applicability to the domain of security (specifically
-adaptive security).
+adaptive security). From a practicality standpoint, I don't think Tierra really
+has much of a leg to stand on. I envision a few problems that would inhibit the
+adoption of a Tierra-like system in any production environment. Firstly, its
+instruction set would almost exclusively need to be virtualized without proper
+hardware support in traditional Von Neumann architectures. Secondly, production
+code (in general) is not *meant* to change over time, and certainly such changes
+should not have any chance at breaking existing functionality or introducing
+non-deterministic behavior.
+
+While Tierra probably wouldn't be viable for use in production environments
+(nor, I would posit, was it intended to be, despite what the author might say in
+his abstract), I think that we can certainly borrow some of its ideas and
+possibly apply them in a more production-friendly manner. For instance, while
+Tierra's evolution occurs on a microscopic (per-bit per-instruction) level, this
+idea could be abstracted to the level of equivalent library dependencies for
+example. I do foresee a few barriers to overcome before something like this
+could be implemented; for example, interfaces across equivalent libraries would
+need to be standardized to enable ad-hoc swapping across deployments. While this
+is probably not a solvable problem, it makes for an interesting thought
+experiment. By introducing polyculture into software deployments, we effectively
+reduce the potential benefit for an attacker to find an exploit for one
+particular configuration. This process could be automated through the use
+of classifiers and dependency graphs.
 
 ## More Project Thoughts
