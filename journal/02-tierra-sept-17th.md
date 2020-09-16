@@ -63,6 +63,29 @@ classifiers and dependency graphs.
 
 ## More Project Thoughts
 
+The last lecture placed a good deal of emphasis on changing the security game
+that we are currently playing --- this would involve expediating the creation of
+an environment that would be less rewarding of successful attacks/exploits. eBPF
+offers a rich mechanism to introspect on Linux behavior and, as of recent
+kernels, even modify kernel struct-ops behavior. This is part of a movement
+toward using BPF to implement an extensible micro-kernel architecture and move
+away from a monolithic design in the future. Right now, the only supported
+struct-ops that can be modified are related to TCP load balancing, but the
+interface has been designed such that it will be extensible to other aspects of
+kernel behavior. This might introduce a unique opportunity to create an
+evolvable kernel ABI that can dynamically change to subvert attackers'
+expectations. This sounds absolutely nuts, but similar work in operating system
+ABI mutation has been done in the past, albeit with a focus on code path
+optimization --- might be too ambitious for a term project though.
+
+Another rich vein for adaptive eBPF-based security solutions is the
+classification of anomalous process behavior. I have already done a good deal of
+work here with ebpH. For this course, I'd like to try something new. There are
+lots of other ways to gather information with eBPF, many of which likely would
+not have been possible or feasible at the time of pH's development. It could be
+interesting to experiment with what other eBPF-based anomaly detection
+/ behavioral classification systems might look like.
+
 ## Random Thoughts
 
 - Tierra puts a **strong** emphasis on *environment*
