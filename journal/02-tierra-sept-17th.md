@@ -3,38 +3,6 @@
 William Findlay
 Sept. 17, 2020
 
-## Random Thoughts
-
-- Tierra puts a **strong** emphasis on *environment*
-- The entire point of the design of the Tierran virtual machine and language is to create an environment that is conducive to evolution
-    - Because classic Von Neumann machine languages are not meant to be "evolvable"
-    - Too brittle -> very hard to pick a working program out of a random permutation of machine code instructions
-- For Tierran, creating an evolvable environment for programs requires:
-    - Shrinking the instruction set (to mimic natural proteins and amino acids)
-    - Addressing instructions by their "templates" rather than individually, to mimic complementarity (https://en.m.wikipedia.org/wiki/Complementarity_(molecular_biology)) in biology
-- 3 ingredients for adaptation:
-    - sex, speciation, and death
-    - Tierra doesn't really have the first, but does have the other two
-    - The Reaper = death, population sizes ~ speciation
-- How does this relate to (adaptive) security?
-    - "Changing the game" involves creating an environment in which it no longer pays dividends to be an attacker
-    - Creating software that can evolve could help add diversity to the environment (reduces the impact of finding common exploits)
-    - A Tierran-like substrate might be conducive to creating evolvable programs
-- What remains to be seen: How viable would Tierran software be in the real world? I think not so much...
-    - In production, we don't want our code to replicate itself and we don't want unexpected changes in our code to break behavior
-    - We need something that can evolve *macroscopically* rather than at the per-instruction level
-    - Further, we need something with a "replication" function we can control
-- What if we could annotate different logical parts of our programs (maybe with machine learning?) like genome sequencing?
-    - Then when we deploy applications we could shuffle the main logical parts by selecting equivalents from our gene bank
-    - This would require a lot of interface work (equivalent logical parts would require equivalent interfaces)
-    - Probably not feasible, but an interesting thought experiment
-- Could also perhaps pre-configure a seed population of viable applications and use dependency graphs to drive viable evolution
-    - This might be something interesting to try
-- Monoculture vs polyculture
-    - Polyculture is bad for security on an individual level
-    - But paradoxically it is better for security on the group level (attackers developing exploits need to be running 50 different versions of 50 different exploit software for example)
-    - A lot of modern software seems to sit somewhere in the middle
-
 ## Tierra
 
 Tierra makes a compelling argument about what it means to create artificial
@@ -90,7 +58,39 @@ need to be standardized to enable ad-hoc swapping across deployments. While this
 is probably not a solvable problem, it makes for an interesting thought
 experiment. By introducing polyculture into software deployments, we effectively
 reduce the potential benefit for an attacker to find an exploit for one
-particular configuration. This process could be automated through the use
-of classifiers and dependency graphs.
+particular configuration. This process could be automated through the use of
+classifiers and dependency graphs.
 
 ## More Project Thoughts
+
+## Random Thoughts
+
+- Tierra puts a **strong** emphasis on *environment*
+- The entire point of the design of the Tierran virtual machine and language is to create an environment that is conducive to evolution
+    - Because classic Von Neumann machine languages are not meant to be "evolvable"
+    - Too brittle -> very hard to pick a working program out of a random permutation of machine code instructions
+- For Tierran, creating an evolvable environment for programs requires:
+    - Shrinking the instruction set (to mimic natural proteins and amino acids)
+    - Addressing instructions by their "templates" rather than individually, to mimic complementarity (https://en.m.wikipedia.org/wiki/Complementarity_(molecular_biology)) in biology
+- 3 ingredients for adaptation:
+    - sex, speciation, and death
+    - Tierra doesn't really have the first, but does have the other two
+    - The Reaper = death, population sizes ~ speciation
+- How does this relate to (adaptive) security?
+    - "Changing the game" involves creating an environment in which it no longer pays dividends to be an attacker
+    - Creating software that can evolve could help add diversity to the environment (reduces the impact of finding common exploits)
+    - A Tierran-like substrate might be conducive to creating evolvable programs
+- What remains to be seen: How viable would Tierran software be in the real world? I think not so much...
+    - In production, we don't want our code to replicate itself and we don't want unexpected changes in our code to break behavior
+    - We need something that can evolve *macroscopically* rather than at the per-instruction level
+    - Further, we need something with a "replication" function we can control
+- What if we could annotate different logical parts of our programs (maybe with machine learning?) like genome sequencing?
+    - Then when we deploy applications we could shuffle the main logical parts by selecting equivalents from our gene bank
+    - This would require a lot of interface work (equivalent logical parts would require equivalent interfaces)
+    - Probably not feasible, but an interesting thought experiment
+- Could also perhaps pre-configure a seed population of viable applications and use dependency graphs to drive viable evolution
+    - This might be something interesting to try
+- Monoculture vs polyculture
+    - Polyculture is bad for security on an individual level
+    - But paradoxically it is better for security on the group level (attackers developing exploits need to be running 50 different versions of 50 different exploit software for example)
+    - A lot of modern software seems to sit somewhere in the middle
