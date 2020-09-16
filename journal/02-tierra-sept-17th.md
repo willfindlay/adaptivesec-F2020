@@ -75,8 +75,10 @@ interface has been designed such that it will be extensible to other aspects of
 kernel behavior. This might introduce a unique opportunity to create an
 evolvable kernel ABI that can dynamically change to subvert attackers'
 expectations. This sounds absolutely nuts, but similar work in operating system
-ABI mutation has been done in the past, albeit with a focus on code path
-optimization --- might be too ambitious for a term project though.
+ABI mutation has been done in the past
+(e.g., [Synthesis](https://www.usenix.org/legacy/publications/compsystems/1988/win_pu.pdf)),
+albeit with a focus on code path optimization --- might be too ambitious for
+a term project though.
 
 Another rich vein for adaptive eBPF-based security solutions is the
 classification of anomalous process behavior. I have already done a good deal of
