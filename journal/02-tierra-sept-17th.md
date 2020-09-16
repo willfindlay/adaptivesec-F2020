@@ -16,6 +16,16 @@ Sept. 17, 2020
     - "Changing the game" involves creating an environment in which it no longer pays dividends to be an attacker
     - Creating software that can evolve could help add diversity to the environment (reduces the impact of finding common exploits)
     - a Tierran-like substrate might be conducive to creating evolvable programs
+- What remains to be seen: How viable would Tierran software be in the real world? I think not so much...
+    - In production, we don't want our code to replicate itself and we don't want unexpected changes in our code to break behavior
+    - We need something that can evolve *macroscopically* rather than at the per-instruction level
+    - Further, we need something with a "replication" function we can control
+- What if we could annotate different logical parts of our programs (maybe with machine learning?) like genome sequencing?
+    - Then when we deploy applications we could shuffle the main logical parts by selecting equivalents from our gene bank
+    - This would require a lot of interface work (equivalent logical parts would require equivalent interfaces)
+    - Probably not feasible, but an interesting thought experiment
+- Could also perhaps pre-configure a seed population of viable applications and use dependency graphs to drive viable evolution
+    - This might be something interesting to try
 
 ## Tierra
 
