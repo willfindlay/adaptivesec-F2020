@@ -100,7 +100,7 @@ interesting to experiment with what other eBPF-based anomaly detection
 - 3 ingredients for adaptation:
     - sex, speciation, and death
     - Tierra doesn't really have the first, but does have the other two
-    - The Reaper = death, population sizes ~ speciation
+    - The Reaper = death, size genotypes ~ speciation
 - How does this relate to (adaptive) security?
     - "Changing the game" involves creating an environment in which it no longer pays dividends to be an attacker
     - Creating software that can evolve could help add diversity to the environment (reduces the impact of finding common exploits)
