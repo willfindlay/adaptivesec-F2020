@@ -16,3 +16,5 @@ Sept. 22, 2020
 - users can mix and match and edit rules as they see fit
 - rules would be optionally parameterized by their LSM object IDs (for example, you could parameterize a rule that contained an inode access by that inode or filesystem number, but you wouldn't necessarily have to do this)
 - in addition to generating rules, you could also generate the policy that uses these rules and this generation could optionally either be parameterized or generic
+
+I've created a git repository for this project: https://github.com/willfindlay/WARDEN
