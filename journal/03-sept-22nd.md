@@ -3,6 +3,11 @@
 William Findlay
 Sept. 22, 2020
 
+## Areas of Interest
+
+Presumably my areas of interest should probably not come as a surprise,
+but I shall document them here anyway. TODO
+
 ## Software Diversity: Security, Entropy and Game Theory
 
 ## Object-Level Recombination of Commodity Applications
