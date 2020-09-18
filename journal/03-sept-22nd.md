@@ -5,8 +5,24 @@ Sept. 22, 2020
 
 ## Areas of Interest
 
-Presumably my areas of interest should probably not come as a surprise,
-but I shall document them here anyway. TODO
+My areas of interest primarily lie in the areas of operating system security,
+intrusion detection, operating system observability, process confinement, and
+access control. In particular, I am interested in finding novel ways to use
+eBPF, an emergent observability and kernel extension framework for Linux, to
+implement new security mechanisms for Linux and to audit and augment existing
+ones. Since eBPF enables a high degree of system observability, there should be
+plenty of opportunities to integrate it with adaptive approaches for operating
+system security, utilizing gathered information to build a model of system state
+and detect attacks. Further, eBPF's safety and flexibility should enable both
+rapid prototyping and dynamic loading and unloading of security policy in
+response to certain system events or user intervention.
+
+In the past, I have worked on [ebpH](https://github.com/willfindlay/ebpH), an
+eBPF-based intrusion detection system written as a modern re-implementation of pH
+([Process Homeostasis](https://people.scs.carleton.ca/~mvvelzen/pH/pH.html)),
+and [bpfbox](https://github.com/willfindlay/bpfbox), an eBPF-based policy enforcement
+engine which provides a simpler and more sophisticated alternative to existing
+process confinement mechanisms on Linux.
 
 ## Software Diversity: Security, Entropy and Game Theory
 
