@@ -56,6 +56,37 @@ itself.
 
 ## Object-Level Recombination of Commodity Applications
 
+This paper was insanely cool --- I think in part because of how visceral it was
+to see screenshots of actual recombined programs. A clear problem that immediately
+jumped out to me was that of unresolved symbols when linking recombined object
+files; even with closely related ancestor programs, I would imagine that carelessly
+recombined object files could still produce a significant number of linker errors.
+I was pleasantly surprised by the simple solution proposed in the paper: simply resolve
+these linker errors by borrowing from the other parent's object files where necessary.
+This kind of reminded me of the idea of dominant and recessive genes in nature,
+in that it is possible to have a copy of both variants at the same time.
+
+It would have been nice to have a bit more information about the specific
+fitness scripts employed for GNU `sed` and `Dillo`, as well as the overall
+fitness level of the resultant variants. In particular, I am curious whether the
+generated versions of `sed` possessed some or all of their original
+functionality. It would also be necessary to determine the extent of code
+coverage for the fitness scripts in order to truly gauge how effectively each
+fitness script captures the desired functionality of generated applications. For
+example, a fitness script that only captures 40% of desired functionality can
+only maximally determine that resulting applications are 40% functional.
+
+By far the coolest part of the paper was the discussion of Quake variants.
+I think the fact that the genetic algorithm was able to *repair* a graphical bug
+by combining two versions of Quake is an astonishing result. A major
+contributing factor towards these interesting results was the fact that
+recombination occurred between divergent versions of Quake rather than two
+linear versions. While many free and open source software repositories *do* have
+two or more divergent forks, it is not necessarily easy to find divergent forks
+that are both actively and separately maintained. Some examples do come to mind,
+such as Gimp/Glimpse, vi/vim, and several popular variants of GNU Emacs, but in
+general I believe such cases to be the exception rather than the rule.
+
 ## Really Cool Project Idea
 
 - observe the system and automatically generate coarse grained rules that match observed patterns of behavior
