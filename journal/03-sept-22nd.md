@@ -26,6 +26,34 @@ process confinement mechanisms on Linux.
 
 ## Software Diversity: Security, Entropy and Game Theory
 
+It's interesting to consider software diversity from a game-theoretic
+perspective, particularly as a major driving factor behind the adoption of of
+diverse software and system configurations is human choice. I am skeptical about
+how highly diversity-based security ranks as a heuristic among users when
+choosing the applications they run on their systems (particularly systems for
+personal use, although these do not necessarily present the high value targets
+we are concerned with). Although classification of system diversity is a useful
+metric to consider, I think that the paper is correct in pointing out that such
+decisions may need to be made automatically at the package management level.
+
+I think the idea of a diversity-focused variant of CTF challenges helps to
+characterize a relatively abstract paper in a very concrete way. I can imagine
+such competitions actually occurring in real life. It would be interesting to
+see how well the theoretical models proposed in the paper would match the actual
+behavior of agents playing such a game.
+
+I was a bit curious about the last paragraph of the conclusion which posits
+that anomaly-based IDS software may already be diversity-type defenses
+as characterized by the presented entropy model. I have done a fair amount of
+work in intrusion detection during my undergraduate career and never really
+made the connection between intrusion detection and diversity per se ---
+of course, IDS systems are *adaptive* but do they actually introduce
+diversity? I suppose it could be argued that fundamental differences in generated
+behavioral profiles could count toward the diversity of the underlying system,
+but I would have been interested in hearing a bit more about this in the paper
+itself.
+
+
 ## Object-Level Recombination of Commodity Applications
 
 ## Really Cool Project Idea
