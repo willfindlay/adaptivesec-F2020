@@ -18,6 +18,19 @@ interfere with other running programs (of course in the case of the web browser,
 we are still restricted to the sandbox imposed on the webpage itself). The fact
 that this is a situation that exists in the modern web is honestly frightening.
 
+Of course, it's not immediately clear what the best solution would be to fix
+this problem. Primarily, the difficulty boils down to adoptability and backwards
+compatibility. In the Linux kernel, we adhere to a guiding principle known as
+"Don't break Userland" which effectively stipulates that changes to the kernel
+should not break existing userspace APIs. In web browsers there exists much the
+same situation: changes to the browser should not break the functionality of
+existing websites. Since many web applications have come to rely on the overly
+permissive interactions between JavaScript code within the sandbox of a webpage,
+it would be unacceptable to simply reduce or eliminate these interactions
+altogether. Instead, a more tactful approach would need to be taken. I suspect
+that the next paper will propose such an approach, but it would be interesting
+to consider other possibilities as well.
+
 ## Visual Security Policy for the Web
 
 ## Project Updates
