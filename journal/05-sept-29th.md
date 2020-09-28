@@ -64,7 +64,11 @@ a key difference here, however, is that rather than denying on sequences that
 don't match, we want to deny on sequences that *do* match. In practice, this
 should probably be done probabilistically (i.e. based on percent matches), as
 otherwise non-deterministic behaviour now swings in the direction of false
-*negatives* rather than false positives.
+*negatives* rather than false positives. I imagine that this matching
+would probably take place with the help of a specialized data structure like
+an LPM Trie. eBPF already has an LPM Trie map that might be well-suited to this
+task, although its traditional use case is for matching IP address prefixes
+for networking programs.
 
 ## Other Project Updates
 
