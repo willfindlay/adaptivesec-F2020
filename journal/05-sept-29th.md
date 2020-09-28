@@ -33,4 +33,13 @@ with statistics on sequences has been done so far: https://github.com/willfindla
 
 ## "A Sense of Self for Unix Processes" and "Automated Response Using System-Call Delays"
 
+Both of these papers obviously hold a very special place in my heart, as the
+work presented here forms the basis for my own work on ebpH, the topic of my
+undergraduate thesis. This background affords me a very intimate knowledge of
+the concepts and ideas presented here, as I have actually implemented them
+myself in eBPF. Further, I am very familiar with the limitations of the
+approaches presented here, particularly the difficulty of getting stable normal
+profiles for more complex applications (something which I am still working on
+in ebpH).
+
 ## Other Project Updates
