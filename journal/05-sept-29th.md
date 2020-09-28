@@ -15,7 +15,7 @@ anomaly detection mechanisms and more conventional process confinement
 mechanisms. The current name I have chosen for this project is WARDEN
 (a backronym for Will's Adaptive Response Dynamic Enforcement eNgine).
 
-In addition to generating the underlying policy language itself, WARDEN will
+In addition to generating the underlying policy language, WARDEN will
 facilitate the automatic creation of the policy files themselves through strong
 integration with the underlying eBPF enforcement engine. This would serve to
 maximize the transparency of the security system, hiding its details from
