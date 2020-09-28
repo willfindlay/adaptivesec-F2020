@@ -31,6 +31,9 @@ drastically increase policy expressiveness, auditability, and usability.
 I've set up a GitHub repository for this project, although only preliminary experimentation
 with statistics on sequences has been done so far: https://github.com/willfindlay/warden
 
+My preliminary experimentation lives in the `project` subdirectory in this repository,
+rather than in the WARDEN repository.
+
 ## "A Sense of Self for Unix Processes" and "Automated Response Using System-Call Delays"
 
 Both of these papers obviously hold a very special place in my heart, as the
