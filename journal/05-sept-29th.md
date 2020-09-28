@@ -58,7 +58,7 @@ interactions between processes and threads or user I/O. Solving these issues
 or at least mitigating them will be the key to increasing the adoptability
 of systems like pH and ebpH.
 
-Of course, this issue of non-detersive is  also a relevant concern for my
+Of course, this issue of non-determinism is  also a relevant concern for my
 project, since I plan to use sequences of events in my policy languages. I think
 a key difference here, however, is that rather than denying on sequences that
 don't match, we want to deny on sequences that *do* match. In practice, this
