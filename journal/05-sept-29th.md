@@ -45,6 +45,27 @@ approaches presented here, particularly the difficulty of getting stable normal
 profiles for more complex applications (something which I am still working on
 in ebpH).
 
+A fundamental difficulty for this kind of sequence analysis is sources of
+non-determinism. Non-deterministic behaviour can destabilize profiles before
+they normalize and, perhaps even worse, generate false positives in normal
+monitoring. A key source of this kind of non-determinism is the concept of
+signals and signal handlers, which can (and do) interrupt in-progress system
+calls, disrupting current sequences and potentially introducing new system calls
+into the middle of a sequence from the signal handler itself. While this problem
+is quit easily fixable by storing a stack of sequences, other sources of
+non-determinism are not so clearly handled. For example, consider complex
+interactions between processes and threads or user I/O. Solving these issues
+or at least mitigating them will be the key to increasing the adoptability
+of systems like pH and ebpH.
+
+Of course, this issue of non-detersive is  also a relevant concern for my
+project, since I plan to use sequences of events in my policy languages. I think
+a key difference here, however, is that rather than denying on sequences that
+don't match, we want to deny on sequences that *do* match. In practice, this
+should probably be done probabilistically (i.e. based on percent matches), as
+otherwise non-deterministic behaviour now swings in the direction of false
+*negatives* rather than false positives.
+
 ## Other Project Updates
 
 - Starting to think about literature review
