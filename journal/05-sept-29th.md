@@ -73,6 +73,8 @@ for networking programs.
 ## Other Project Updates
 
 - Starting to think about literature review
-- Hajime Inoue's dissertation may the closest work to what I'm proposing here, but in general it is still quite far from what I'm trying to do
+- Hajime Inoue's dissertation may the closest work to what I'm proposing here,
+  but in general it is still quite far from what I'm trying to do
     - https://www.cs.unm.edu/~forrest/dissertations/inoue-dissertation.pdf
-- Also related are policy generation mechanisms like Madison, audit2allow, aa\_easyprof, Polgen, and Slide
+- Also related are policy generation mechanisms like Madison, audit2allow,
+  aa\_easyprof, Polgen, and Slide
