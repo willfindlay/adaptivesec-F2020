@@ -11,7 +11,7 @@ After reading the NetADHICT paper again, I noticed striking similarities between
 the type of event sequence analysis I hope to do in WARDEN and the (p,n)-gram
 enabled hierarchical clustering approach explored here. This of course is
 despite the vastly disparate problem domains (network traffic vs OS-level system
-security events). I first read this paper about a year ago, so it would make
+security events). I first read this paper about a year and a half ago, so it would make
 sense that some of these ideas were percolating in the back of my mind. The
 specific similarities I'm noticing are as follows:
 
@@ -28,6 +28,14 @@ specific similarities I'm noticing are as follows:
   similarities with the ADHIC approach is probably a good sign here.
 - I hope to use a tree structure in WARDEN for probabilistically splitting
   sequences. This approach is quite similar to ADHIC's splitting decision tree.
+
+Overall thoughts on the paper: The first time I read this I thought it was
+pretty cool. My security knowledge and specifically my experience in developing
+adaptive security mechanisms have both matured significantly since then, so
+I feel like I've gained a renewed appreciation for the "sophisticated
+simplicity" that is being explored here. Sort of reminds me of our discussion
+about pH in the last lecture, in that the original idea (lookahead pair based
+analysis) was chosen for its simplicity but ended up working remarkably well.
 
 ## Other Project Updates
 
