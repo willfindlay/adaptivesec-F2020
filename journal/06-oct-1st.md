@@ -31,6 +31,6 @@ specific similarities I'm noticing are as follows:
 
 ## Other Project Updates
 
-No real project updates this time, besides some thoughts I came up with while
-reading the papers for this week. Project time will grow exponentially starting
-this weekend.
+No real project updates this time, besides some project-related thoughts I came
+up with while reading the papers for this week. Project time will grow
+exponentially starting this weekend.
