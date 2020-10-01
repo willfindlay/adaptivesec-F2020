@@ -22,7 +22,23 @@ I really like the (p,n)-gram approach here because it insightfully captures the
 highly positional nature of data within a packet (largely due to multiple layers
 of encapsulation) and it saves significantly on runtime overhead at the same
 time. Quite a simple and elegant solution to online network traffic
-classification.
+classification. I also really like the idea of using (p,n)-gram classification
+to split traffic into separate queues. This seems like a really elegant way to
+ensure that different classes of traffic get a proportional share of the network.
+
+The one thing I am kind of sceptical about here is the idea of analyzing
+patterns within packet payloads in addition to packet headers. Maybe this wasn't
+so much the case when this paper was originally written, but these days, a very
+significant potion of network traffic is encrypted. This might have significant
+effects on the efficacy of an approach that looks for patterns within packet
+payloads.
+
+I noticed that the experimental implementation here fixes n=4. In the NetADHICT
+paper, the results showed that n=2 was a superior value of n for capturing just
+enough distinct (p,n)-grams within a packet. I'd be curious whether different
+values for n were considered in the original paper or not (it was certainly
+suggested that smaller values of n might be considered, but it seems like this
+never ended up being tested).
 
 ## NetADHICT
 
