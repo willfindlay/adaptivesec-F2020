@@ -18,15 +18,21 @@ Rather than classifying legitimate vs illegitimate, a better approach might be
 a finer-grained classification based on a variety of attributes. That seems to
 be what is being suggested here.
 
+I really like the (p,n)-gram approach here because it insightfully captures the
+highly positional nature of data within a packet (largely due to multiple layers
+of encapsulation) and it saves significantly on runtime overhead at the same
+time. Quite a simple and elegant solution to online network traffic
+classification.
+
 ## NetADHICT
 
 After reading the NetADHICT paper again, I noticed striking similarities between
-the type of event sequence analysis I hope to do in WARDEN and the (p,n)-gram
-enabled hierarchical clustering approach explored here. This of course is
-despite the vastly disparate problem domains (network traffic vs OS-level system
-security events). I first read this paper about a year and a half ago, so it would make
-sense that some of these ideas were percolating in the back of my mind. The
-specific similarities I'm noticing are as follows:
+the type of event sequence analysis I hope to do in WARDEN and the
+(p,n)-gram-enabled hierarchical clustering approach explored here. This of
+course is despite the vastly disparate problem domains (network traffic vs
+OS-level system security events). I first read this paper about a year and
+a half ago, so it would make sense that some of these ideas were percolating in
+the back of my mind. The specific similarities I'm noticing are as follows:
 
 - ADHIC wants to capture the most frequent patterns and ignore very infrequent
   ones which may be related to packet contents rather than protocol-specific
