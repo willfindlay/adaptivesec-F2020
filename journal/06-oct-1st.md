@@ -5,6 +5,19 @@ Sept. 29, 2020
 
 ## Diversity-Based Traffic Management for Mitigating DoS
 
+Seems like this paper first introduces the concept of (p,n)-grams used later
+in NetADHICT. While I have had a chance to read the NetADHICT paper before,
+I've never looked at this one. It's interesting to see a bit of early context
+on what the authors were thinking before NetADHICT.
+
+Something that caught my eye early on in the paper was the notion of flash
+crowds of traffic potentially appearing legitimate when in fact they were
+originated maliciously. The truth of this statement is obvious, but it seems to
+be something that most of the anomaly detection methods have completely missed.
+Rather than classifying legitimate vs illegitimate, a better approach might be
+a finer-grained classification based on a variety of attributes. That seems to
+be what is being suggested here.
+
 ## NetADHICT
 
 After reading the NetADHICT paper again, I noticed striking similarities between
@@ -28,6 +41,11 @@ specific similarities I'm noticing are as follows:
   similarities with the ADHIC approach is probably a good sign here.
 - I hope to use a tree structure in WARDEN for probabilistically splitting
   sequences. This approach is quite similar to ADHIC's splitting decision tree.
+
+While I don't think (p,n)-grams are necessarily the answer for my work (system security events
+don't necessarily have fixed positions within a frame like packet data does), other
+aspects of the NetADHICT approach do merit consideration as to whether they can
+be applied to my domain.
 
 Overall thoughts on the paper: The first time I read this I thought it was
 pretty cool. My security knowledge and specifically my experience in developing
