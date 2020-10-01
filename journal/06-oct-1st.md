@@ -31,7 +31,8 @@ patterns within packet payloads in addition to packet headers. Maybe this wasn't
 so much the case when this paper was originally written, but these days, a very
 significant potion of network traffic is encrypted. This might have significant
 effects on the efficacy of an approach that looks for patterns within packet
-payloads.
+payloads. (Update: After finishing the paper this is a topic that is addressed
+in the concluding remarks)
 
 I noticed that the experimental implementation here fixes n=4. In the NetADHICT
 paper, the results showed that n=2 was a superior value of n for capturing just
