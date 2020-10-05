@@ -1,0 +1,70 @@
+% =========================================================================== %
+% Preamble                                                                    %
+% =========================================================================== %
+
+\documentclass[dvipsnames]{article}
+\usepackage[utf8]{inputenc}
+
+% Set paper geometry
+\usepackage[letterpaper, margin=1.87cm]{geometry}
+
+% Must include this before setting title and author
+\usepackage{findlay}
+
+\title{COMP5900I Literature Review (Working Title)}
+
+\author{William Findlay}
+% For acmart.cls:
+%\affiliation{Carleton University}
+%\email{williamfindlay@cmail.carleton.ca}
+
+% Add bibliography:
+\addbibresource{references.bib}
+
+% To set sans serif font:
+%\renewcommand{\familydefault}{\sfdefault}
+
+% =========================================================================== %
+% Document                                                                    %
+% =========================================================================== %
+
+\begin{document}
+
+% Title page
+\maketitle
+\thispagestyle{plain}
+\pagenumbering{roman}
+%\newpage
+
+% Table of Contents, List of Figures, List of Tables, List of Listings
+%\begingroup
+%\hypersetup{linkcolor=black}
+%\tableofcontents
+%\newpage
+%\listoffigures
+%\newpage
+%\listoftables
+%\newpage
+%\lstlistoflistings
+%\newpage
+%\endgroup
+
+% Reset page numbering
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% Uncomment for 1.5 spacing:
+%\onehalfspacing
+
+
+% TODO: include main document sections here
+
+
+% Uncomment for bibliography:
+\nocite{*}
+\clearpage
+\printbibliography
+
+\end{document}
+
+% vim:syn=tex

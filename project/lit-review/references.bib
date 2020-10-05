@@ -1,0 +1,178 @@
+-------------------------------------------------------------------------------
+Survey Papers
+-------------------------------------------------------------------------------
+
+A 2011 survey paper that talks about runtime policy enforcement.  Probably not
+worth citing on its own but raiding the bibliography might be prudent.
+@techreport{gheorghe2011_survey,
+  title       = {{A Survey of Runtime Policy Enforcement Techniques and Implementations}},
+  author      = {Gheorghe, Gabriela and Crispo, Bruno},
+  year        = {2011},
+  institution = {University of Trento},
+  url         = {http://eprints.biblio.unitn.it/2268/1/techRep477.pdf},
+}
+
+-------------------------------------------------------------------------------
+Process Confinement
+-------------------------------------------------------------------------------
+
+My paper on bpfbox
+@inproceedings{findlay20_bpfbox,
+  title       = {{bpfbox: Simple Precise Process Confinement with eBPF}},
+  author      = {William Findlay and Anil Buntwal Somayaji and David Barrera},
+  booktitle   = {Proceedings of the 2020 ACM Cloud Computing Security Workshop (CCSW'2020)},
+  month       = {Nov},
+  year        = {2020},
+  doi         = {10.1145/3411495.3421358},
+  note        = {To appear.}
+}
+
+Tron was an early effort at writing process-specific policies for Unix back in
+1995! Crazy stuff
+@inproceedings{berman1995_tron,
+    author    = {Andrew Berman and Virgil Bourassa and Erik Selberg},
+    title     = {{TRON: Process-Specific File Protection for the UNIX Operating System}},
+    booktitle = {Proceedings of the USENIX 1995 Technical Conference},
+    year      = {1995},
+    pages     = {165--175},
+    url       = {http://www.cip.ifi.lmu.de/~langeh/test/1995%20-%20Berman%20-%20TRON%20-%20Process-Specific%20File%20Protection%20for%20the%20UNIX%20Operating%20System.pdf}, % TODO: This URL sucks. Get rid of it before citing I think
+}
+
+Janus implements process confinement in userspace using an extended version
+of ptrace (ptrace++)
+@mastersthesis{wagner1999_janus,
+  title       = {{Janus: An Approach for Confinement of Untrusted Applications}},
+  author      = {Wagner, David A},
+  year        = {1999},
+  school      = {University of California, Berkeley},
+  url         = {https://www2.eecs.berkeley.edu/Pubs/TechRpts/1999/CSD-99-1056.pdf},
+}
+
+https://www.usenix.org/legacy/events/sec03/tech/full_papers/provos/provos_html/
+
+Usability study of AppArmor, SELinux, and FBAC-LSM
+@inproceedings{schreuders12_towards,
+  title       = {{Towards Usable Application-Oriented Access Controls}},
+  author      = {Schreuders, Z Cliffe and McGill, Tanya Jane and Payne, Christian},
+  booktitle   = {{International Journal of Information Security and Privacy}},
+  volume      = {6},
+  number      = {1},
+  pages       = {57--76},
+  year        = {2012},
+  doi         = {10.4018/jisp.2012010104},
+}
+
+-------------------------------------------------------------------------------
+Policy Generation
+-------------------------------------------------------------------------------
+
+@inproceedings{macmillan07_madison,
+  title       = {{Madison: A new approach to policy generation}},
+  author      = {MacMillan, Karl},
+  booktitle   = {{SELinux Symposium}},
+  volume      = {7},
+  year        = {2007},
+  url         = {http://selinuxsymposium.org/2007/papers/08-polgen.pdf},
+}
+
+TODO: Add other systems cited in the madison paper
+
+@inproceedings{sniffen06_guided,
+  title       = {{Guided policy generation for application authors}},
+  author      = {Sniffen, Brian T and Harris, David R and Ramsdell, John D},
+  booktitle   = {{SELinux Symposium}},
+  year        = {2006},
+  url         = {http://gelit.ch/td/SELinux/Publications/Mitre_Tools.pdf},
+}
+
+@misc{audit2allow,
+  title       = {{audit2allow}},
+  author      = {Justin R. Smith and Yuichi Nakamura and Dan Walsh},
+  note        = {Linux user's manual},
+  url         = {http://linux.die.net/man/1/audit2allow},
+}
+
+@misc{aa_easyprof,
+  title       = {{aa-easyprof}},
+  author      = {{AppArmor authors}},
+  note        = {Linux user's manual},
+  url         = {https://manpages.ubuntu.com/manpages/precise/man8/aa-easyprof.8.html},
+}
+
+-------------------------------------------------------------------------------
+Langauge Generation
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+Anomaly Detection and Sequence Analysis
+-------------------------------------------------------------------------------
+
+@phdthesis{soma02_pH,
+  title       = {{Operating System Stability and Security through Process Homeostasis}},
+  url         = {https://people.scs.carleton.ca/~soma/pubs/soma-diss.pdf},
+  school      = {University of New Mexico},
+  author      = {Somayaji, Anil Buntwal},
+  year        = {2002},
+}
+
+@inproceedings{forrest96_sense_of_self,
+  author      = {S. {Forrest} and S. A. {Hofmeyr} and A. {Somayaji} and T. A. {Longstaff}},
+  booktitle   = {{Proceedings 1996 IEEE Symposium on Security and Privacy}},
+  title       = {{A Sense of Self for Unix Processes}},
+  year        = {1996},
+  volume      = {},
+  number      = {},
+  pages       = {120-128},
+  doi         = {10.1109/SECPRI.1996.502675},
+  ISSN        = {1081-6011},
+  month       = {May},
+}
+
+@inproceedings{soma07_lookahead,
+  place       = {New York, New York},
+  title       = {{Lookahead Pairs and Full Sequences: A Tale of Two Anomaly Detection Methods}},
+  url         = {http://people.scs.carleton.ca/~soma/pubs/inoue-albany2007.pdf},
+  booktitle   = {{Proceedings of the 2nd Annual Symposium on Information Assurance Academic track of the 10th Annual 2007 NYS Cyber Security Conference}},
+  publisher   = {{NYS Cyber Security Conference}},
+  author      = {Somayaji, Anil Buntwal and Inoue, Hajime},
+  year        = {2007},
+  pages       = {9–19}
+}
+
+@thesis{findlay20_ebpH,
+  title       = {{Host-Based Anomaly Detection with Extended BPF}},
+  author      = {William Findlay},
+  month       = {April},
+  year        = {2020},
+  institution = {Carleton University},
+  type        = {Honours Thesis},
+  url         = {https://williamfindlay.com/written/thesis.pdf}
+}
+
+-------------------------------------------------------------------------------
+Semantic Meaning in Computing
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+eBPF Background
+-------------------------------------------------------------------------------
+
+Article on eBPF in LWN
+@article{fleming17_ebpf,
+  title       = {{A thorough introduction to eBPF}},
+  url         = {https://lwn.net/Articles/740157},
+  journal     = {{LWN.net}},
+  author      = {Fleming, Matt},
+  year        = {2017},
+  month       = {Dec},
+  urldate     = {2020-09-26},
+}
+
+The literal book on eBPF
+@book{gregg19_bpf,
+  title       = {{BPF Performance Tools}},
+  author      = {Gregg, Brendan},
+  year        = {2019},
+  isbn        = {0-13-655482-2},
+  publisher   = {Addison-Wesley Professional}
+}
