@@ -56,6 +56,21 @@ been to this work from the research community: positive, negative, or apathetic?
 
 ## A Clinical Study of Risk Factors Related to Malware Infection
 
+It's pretty cool to see the approach outlined in the previous paper being more
+or less applied in practice here. Based on the presented results, it seems like
+the clinical trial was indeed a successful endeavour. One thing that sort of
+disappointed me (although it is completely understandable) is how few
+participants were involved in the study. It would have been interesting to see
+how well this methodology scales up in practice (in the first paper, they were
+discussing multi-million-dollar studies with thousands of participants).
+
+I was surprised by some of the ethnographic results presented in the related
+work section, particularly the age demographics for infection risk. I would have
+expected that older people would be more susceptible to infection, when in
+reality the evidence seems pretty clear that it is in fact young people who are
+most susceptible. On the other hand, I was not at all surprised to learn
+that Windows users are more susceptible than users of other operating systems.
+
 ## Other Project Updates
 
 - Been building out the bibliography for my literature review this week
