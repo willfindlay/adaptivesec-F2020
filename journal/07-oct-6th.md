@@ -81,12 +81,13 @@ a curve --- just competent enough to get themselves in a whole lot of trouble,
 but not necessarily knowledgeable enough to know better.
 
 I think the most damning results here are the statistics on user behavioural
-patterns. Basically every measurement is at least somewhat statistically
-significant to the likelihood of infection. I think one would also expect these
-factors to increase with computer expertise, which explains the weak correlation
-statistical significance of computer expertise shown in the previous section.
-To re-iterate my earlier point, I still think that once one reaches a certain
-threshold of expertise these factors are no longer as much of a concern.
+patterns. Basically every measurement except type of browser is at least
+somewhat statistically significant to the likelihood of infection. I think one
+would also expect these factors to increase with computer expertise, which
+explains the weak correlation statistical significance of computer expertise
+shown in the previous section. To re-iterate my earlier point, I still think
+that once one reaches a certain threshold of expertise these factors are no
+longer as much of a concern.
 
 ## Other Project Updates
 
