@@ -71,6 +71,15 @@ reality the evidence seems pretty clear that it is in fact young people who are
 most susceptible. On the other hand, I was not at all surprised to learn
 that Windows users are more susceptible than users of other operating systems.
 
+I disagree with the metrics used in the study to define "computer experts".
+Instead, I think what they are really identifying is computer users of average
+or above average competence. I posit that the distribution of expertise vs
+infection risk is actually more like a bell curve and populations on either end
+of the tail would have very low infection risk. That is to say, the "computer
+experts" identified in this study would actually be toward the middle of such
+a curve --- just competent enough to get themselves in a whole lot of trouble,
+but not necessarily knowledgeable enough to know better.
+
 ## Other Project Updates
 
 - Been building out the bibliography for my literature review this week
