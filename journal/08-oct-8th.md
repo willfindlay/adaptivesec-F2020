@@ -112,6 +112,10 @@ and crappy. In particular, I am not convinced that just throwing a neural networ
 at a sequence of system calls and hoping for the best will yield either meaningful
 or useful results, particularly as training would need to occur offline.
 
+I liked the suggestion of using static and dynamic analysis to complement each
+other. I hadn't considered the possibility of bootstrapping profiles with static
+analysis and then tuning them at runtime.
+
 ## Project Updates
 
 Haven't had much time to work on the project since last class. A lot of the
