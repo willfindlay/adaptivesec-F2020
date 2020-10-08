@@ -55,7 +55,46 @@ and flexibility.
 
 ## Wagner and Dean: Static Analysis IDS
 
+At the risk of quoting Rick and Morty, this just sounds like pH with extra
+steps. Really what you're doing here is the same sequence-based analysis, but
+instead of generating sequences at runtime, you are pre-generating expected
+sequences by statically analyzing program binaries. If anything, this is
+a _less_ adaptive approach and could potentially be restrictive in practice. The
+approach here is also limited to analyzing C code, without regard for other
+types of applications. pH, on the other hand, is transparent to the underlying
+implementation of the observed applications.
+
+The trivial model proposed in 4.1 is, at a close approximation, basically
+equivalent to seccomp and seccomp-bpf in Linux. Applications specify system
+calls that are allowed and disallowed. While rules may be arbitrarily
+fine-grained based on system call arguments, there is no regard for a stateful
+representation of these system calls --- each call is taken on its own.
+
+The "impossible paths" problem in the callgraph model strikes me as a critical
+limitation of the initially proposed approach. Ironically, this permits very
+similar mimicry attacks to those proposed against pH. The attacker would be able
+to follow the impossible execution path and potentially use it to execute
+exploit code. I do like the clever workaround proposed in the paper (maintaining
+a separate state machine to keep track of the call stack).
+
+The digraph approach seems by far the most convincing, and this is indeed
+reflected in its performance evaluation. The other two approaches seem to be
+prohibitively slow even for modestly complex software. I'd be curious what the
+performance overhead vs precision benefit of higher k-graphs would be.
+
+The idea of ignoring certain system calls to improve model precision is
+interesting. I wonder if this could also be applied to ebpH. Something to
+experiment with when I have more free time.
+
+After reading the entire paper, my thoughts are that this seems to be an
+overly-contrived approach to what could (and perhaps should) be a much simpler
+problem. The amount of implementation hoops they had to jump through to even get
+this thing running is astonishing. A lot of the topics outlined as challenges
+are actually challenges for pH as well --- but, in pH's case, the solution to
+these challenges is often much simpler. For example, handling non-determinism
+from signal handlers in pH is as simple as maintaining a separate sequence
+during the signal handler.
+
 ## The Evolution of System Call Monitoring
 
 ## Project Updates
-
