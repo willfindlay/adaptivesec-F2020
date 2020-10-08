@@ -113,3 +113,9 @@ at a sequence of system calls and hoping for the best will yield either meaningf
 or useful results, particularly as training would need to occur offline.
 
 ## Project Updates
+
+Haven't had much time to work on the project since last class. A lot of the
+ideas in the papers from this week have been percolating in the back of my mind,
+since my project is interested in analyzing event sequences to generate policy
+language. I think it might be worth having another read of each of these papers
+when I start thinking more about designing and implementing WARDEN.
