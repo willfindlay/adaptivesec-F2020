@@ -88,12 +88,13 @@ experiment with when I have more free time.
 
 After reading the entire paper, my thoughts are that this seems to be an
 overly-contrived approach to what could (and perhaps should) be a much simpler
-problem. The amount of implementation hoops they had to jump through to even get
-this thing running is astonishing. A lot of the topics outlined as challenges
-are actually challenges for pH as well --- but, in pH's case, the solution to
-these challenges is often much simpler. For example, handling non-determinism
-from signal handlers in pH is as simple as maintaining a separate sequence
-during the signal handler.
+problem. Really what we are trading here is very high complexity for a guarantee
+on limiting false positives. The amount of implementation hoops they had to jump
+through to even get this thing running is astonishing. A lot of the topics
+outlined as challenges are actually challenges for pH as well --- but, in pH's
+case, the solution to these challenges is often much simpler. For example,
+handling non-determinism from signal handlers in pH is as simple as maintaining
+a separate sequence during the signal handler.
 
 "Despite these successes,  we feel strongly that our tool should not be used as
 the sole defense against any of these attacks,  but  instead  should  be  used
