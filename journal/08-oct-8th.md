@@ -101,4 +101,15 @@ to  complement  other techniques." This is just ironic.
 
 ## The Evolution of System Call Monitoring
 
+Interesting to see this paper confirming many of the points I made about the
+first paper. In particular, I think the point about diversity of normal behaviour
+across systems is very important. One simply cannot assume that the same mimicry
+attack would work on different hosts. These attacks would need to be crafted online,
+which is a non-trivial task.
+
+Most of the data modelling methods discussed in section 5 seem kind of contrived
+and crappy. In particular, I am not convinced that just throwing a neural network
+at a sequence of system calls and hoping for the best will yield either meaningful
+or useful results, particularly as training would need to occur offline.
+
 ## Project Updates
