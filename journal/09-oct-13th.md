@@ -21,7 +21,14 @@ Oct. 13th 2020
 
 ### Problem
 
-Briefly explain the problem the paper addresses.
+Modern operating systems like iOS often require complex security policies
+comprised of multiple interacting policy frameworks and enforcement engines,
+including access controls built into the operating system itself. Since these
+policy creation and enforcement mechanisms may interact in complex and
+non-intuitive ways, it is often very easy to misconfigure a security policy and
+leave it open to attacks. This paper seeks to find a reasonable solution to this
+problem by making it easier for defenders to audit policy in such a complex
+environment.
 
 ### Contribution
 
