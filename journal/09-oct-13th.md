@@ -32,17 +32,32 @@ environment.
 
 ### Contribution
 
-Briefly explain what they did to address their problem, whether it was to
-develop an attack, build a defence, make a theory, do a user study, or
-something else.
+The authors built an application, iOracle, which reverse engineers iOS security
+policies pertaining to system executables and automatically constructs a logic
+database (written in Prolog) to which defenders can issue high level queries
+about the security properties of applications residing on the system. The
+authors showed that iOracle was able to reveal information about how existing
+attack vectors could have been found more easily as well as identify several
+previously undiscovered attack vectors. Further, iOracle provides information
+about how to modify the existing security policy to resolve these security
+problems. This semi-automation of policy auditing represents a significant step
+toward reducing the inherent risk of policy misconfiguration in complex
+environments such as iOS.
 
 ### Adaptive Analysis
 
 **Adaptive Score:** 2
 
-**Rationale:**
-
-
+**Rationale:** This research greatly helps defenders by taking what was
+originally a hard problem (identifying weaknesses in a complex soup of policy
+definition and enforcement mechanisms) and making it significantly easier. It
+does so by providing a semi-automatic, unified approach to auditing iOS access
+control policy. Attackers will have a difficult time responding to this because
+the system is able to detect attack vectors before human adversaries have even
+discovered them. Further, when an iOracle query identifies a vulnerability in
+the security policy, it shows the defenders how the vulnerability can be fixed
+using the semantics of the underlying policy language. The only way I can see
+to defeat this would be to defeat the policy enforcement mechanisms themselves.
 
 
 
