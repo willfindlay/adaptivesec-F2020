@@ -107,10 +107,11 @@ their system configuration based on the information reported in this graph.
 **Rationale:** This paper presents a very similar technique to the iOracle paper
 above, albeit with a few key differences. Firstly, the scope is far narrower,
 only considering policy from two (generally mutually exclusive) policy
-frameworks. Further, a vulnerability graph may be less useful in practise than
-the ability to make precise queries about the security of specific system objects.
-While VulSAN does help defenders analyze the security of MAC policies, in light
-of these limitations, I hesitate to give it as high of a score as the iOracle
-paper. Therefore, I'll give it a score of 1.5. It is is a little more adaptive
-than a 1, but not quite at the level of iOracle in terms of general usefulness
-for defenders.
+frameworks. While the vulnerability graph might be quite useful for seeing an
+overview of what vulnerabilities exist on the system, the limited scope of the
+underlying logic database may be a detriment to determining the overall security
+of the underlying system. While VulSAN does help defenders analyze the security
+of MAC policies, in light of these limitations, I hesitate to give it as high of
+a score as the iOracle paper. Therefore, I'll give it a score of 1.5. It is is
+a little more adaptive than a 1, but not quite at the level of iOracle in terms
+of general usefulness for defenders.
