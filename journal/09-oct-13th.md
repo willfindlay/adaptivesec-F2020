@@ -9,7 +9,7 @@ Oct. 13th 2020
 
 **Title:** iOracle: Automated Evaluation of Access Control Policies in iOS
 
-**Authors:** Luke Deshotels, Răzvan Deaconescu, Costin Carabas,, Iulia Mandă, WilliamEnck, Mihai Chiroiu, Ninghui Li, and Ahmad-Reza Sadeghi.
+**Authors:** Luke Deshotels, Răzvan Deaconescu, Costin Carabas, Iulia Mandă, William Enck, Mihai Chiroiu, Ninghui Li, and Ahmad-Reza Sadeghi.
 
 **Published in:** ACM ASIA-CCS 2018
 
@@ -46,21 +46,21 @@ something else.
 
 
 
-## SECOND PAPER
+## Analyzing and Comparing the Protection Quality of Security Enhanced Operating Systems
 
 ### Paper Details
 
-**Title:**
+**Title:** Analyzing and Comparing the Protection Quality of Security Enhanced Operating Systems
 
-**Authors:**
+**Authors:** Hong Chen, Ninghui Li, and Ziqing Mao
 
-**Published in:**
+**Published in:** NDSS 2009
 
-**Link to Paper:**
+**Link to Paper:** https://www.cs.purdue.edu/homes/ninghui/papers/comparison_ndss09.pdf
 
-**Reviewed by:**
+**Reviewed by:** William Findlay
 
-**Date Reviewed:**
+**Date Reviewed:** Oct. 10, 2020
 
 ### Problem
 
