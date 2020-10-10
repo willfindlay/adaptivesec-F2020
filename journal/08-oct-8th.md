@@ -97,7 +97,7 @@ handling non-determinism from signal handlers in pH is as simple as maintaining
 a separate sequence during the signal handler.
 
 "Despite these successes,  we feel strongly that our tool should not be used as
-the sole defense against any of these attacks,  but  instead  should  be  used
+the sole defence against any of these attacks,  but  instead  should  be  used
 to  complement  other techniques." This is just ironic.
 
 ## The Evolution of System Call Monitoring
