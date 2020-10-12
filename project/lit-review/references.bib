@@ -40,12 +40,28 @@ Tron was an early effort at writing process-specific policies for Unix back in
 
 Janus implements process confinement in userspace using an extended version
 of ptrace (ptrace++)
+@inproceedings{goldberg96_janus,
+  author    = {Ian Goldberg and David Wagner and Randi Thomas and Eric Brewer},
+  title     = {{A Secure Environment for Untrusted Helper Applications (Confining the Wily Hacker)}},
+  booktitle = {Proceedings of the Sixth USENIX UNIX Security Symposium},
+  year      = {1996},
+  url       = {https://www.usenix.org/legacy/publications/library/proceedings/sec96/full_papers/goldberg/goldberg.pdf},
+}
 @mastersthesis{wagner1999_janus,
   title       = {{Janus: An Approach for Confinement of Untrusted Applications}},
   author      = {Wagner, David A},
   year        = {1999},
   school      = {University of California, Berkeley},
   url         = {https://www2.eecs.berkeley.edu/Pubs/TechRpts/1999/CSD-99-1056.pdf},
+}
+
+System call interposition for process confinement and intrustion detection.
+Allegedly this work is Janus 2.0
+@inproceedings{jain05_janus2,
+  author    = {Jain, K and Sekar, R},
+  title     = {{User-level infrastructure for system call interposition: A platform for intrusion detection and confinement}},
+  booktitle = {Proceedings of the Network and Distributed Systems Security Symposium (NDSS)},
+  year      = {2005},
 }
 
 https://www.usenix.org/legacy/events/sec03/tech/full_papers/provos/provos_html/
@@ -100,10 +116,11 @@ TODO: Add other systems cited in the madison paper
 }
 
 @inproceedings{inoue05_java,
-  title = {{Inferring Java Security Policies through Dynamic Sandboxing}},
-  author = {Hajime Inoue and Stephanie Forrest},
-  url = {https://www.cs.unm.edu/~forrest/publications/inoue-plc-05.pdf},
-  % TODO add more info
+  title     = {{Inferring Java Security Policies through Dynamic Sandboxing}},
+  author    = {Hajime Inoue and Stephanie Forrest},
+  url       = {https://www.cs.unm.edu/~forrest/publications/inoue-plc-05.pdf},
+  booktitle = {International Conference on Programming Languages and Compilers (PLC’05)},
+  year      = {2005},
 }
 
 @phdthesis{inoue05_thesis,
