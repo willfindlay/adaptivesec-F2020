@@ -2,7 +2,7 @@
 % Preamble                                                                    %
 % =========================================================================== %
 
-\documentclass[dvipsnames]{article}
+\documentclass[dvipsnames, 12pt]{article}
 \usepackage[utf8]{inputenc}
 
 % Set paper geometry
@@ -11,7 +11,7 @@
 % Must include this before setting title and author
 \usepackage{findlay}
 
-\title{\huge Adaptive Process Confinement\\ {\large COMP5900I Literature Review}}
+\title{\huge Towards Adaptive Process\\\vspace{-0.2em}Confinement Mechanisms\\\vspace{-0.5em}{\large COMP5900I Literature Review}}
 
 \author{William Findlay}
 % For acmart.cls:
@@ -24,7 +24,10 @@
 % To set sans serif font:
 %\renewcommand{\familydefault}{\sfdefault}
 
-\lhead{Adaptive Process Confinement}
+\lhead{Towards Adaptive Process Confinement Mechanisms}
+
+% Magic to stop overfull hbox in bibliography!
+\emergencystretch=1em
 
 % =========================================================================== %
 % Document                                                                    %
@@ -58,14 +61,19 @@
 % Uncomment for 1.5 spacing:
 %\onehalfspacing
 
+\begin{abstract}
+\todo{Come back hither when done.}
+\end{abstract}
 
 \section{Introduction}
 
-\section{Traditional Approaches to Process Confinement}
+\section{Traditional Process Confinement Approaches}
 
-\section{Adaptive Approaches to Process Confinement}
+\section{Automating Policy Generation}
 
-\section{Bridging the Gap \todo{working title}}
+\section{Automating Policy Audit}
+
+\section{Integrating System State into Process Confinement}
 
 \subsection{Anomaly Detection}
 
@@ -75,7 +83,7 @@
 
 
 % Uncomment for bibliography:
-\nocite{*}
+\nocite{*} % TODO: Comment this out when done
 \clearpage
 \printbibliography
 
