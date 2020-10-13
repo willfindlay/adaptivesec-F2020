@@ -46,7 +46,7 @@ environments such as iOS.
 
 ### Adaptive Analysis
 
-**Adaptive Score:** 2
+**Adaptive Score:** 1.5
 
 **Rationale:** This research greatly helps defenders by taking what was
 originally a hard problem (identifying weaknesses in a complex soup of policy
@@ -56,8 +56,14 @@ control policy. Attackers will have a difficult time responding to this because
 the system is able to detect attack vectors before human adversaries have even
 discovered them. Further, when an iOracle query identifies a vulnerability in
 the security policy, it shows the defenders how the vulnerability can be fixed
-using the semantics of the underlying policy language. The only way I can see
-to defeat this would be to defeat the policy enforcement mechanisms themselves.
+using the semantics of the underlying policy language. The only way I can see to
+defeat this would be to defeat the policy enforcement mechanisms themselves.
+Unfortunately, since iOS is proprietary, the methodology used to collect
+information about security policy and system state had to be quite hacky and the
+paper acknowledges several design limitations as a result of this. For example,
+iOracle might occasionally produce incorrect facts about the system and it is
+limited to analysing file access only.  While I do think this paper presents an
+adaptive security mechanism, I deduct 0.5 points for this reason.
 
 
 
@@ -105,13 +111,13 @@ their system configuration based on the information reported in this graph.
 **Adaptive Score:** 1.5
 
 **Rationale:** This paper presents a very similar technique to the iOracle paper
-above, albeit with a few key differences. Firstly, the scope is far narrower,
-only considering policy from two (generally mutually exclusive) policy
-frameworks. While the vulnerability graph might be quite useful for seeing an
-overview of what vulnerabilities exist on the system, the limited scope of the
-underlying logic database may be a detriment to determining the overall security
-of the underlying system. While VulSAN does help defenders analyze the security
-of MAC policies, in light of these limitations, I hesitate to give it as high of
-a score as the iOracle paper. Therefore, I'll give it a score of 1.5. It is is
-a little more adaptive than a 1, but not quite at the level of iOracle in terms
-of general usefulness for defenders.
+above, albeit with a few key differences. VulSAN focuses on the analysis of the
+two mandatory access control frameworks for Linux, as well as Linux DAC
+permissions. Rather than querying security properties, queries are instead
+formulated as attack goals and scenarios. An inherent limitation here is that
+queries are limited to only the attack scenarios and goals that are known to the
+user. Further, the attack graphs that VulSAN generates do not explicitly
+describe how to fix any vulnerabilities. This is left up to the user who would
+then issue another query. For these reasons., while I do think VulSAN is an
+adaptive mechanism, I hesitate to give it a score of 2, so I drop it to 1.5
+instead.
