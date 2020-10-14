@@ -95,7 +95,8 @@ practice. For example, rather than saying that a process is allowed to fork
 itself and execute a file, these facts could be taken together as "this process
 is allowed to run this program". By assigning semantic labels to strings of
 actions, we can reduce the burden on defenders by making it easier to write and
-understand security policy.
+understand security policy. Further, it would be nice to be able to generate
+such policy so that it is fully transparent to non-expert users.
 
 
 ## A Secure Environment for Untrusted Helper Applications (Confining the Wily Hacker)
@@ -116,20 +117,63 @@ understand security policy.
 
 ### Problem
 
-Problem the paper is trying to solve.
+Web-facing daemons and helper applications for web servers are often exposed to
+untrusted, unauthenticated, remote user input and typically require at least
+some level of access to system resources. Existing OS-level access control
+mechanisms were insufficient for the fine-grained level of confinement required
+to allow these applications to operate normally without exposing the rest of the
+system to some risk. As such, it is necessary to provide a means to filter and
+restrict access to system resources.
 
 ### Contribution
 
-How they solve the problem
+The paper presents Janus, a process confinement implementation for Solaris that
+enforces on individual system calls. Janus defines policy by categorizing system
+calls into high level modules which can be parameterized by system object and
+desired access. Each module includes several system calls and a system call may
+be present in more than one modules. For a system call to be allowed, all
+modules must agree that it should be allowed---that is, no module can explicitly
+deny the system call and at least one module must allow it. Policy is enforced
+by interposing on system calls using Solaris' process tracing mechanisms,
+exposed via procfs and the ptrace library call (this is different from Linux
+where ptrace is a system call---in Solaris, ptrace is a library call that
+interacts with procfs directly).
 
 ### Adaptive Analysis
 
-**Adaptive Score:**
+**Adaptive Score:** 1
 
-**Rationale:**
+**Rationale:** Janus helps defenders by providing a balance of higher level
+abstraction with system-call-level enforcement. Users can define policy in terms
+of semantic modules that cover a set of one or more system calls. Parameterizing
+these modules with access modes and system objects allows for the specification
+of fine grained security policy. Unfortunately, Janus' implementation in
+userspace means that interposition on system calls requires several context
+switches. For example, PID 100 makes a read(2) system call and a context switch
+into kernelspace occurs. Then, another context switch would be required to trap
+to Janus, which would then make a policy decision followed by a context switch
+back to kernelspace to allow the system call to proceed (or not). These context
+switches are not cheap, and add significant overhead to instrumented
+applications, particularly if we are interposing on every system call. Further,
+ptrace is known to cause behavioural issues in even moderately complex
+applications. These factors taken together can seriously impact Janus'
+adoptability. Therefore, I give it a score of 1.
+
 
 ### Relation to Project
 
-How this related to my project / how I plan to do things differently or similarly
+Janus' approach of breaking up system calls into higher level "modules" is quite
+reminiscent of a few modern process confinement mechanisms such as AppArmor and
+my own work, bpfbox. The primary difference between these systems is in the
+implementation details. AppArmor and bpfbox have more adoptability than Janus
+because they do not require system calls to pass through a second userspace
+process in order to make policy decisions (rather they leverage the LSM API in
+the Linux kernel). In my project, I certainly do not want to do anything based
+on ptrace (we have seen why this is a bad idea in practice), so I will likely
+stick to eBPF (and possibly BPF LSM hooks) for my implementation.
 
-
+I would also like to venture beyond Janus' model for policy definition and
+experiment with something more semantically meaningful, such that non-expert
+users would have a chance at understanding the security policy. Further, I would
+like to be able to generate this policy automatically or at least
+semi-automatically, further reducing the burden on defenders.
