@@ -94,18 +94,43 @@ to do.
 
 **Reviewed by:** William Findlay
 
-**Date Reviewed:** Oct. 16, 2020
+**Date Reviewed:** Oct. 17, 2020
 
 ### Problem
 
+SELinux policy is _still_ difficult to write, even after advances such as polgen
+and the modular SELinux reference policy. The goal of this paper is to try and
+make it easier for defenders to write SELinux policy, just like it was for
+polgen above.
 
 ### Contribution
+
+In the time that passed since polgen, SELinux introduced new mechanisms for
+writing modular policy (the reference policy) that expose higher level
+interfaces for policy authors to use. This paper presents Miranda, an effort to
+integrate automatic policy generation with the reference policy itself so that
+policy authors can use generated interfaces when writing SELinux policy. The
+idea is that this method would be complimentary to existing policy generation
+methods such as polgen.
 
 
 ### Adaptive Analysis
 
 **Adaptive Score:** 1
 
-**Rationale:**
+**Rationale:** This research helps defenders by offering a means of generating
+re-usable interfaces that can be plugged into policy as needed. The hope is that
+this would help to abstract away many of the complex details of the underlying
+policy while providing semantically understandable interfaces to use the
+generated reference policy. Unfortunately, I still think that this approach
+is too tied down to the underlying SELinux specifics to be of any real use to
+non-expert users and so I give it a 1.
 
 ### Relation to Project
+
+This work is nice because I think it captures a key point in policy generation:
+generate the underlying policy and group it into semantically understandable
+clumps (i.e. distinct reference policy modules). I'd like to carry forward this
+idea in my project, but greatly simplify the underlying policy language and
+enforcement mechanism so that generated policy is still auditable by non-expert
+users.
