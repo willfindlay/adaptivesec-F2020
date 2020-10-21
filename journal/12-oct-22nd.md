@@ -34,6 +34,11 @@ threshold would be feasible---instead of immediately instantiating a detector,
 there would be a required costimulation threshold in order to start rejecting,
 and this threshold could be crossed multiple times in either direction.
 
+I also wonder whether it would be possible for an adversary to maliciously train
+an IIS to filter _good_ data instead of _bad_ data. In this way, the IIS could
+be used for censorship for example. This kind of threat model would apply mostly
+to group IISes.
+
 ## Project Thoughts
 
 The information immune system has got me thinking about whether such an approach
@@ -44,4 +49,8 @@ would be unable to make decisions on whether or not the behaviour is desired.
 Also, an IIS for process confinement would need to be inoculated with known-bad
 data, which may not necessarily be a trivial task. Another idea would be to have
 the IIS share generated policy with its peers and use consensus to inform its
-model of good and bad behaviour.
+model of good and bad behaviour. This would approximate the group IIS model
+proposed in the paper.
+
+This would be an interesting approach, but I'm not fully convinced that it is
+the right approach.
