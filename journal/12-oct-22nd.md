@@ -24,20 +24,30 @@ while working on ebpH during my undergrad was that a complete solution would
 likely involve several such IDS mechanisms working together, monitoring
 different aspects of system behaviour and training models.
 
-I am curious what would happen if the user accidentally flags good
-data for rejection, training the IIS (via costimulation) that such data
-should be rejected in the future. Would the user be able to reverse their
-action? Based on the description, costimulation in the IIS seems to take an
-all-or-nothing approach, where only detectors that have been costimulated
-are instantiated. I would be curious whether something like a stimulation
-threshold would be feasible---instead of immediately instantiating a detector,
-there would be a required costimulation threshold in order to start rejecting,
-and this threshold could be crossed multiple times in either direction.
+I am curious what would happen if the user accidentally flags good data for
+rejection, training the IIS (via costimulation) that such data should be
+rejected in the future. Would the user be able to reverse their action? Based on
+the description, costimulation in the IIS seems to take an all-or-nothing
+approach, where only detectors that have been costimulated are instantiated.
+I would be curious whether something like a stimulation threshold would be
+feasible---instead of immediately instantiating a detector, there would be
+a required costimulation threshold in order to start rejecting, and this
+threshold could be crossed multiple times in either direction. **Edit: After
+reading further, it seems like senesence would essentially cover this case.**
 
 I also wonder whether it would be possible for an adversary to maliciously train
 an IIS to filter _good_ data instead of _bad_ data. In this way, the IIS could
 be used for censorship for example. This kind of threat model would apply mostly
 to group IISes.
+
+The idea of Adaptive Radio was pretty cool to me. I wonder how it compares to
+the algorithms used nowadays for streaming services like Spotify. From my own
+anecdotal experience, Spotify radio seems to consider both liked and disliked
+songs, which seems at least compliant with the costimulation and negative
+selection properties of the IIS. Further, Spotify supports group radio (at least
+for family plans) just like Adaptive Radio does. In light of these similarities,
+I am left wondering whether Spotify might be using an IIS-like approach here.
+
 
 ## Project Thoughts
 
