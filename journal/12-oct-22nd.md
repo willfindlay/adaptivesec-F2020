@@ -3,6 +3,10 @@
 William Findlay
 Oct. 8th 2020
 
+## Findlay: bpfbox
+
+Can't really write a journal entry about my own paper.
+
 ## Chao: Information Immune Systems
 
 I the notion that an information immune system could be used to filter out
