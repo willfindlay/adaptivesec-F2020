@@ -11,7 +11,8 @@
 % Must include this before setting title and author
 \usepackage{findlay}
 
-\title{\huge Towards Adaptive Process\\\vspace{-0.2em}Confinement Mechanisms\\\vspace{-0.5em}{\large COMP5900I Literature Review}}
+\title{\huge Towards Adaptive Process Confinement
+Mechanisms\\{\large COMP5900I Literature Review}}
 
 \author{William Findlay}
 % For acmart.cls:
@@ -28,6 +29,8 @@
 
 % Magic to stop overfull hbox in bibliography!
 \emergencystretch=1em
+
+\ExecuteBibliographyOptions{maxbibnames=999}
 
 % =========================================================================== %
 % Document                                                                    %
@@ -58,14 +61,42 @@
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
-% Uncomment for 1.5 spacing:
-%\onehalfspacing
-
 \begin{abstract}
 \todo{Come back hither when done.}
 \end{abstract}
 
+% Uncomment for 1.5 spacing:
+\onehalfspacing
+
 \section{Introduction}
+
+Restricting unprivileged access to system resources has been a key focus of
+operating systems security research since the inception of the earliest
+timesharing computers in the late 1960s and early 1970s
+\cite{lampson_1973_a_note, graham_1968_protection}. With the advent of the
+Internet and multi-tenant cloud computing, the problem of protecting hosts from
+their own applications has been further exacerbated.
+
+Despite decades of work, the process confinement problem remains largely
+unsolved. Traditionally access to security-sensitive resources was controlled by
+the reference monitor mechanisms built into the operating system.
+
+\subsection{The Process Confinement Threat Model}
+
+\begin{enumerate}[label=\bfseries T\arabic*.]
+    \item \textsc{Malicious applications.}
+    \item \textsc{Compromised applications.}
+    \item \textsc{Untrusted user input.}
+    \item \textsc{Semi-honest trusted computing base.}
+\end{enumerate}
+
+\begin{enumerate}[label=\bfseries A\arabic*.]
+    \item \textsc{Unauthorized access to files.}
+\end{enumerate}
+
+\subsection{Outline}
+
+The rest of this paper proceeds as follows. \todo{List sections and what is in them.}
 
 \section{Traditional Process Confinement Approaches}
 
