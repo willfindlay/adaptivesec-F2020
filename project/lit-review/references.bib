@@ -17,7 +17,7 @@ Historical Process Confinement
 -------------------------------------------------------------------------------
 
 The original description of the process confinement problem
-@inproceedings{lampson_1973_a_note,
+@inproceedings{lampson1973_a_note,
   author     = {Lampson, Butler W.},
   title      = {{A Note on the Confinement Problem}},
   year       = {1973},
@@ -33,7 +33,7 @@ The original description of the process confinement problem
 }
 
 Multics ring protection
-@article{graham_1968_protection,
+@inproceedings{graham1968_protection,
   author    = {Graham, Robert M.},
   title     = {Protection in an Information Processing Utility},
   year      = {1968},
@@ -48,13 +48,41 @@ Multics ring protection
   numpages  = {5},
 }
 
+Unix
+@inproceedings{ritchie1973_unix,
+  author    = {Ritchie, Dennis M. and Thompson, Ken},
+  title     = {{The UNIX Time-Sharing System}},
+  year      = {1973},
+  isbn      = {9781450373746},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  doi       = {10.1145/800009.808045},
+  booktitle = {Proceedings of the Fourth ACM Symposium on Operating System Principles},
+  pages     = {27},
+  numpages  = {1},
+  series    = {SOSP '73}
+}
+
+@article{crowell2013_confinement_problem,
+  author    = {Alexander Crowell and Beng Heng Ng and Earlence Fernandes and Atul Prakash},
+  title     = {{The Confinement Problem: 40 Years Later}},
+  journal   = {Journal of Information Processing Systems},
+  volume    = {9},
+  number    = {2},
+  pages     = {189--204},
+  year      = {2013},
+  doi       = {10.3745/JIPS.2013.9.2.189},
+  url       = {http://jips-k.org/journals/jips/digital-library/manuscript/file/22579/JIPS-2013-9-2-189.pdf},
+}
+
+
 -------------------------------------------------------------------------------
 Process Confinement
 -------------------------------------------------------------------------------
 
 A comparison of Unix sandboxing techniques
 Comparing seccomp-bpf, capsicum, and pledge
-@article{anderson_2017_comparison,
+@article{anderson2017_comparison,
   author       = {Anderson, J},
   title        = {{A Comparison of Unix Sandboxing Techniques}},
   journaltitle = {FreeBSD Journal},
@@ -77,15 +105,25 @@ My paper on bpfbox
   note        = {To appear}
 }
 
+@inproceedings{gamble1993_execution_controls,
+  author = {Todd Gamble},
+  title = {{Implementing Execution Controls in Unix}},
+  booktitle = {Proceedings of the Seventh Large Installation System Administration Conference (LISA)},
+  publisher = {The USENIX Association},
+  year = {1993},
+  url = {https://www.usenix.org/legacy/publications/library/proceedings/lisa93/full_papers/gamble.pdf},
+}
+
 Tron was an early effort at writing process-specific policies for Unix back in
 1995! Crazy stuff
 @inproceedings{berman1995_tron,
-    author    = {Andrew Berman and Virgil Bourassa and Erik Selberg},
-    title     = {{TRON: Process-Specific File Protection for the UNIX Operating System}},
-    booktitle = {Proceedings of the USENIX 1995 Technical Conference},
-    year      = {1995},
-    pages     = {165--175},
-    url       = {https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.56.9149&rep=rep1&type=pdf},
+  author    = {Andrew Berman and Virgil Bourassa and Erik Selberg},
+  title     = {{TRON: Process-Specific File Protection for the UNIX Operating System}},
+  booktitle = {Proceedings of the USENIX 1995 Technical Conference},
+  publisher = {The USENIX Association},
+  year      = {1995},
+  pages     = {165--175},
+  url       = {https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.56.9149&rep=rep1&type=pdf},
 }
 
 Janus implements process confinement in userspace using an extended version
@@ -94,6 +132,7 @@ of ptrace (ptrace++)
   author    = {Ian Goldberg and David Wagner and Randi Thomas and Eric Brewer},
   title     = {{A Secure Environment for Untrusted Helper Applications (Confining the Wily Hacker)}},
   booktitle = {Proceedings of the Sixth USENIX UNIX Security Symposium},
+  publisher = {The USENIX Association},
   year      = {1996},
   url       = {https://www.usenix.org/legacy/publications/library/proceedings/sec96/full_papers/goldberg/goldberg.pdf},
 }
@@ -119,6 +158,7 @@ Provos
   author = {Niels Provos},
   title = {{Improving Host Security with System Call Policies}},
   booktitle = {Proceedings of the 13th USENIX UNIX Security Symposium},
+  publisher = {The USENIX Association},
   year = {2003},
   url = {https://www.usenix.org/legacy/events/sec03/tech/full_papers/provos/provos_html},
 }
@@ -185,7 +225,7 @@ TODO: Add other systems cited in the madison paper
   author = {Inoue, Hajime},
   year   = {2005},
   school = {University of New Mexico},
-  url = {https://www.cs.unm.edu/~forrest/dissertations/inoue-dissertation.pdf},
+  url    = {https://www.cs.unm.edu/~forrest/dissertations/inoue-dissertation.pdf},
 }
 
 -------------------------------------------------------------------------------

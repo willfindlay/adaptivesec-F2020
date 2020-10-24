@@ -32,6 +32,10 @@ Mechanisms\\{\large COMP5900I Literature Review}}
 
 \ExecuteBibliographyOptions{maxbibnames=999}
 
+\setlist[enumerate]{
+  leftmargin=*
+}
+
 % =========================================================================== %
 % Document                                                                    %
 % =========================================================================== %
@@ -61,49 +65,91 @@ Mechanisms\\{\large COMP5900I Literature Review}}
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
+\clearpage
+
 \begin{abstract}
 \todo{Come back hither when done.}
 \end{abstract}
 
 % Uncomment for 1.5 spacing:
-\onehalfspacing
+%\onehalfspacing
 
 \section{Introduction}
 
 Restricting unprivileged access to system resources has been a key focus of
 operating systems security research since the inception of the earliest
-timesharing computers in the late 1960s and early 1970s
-\cite{lampson_1973_a_note, graham_1968_protection}. With the advent of the
-Internet and multi-tenant cloud computing, the problem of protecting hosts from
-their own applications has been further exacerbated.
-
-Despite decades of work, the process confinement problem remains largely
-unsolved. Traditionally access to security-sensitive resources was controlled by
-the reference monitor mechanisms built into the operating system.
+timesharing computers in the late 1960s and early 1970s \todo{cite}. In its
+earliest and simplest form, access control in operating systems meant preventing
+one user from interfering with or reading the data of another user. The natural
+choice for these early multi-user systems, such as Unix \cite{ritchie1973_unix},
+was to build access control solutions centred around the user model---a design
+choice which has persisted in modern Unix-like operating systems such as Linux,
+OpenBSD, FreeBSD, and MacOS. Unfortunately, while user-centric permissions offer
+at least some protection from other users, they fail entirely to protect users
+from \textit{themselves} or from their own \textit{processes}.  It was long ago
+recognized that finer granularity of protection is required to truly restrict
+a process to its desired functionality \cite{lampson1973_a_note}. This is often
+referred to as \textit{the process confinement problem} or \textit{the
+sandboxing problem}.
 
 \subsection{The Process Confinement Threat Model}
 
-\todo{Threat Vectors}
-\begin{enumerate}[label=\bfseries T\arabic*.]
-    \item \textsc{Malicious software.}
+To understand why process confinement is a desirable goal in operating system
+security, we must first identify the credible threats to system stability and
+security that process confinement addresses. To that end, I first describe three
+attack vectors (\crefrange{a:1}{a:3}), followed by five attack goals
+(\crefrange{g:1}{g:5}) which highlight just a few of the credible threats posed
+by unconfined processes running on a given host.
 
-    \item \textsc{Semi-honest software.}
+\begin{enumerate}[label=\bfseries A\arabic*., ref=A\arabic*, labelindent=2em]
+    \item \label{a:1} \textsc{Compromised processes.} \todo{Write this}
 
-    \item \textsc{Compromised processes.}
+    \item \label{a:2} \textsc{Semi-honest software.} \todo{Write this}
+
+    \item \label{a:3} \textsc{Malicious software.} \todo{Write this}
 \end{enumerate}
 
-\todo{Attack Goals}
-\begin{enumerate}[label=\bfseries A\arabic*.]
-    \item \textsc{Installation of backdoors/rootkits.}
+\begin{enumerate}[label=\bfseries G\arabic*., ref=G\arabic*, labelindent=2em]
+    \item \label{g:1} \textsc{Installation of backdoors/rootkits.} \todo{Write this}
 
-    \item \textsc{Compromise of trusted computing base.}
+    \item \label{g:2} \textsc{Compromise of trusted computing base.} \todo{Write this}
 
-    \item \textsc{Unauthorized access to files.}
+    \item \label{g:3} \textsc{Unauthorized access to files.} \todo{Write this}
 
-    \item \textsc{Denial of service.}
+    \item \label{g:4} \textsc{Denial of service.} \todo{Write this}
 
-    \item \textsc{Theft of computational resources.}
+    \item \label{g:5} \textsc{Theft of computational resources.} \todo{Write this}
 \end{enumerate}
+
+\todo{Talk about how the internet has exacerbated this problem}
+
+\subsection{The Case for Adaptive Process Confinement}
+
+Despite decades of work since Lampson's first proposal of the process
+confinement problem in 1973 \cite{lampson1973_a_note}, the process confinement
+problem remains largely unsolved \cite{crowell2013_confinement_problem}. This
+begs the question as to whether our current techniques for process confinement
+are simply inadequate for dealing with an evolving technical and adversarial
+landscape. In this literature review, I present the status quo in process
+confinement, with an emphasis on Unix and modern Unix-like systems such as
+Linux.  Further, I present a novel taxonomy, categorizing existing process
+confinement mechanisms into \textit{maladaptive}, \textit{semi-adaptive}, and
+\textit{adaptive} solutions. Finally, I argue the case for the development and
+adoption of \textit{adaptive process confinement mechanisms}.
+
+Here, I define adaptive process confinement mechanisms as those which greatly
+help defenders confine their processes and are robust in the presence of
+attacker innovation. Roughly, this definition can be broken down into the
+following properties:
+\begin{enumerate}[label=\bfseries P\arabic*., ref=P\arabic*, labelindent=2em]
+    \item \label{p:1} \scshape{Robustness to attacker innovation.} \todo{Write this}
+    \item \label{p:2} \scshape{Low adoption effort.} \todo{Write this}
+    \item \label{p:3} \scshape{High reconfigurability.} \todo{Write this}
+    \item \label{p:4} \scshape{Transparency.} \todo{Write this}
+    \item \label{p:5} \scshape{Usability.} \todo{Write this}
+\end{enumerate}
+Ideally, an adaptive process confinement mechanism should have most---if not
+all---of the above properties.
 
 \subsection{Outline}
 
@@ -115,9 +161,9 @@ The rest of this paper proceeds as follows. \todo{List sections and what is in t
 
 \section{Automating Policy Audit}
 
-\section{Integrating System State into Process Confinement}
+\section{Towards Truly Adaptive Process Confinement}
 
-\subsection{Anomaly Detection}
+\subsection{Anomaly Detection Techniques}
 
 \subsection{Extended BPF}
 
