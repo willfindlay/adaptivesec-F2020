@@ -181,7 +181,7 @@ following properties:
     confinement mechanism should be highly reconfigurable based on the needs of
     the end user and the environment in which it is running. This
     reconfiguration could either be automated, semi-automated, or manual, but
-    should not impose significant adoptability barriers.
+    should not impose significant adoptability barriers (c.f.~\ref{p:2}).
 
     \item \label{p:4} \textsc{Transparency.} An adaptive process confinement
     mechanism should be as transparent to the end user as possible. It should
@@ -190,28 +190,41 @@ following properties:
     \item \label{p:5} \textsc{Usability.} An adaptive process confinement
     mechanism should maximize its usability such that it is usable by largest
     and most diverse set of defenders possible. In particular, it should not
-    require security expertise on the part of its users.
+    require significant computer security expertise from its users.
 \end{enumerate}
 Ideally, an adaptive process confinement mechanism should have most---if not
 all---of the above properties.
 
 \subsection{Outline}
 
-The rest of this paper proceeds as follows. \todo{List sections and what is in them.}
+The rest of this paper proceeds as follows. \Cref{sec:traditional} discusses
+traditional approaches to process confinement, both historical and
+state-of-the-art. \Cref{sec:automating_generation} and
+\Cref{sec:automating_audit} discuss automatic and semi-automatic approaches for
+policy generation and policy audit respectively. \Cref{sec:towards} discusses
+moving toward truly adaptive process confinement mechanisms and argues that new
+operating system technologies coupled with well-known techniques from the
+anomaly detection literature may enable a paradigm shift in this direction.
+\Cref{sec:conclusion} concludes.
 
 \section{Traditional Process Confinement Approaches}
+\label{sec:traditional}
 
 \section{Automating Policy Generation}
+\label{sec:automating_generation}
 
 \section{Automating Policy Audit}
+\label{sec:automating_audit}
 
 \section{Towards Truly Adaptive Process Confinement}
+\label{sec:towards}
 
 \subsection{Anomaly Detection Techniques}
 
 \subsection{Extended BPF}
 
 \section{Conclusion}
+\label{sec:conclusion}
 
 
 % Uncomment for bibliography:
