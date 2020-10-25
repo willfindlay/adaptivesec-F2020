@@ -123,13 +123,20 @@ by unconfined processes running on a given host.
     in place to restrict the behaviour of such an application, it may continue
     to perform the undesired actions ad infinitum, so long as it remains
     installed on the host. As a topical example, an \texttt{strace} of the
-    popular Discord \todo{cite} voice communication client on Linux reveals that
+    popular Discord \cite{discord} voice communication client on Linux reveals that
     it repeatedly scans the process tree and reports a list of \textit{all applications}
     running on the system, even when the \enquote{display active game} feature
     is turned \textbf{off}. This represents a clear violation of the user's
     privacy expectations.
 
-    \item \label{a:3} \textsc{Malicious software.} \todo{Write this}
+    \item \label{a:3} \textsc{Malicious software.} In contrast to semi-honest
+    software, malicious software is that which is expressly designed and
+    distributed with malicious intent. Typically this software would be
+    downloaded by an unsuspecting user either through social engineering
+    (e.g.~fake antivirus scams) or without the user's knowledge (e.g.~a drive-by
+    download attack). It would be useful to provide the user with a means of
+    running such potentially untrustworthy applications in a sandbox so that
+    they cannot damage the rest of the system.
 \end{enumerate}
 
 \begin{enumerate}[label=\bfseries G\arabic*., ref=G\arabic*, labelindent=2em]
@@ -161,11 +168,29 @@ help defenders confine their processes and are robust in the presence of
 attacker innovation. Roughly, this definition can be broken down into the
 following properties:
 \begin{enumerate}[label=\bfseries P\arabic*., ref=P\arabic*, labelindent=2em]
-    \item \label{p:1} \scshape{Robustness to attacker innovation.} \todo{Write this}
-    \item \label{p:2} \scshape{Low adoption effort.} \todo{Write this}
-    \item \label{p:3} \scshape{High reconfigurability.} \todo{Write this}
-    \item \label{p:4} \scshape{Transparency.} \todo{Write this}
-    \item \label{p:5} \scshape{Usability.} \todo{Write this}
+    \item \label{p:1} \textsc{Robustness to attacker innovation.} An adaptive
+    process confinement mechanism should continue to protect the host system,
+    even in the presence of attacker innovation. That is, it should be resistant
+    to an adaptive adversary.
+
+    \item \label{p:2} \textsc{Low adoption effort.} An adaptive process
+    confinement mechanism should require minimal effort to adopt on a variety of
+    system configurations.
+
+    \item \label{p:3} \textsc{High reconfigurability.} An adaptive process
+    confinement mechanism should be highly reconfigurable based on the needs of
+    the end user and the environment in which it is running. This
+    reconfiguration could either be automated, semi-automated, or manual, but
+    should not impose significant adoptability barriers.
+
+    \item \label{p:4} \textsc{Transparency.} An adaptive process confinement
+    mechanism should be as transparent to the end user as possible. It should
+    not get in the way of ordinary system functionality.
+
+    \item \label{p:5} \textsc{Usability.} An adaptive process confinement
+    mechanism should maximize its usability such that it is usable by largest
+    and most diverse set of defenders possible. In particular, it should not
+    require security expertise on the part of its users.
 \end{enumerate}
 Ideally, an adaptive process confinement mechanism should have most---if not
 all---of the above properties.
