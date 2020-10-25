@@ -44,7 +44,7 @@ Mechanisms\\{\large COMP5900I Literature Review}}
 
 % Title page
 \maketitle
-\thispagestyle{plain}
+\thispagestyle{empty}
 %\pagenumbering{roman}
 %\newpage
 
@@ -61,10 +61,6 @@ Mechanisms\\{\large COMP5900I Literature Review}}
 %\newpage
 %\endgroup
 
-% Reset page numbering
-\pagenumbering{arabic}
-\setcounter{page}{1}
-
 \vfill
 \begin{abstract}
 \todo{Come back hither when done.}
@@ -73,6 +69,10 @@ Mechanisms\\{\large COMP5900I Literature Review}}
 \vfill
 
 \clearpage
+
+% Reset page numbering
+\pagenumbering{arabic}
+\setcounter{page}{1}
 
 % Uncomment for 1.5 spacing:
 %\onehalfspacing
@@ -109,12 +109,16 @@ by unconfined processes running on a given host.
     processes have classically presented a valuable target for attacker
     exploitation. With the advent of the Internet, web-facing processes which
     handle untrusted user input are especially vulnerable, particularly as they
-    often run with heightened privileges \todo{cite}. The attacker may send
-    specially crafted input to the target application, hoping to compromise its
-    control flow integrity via a classic buffer overflow, return-oriented
-    programming \todo{cite}, or some other means. The venerable Morris Worm,
-    regarded as the first computer worm on the Internet, exploited precisely
-    such a vulnerability in the \texttt{fingerd} service for Unix \todo{cite}.
+    often run with heightened privileges \cite{cohen1996_secure}. The attacker
+    may send specially crafted input to the target application, hoping to
+    compromise its control flow integrity via a classic buffer overflow,
+    return-oriented programming \cite{shacham2007_rop}, or some other means. The
+    venerable Morris Worm, regarded as the first computer worm on the Internet,
+    exploited a classic buffer overflow vulnerability in the \texttt{fingerd}
+    service for Unix, as well as a development backdoor left in the
+    \texttt{sendmail} daemon \cite{spafford1989_morris}. In both cases, proper
+    process confinement would have eliminated the threat entirely by preventing
+    the compromised programs from impacting the rest of the system.
 
     \item \label{a:2} \textsc{Semi-honest software.} Here, I define semi-honest
     software as that which appears to perform its desired functionality, but
@@ -209,6 +213,19 @@ anomaly detection literature may enable a paradigm shift in this direction.
 
 \section{Traditional Process Confinement Approaches}
 \label{sec:traditional}
+
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.6\linewidth]{figs/high-level.pdf}
+    \caption{
+        The basic architecture of containerized package management solutions for
+        Linux, such as Snapcraft \todo{cite}, FlatPak \todo{cite}, and Docker
+        \todo{cite}. Package maintainers write high-level, coarse-grained
+        package manifests, which are then compiled into policy for lower-level
+        process confinement mechanisms to enforce.
+    }%
+    \label{fig:containerized}
+\end{figure}
 
 \section{Automating Policy Generation}
 \label{sec:automating_generation}
