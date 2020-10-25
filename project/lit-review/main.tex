@@ -65,11 +65,14 @@ Mechanisms\\{\large COMP5900I Literature Review}}
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
-\clearpage
-
+\vfill
 \begin{abstract}
 \todo{Come back hither when done.}
 \end{abstract}
+\vfill
+\vfill
+
+\clearpage
 
 % Uncomment for 1.5 spacing:
 %\onehalfspacing
@@ -97,14 +100,34 @@ sandboxing problem}.
 To understand why process confinement is a desirable goal in operating system
 security, we must first identify the credible threats to system stability and
 security that process confinement addresses. To that end, I first describe three
-attack vectors (\crefrange{a:1}{a:3}), followed by five attack goals
-(\crefrange{g:1}{g:5}) which highlight just a few of the credible threats posed
+attack vectors (\crefrange{a:1}{a:3}), followed by three attack goals
+(\crefrange{g:1}{g:3}) which highlight just a few of the credible threats posed
 by unconfined processes running on a given host.
 
 \begin{enumerate}[label=\bfseries A\arabic*., ref=A\arabic*, labelindent=2em]
-    \item \label{a:1} \textsc{Compromised processes.} \todo{Write this}
+    \item \label{a:1} \textsc{Compromised processes.} Unconfined running
+    processes have classically presented a valuable target for attacker
+    exploitation. With the advent of the Internet, web-facing processes which
+    handle untrusted user input are especially vulnerable, particularly as they
+    often run with heightened privileges \todo{cite}. The attacker may send
+    specially crafted input to the target application, hoping to compromise its
+    control flow integrity via a classic buffer overflow, return-oriented
+    programming \todo{cite}, or some other means. The venerable Morris Worm,
+    regarded as the first computer worm on the Internet, exploited precisely
+    such a vulnerability in the \texttt{fingerd} service for Unix \todo{cite}.
 
-    \item \label{a:2} \textsc{Semi-honest software.} \todo{Write this}
+    \item \label{a:2} \textsc{Semi-honest software.} Here, I define semi-honest
+    software as that which appears to perform its desired functionality, but
+    which additionally may perform some set of unwanted actions without the
+    user's knowledge. Without putting a proper, external confinement mechanism
+    in place to restrict the behaviour of such an application, it may continue
+    to perform the undesired actions ad infinitum, so long as it remains
+    installed on the host. As a topical example, an \texttt{strace} of the
+    popular Discord \todo{cite} voice communication client on Linux reveals that
+    it repeatedly scans the process tree and reports a list of \textit{all applications}
+    running on the system, even when the \enquote{display active game} feature
+    is turned \textbf{off}. This represents a clear violation of the user's
+    privacy expectations.
 
     \item \label{a:3} \textsc{Malicious software.} \todo{Write this}
 \end{enumerate}
@@ -112,13 +135,9 @@ by unconfined processes running on a given host.
 \begin{enumerate}[label=\bfseries G\arabic*., ref=G\arabic*, labelindent=2em]
     \item \label{g:1} \textsc{Installation of backdoors/rootkits.} \todo{Write this}
 
-    \item \label{g:2} \textsc{Compromise of trusted computing base.} \todo{Write this}
+    \item \label{g:2} \textsc{Information leakage.} \todo{Write this}
 
-    \item \label{g:3} \textsc{Unauthorized access to files.} \todo{Write this}
-
-    \item \label{g:4} \textsc{Denial of service.} \todo{Write this}
-
-    \item \label{g:5} \textsc{Theft of computational resources.} \todo{Write this}
+    \item \label{g:3} \textsc{Tampering and denial of service.} \todo{Write this}
 \end{enumerate}
 
 \todo{Talk about how the internet has exacerbated this problem}
