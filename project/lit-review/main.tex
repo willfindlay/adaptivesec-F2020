@@ -78,69 +78,107 @@ Mechanisms\\{\large COMP5900I Literature Review}}
 %\onehalfspacing
 
 \section{Introduction}
+\label{sec:introduction}
 
 Restricting unprivileged access to system resources has been a key focus of
 operating systems security research since the inception of the earliest
-timesharing computers in the late 1960s and early 1970s \todo{cite}. In its
+timesharing computers in the late 1960s and early 1970s
+\cite{graham1968_protection, ritchie1973_unix, corbato1962_ctss}. In its
 earliest and simplest form, access control in operating systems meant preventing
 one user from interfering with or reading the data of another user. The natural
-choice for these early multi-user systems, such as Unix \cite{ritchie1973_unix},
-was to build access control solutions centred around the user model---a design
-choice which has persisted in modern Unix-like operating systems such as Linux,
-OpenBSD, FreeBSD, and MacOS. Unfortunately, while user-centric permissions offer
-at least some protection from other users, they fail entirely to protect users
-from \textit{themselves} or from their own \textit{processes}.  It was long ago
-recognized that finer granularity of protection is required to truly restrict
-a process to its desired functionality \cite{lampson1973_a_note}. This is often
-referred to as \textit{the process confinement problem} or \textit{the
-sandboxing problem}.
+choice for many of these early multi-user systems, such as Unix
+\cite{ritchie1973_unix}, was to build access control solutions centred around
+the user model---a design choice which has persisted in modern Unix-like
+operating systems such as Linux, OpenBSD, FreeBSD, and MacOS.  Unfortunately,
+while user-centric permissions offer at least some protection from other users,
+they fail entirely to protect users from \textit{themselves} or from their own
+\textit{processes}.  It was long ago recognized that finer granularity of
+protection is required to truly restrict a process to its desired functionality
+\cite{lampson1973_a_note}. This is often referred to as \textit{the process
+confinement problem} or \textit{the sandboxing problem}.
 
 Despite decades of work since Lampson's first proposal of the process
 confinement problem in 1973 \cite{lampson1973_a_note}, it remains largely
 unsolved to date \cite{crowell2013_confinement_problem}. This begs the question
 as to whether our current techniques for process confinement are simply
-inadequate for dealing with an evolving technical and adversarial landscape.
-\todo{Rework the commented part}
-%In
-%this literature review, I present the status quo in process confinement, with an
-%emphasis on Unix and modern Unix-like systems such as Linux.  Further, I present
-%a novel taxonomy, categorizing existing process confinement mechanisms into
-%\textit{maladaptive}, \textit{semi-adaptive}, and \textit{adaptive} solutions.
-%Finally, I argue the case for the development and adoption of \textit{adaptive
-%process confinement mechanisms}.
+inadequate for dealing with an evolving technical and adversarial landscape.  In
+this literature review, I argue that, in order to solve the process confinement
+problem, we need to rethink the status quo in process confinement, and instead
+move towards \textit{adaptive} process confinement mechanisms.  Here, I define
+adaptive process confinement mechanisms as those which greatly help defenders
+confine their processes, are easily adoptable across a variety of system
+configurations, and are robust in the presence of attacker innovation.  Roughly,
+this definition can be broken down into the following properties:
+\begin{enumerate}[label=\bfseries P\arabic*., ref=P\arabic*, labelindent=2em]
+    \item \label{p:1} \textsc{High robustness to attacker innovation.} An adaptive
+    process confinement mechanism should continue to protect the host system,
+    even in the presence of attacker innovation. That is, it should be resistant
+    to an adaptive adversary.
 
-The rest of this paper proceeds as follows. \Cref{sec:motivation} presents the
-process confinement threat model and examines the motivation for considering
-process confinement from an adaptive security perspective.
-\Cref{sec:traditional} discusses traditional approaches to process confinement,
-both historical and state-of-the-art. \Cref{sec:automating_generation} and
-\Cref{sec:automating_audit} discuss automatic and semi-automatic approaches for
-policy generation and policy audit respectively. \Cref{sec:towards} discusses
-moving toward truly adaptive process confinement mechanisms and argues that new
-operating system technologies coupled with well-known techniques from the
-anomaly detection literature may enable a paradigm shift in this direction.
+    \item \label{p:2} \textsc{Low adoption effort.} An adaptive process
+    confinement mechanism should require minimal effort to adopt on a variety of
+    system configurations.
+
+    \item \label{p:3} \textsc{High reconfigurability.} An adaptive process
+    confinement mechanism should be highly reconfigurable based on the needs of
+    the end user and the environment in which it is running. This
+    reconfiguration could either be automated, semi-automated, or manual, but
+    should not impose significant adoptability barriers (c.f.~\ref{p:2}).
+
+    \item \label{p:4} \textsc{High transparency.} An adaptive process confinement
+    mechanism should be as transparent to the end user as possible. It should
+    not get in the way of ordinary system functionality.
+
+    \item \label{p:5} \textsc{High usability.} An adaptive process confinement
+    mechanism should maximize its usability such that it is usable by largest
+    and most diverse set of defenders possible. In particular, it should not
+    require significant computer security expertise from its users.
+\end{enumerate}
+
+To argue the case for adaptive process confinement, we need to understand the
+existing process confinement literature from an adaptive perspective. To that
+end, I present a novel taxonomy of the existing literature, categorizing process
+confinement mechanisms as either \textit{maladaptive} or \textit{semi-adaptive}.
+In light of this categorization, I then discuss what the move toward
+\textit{truly adaptive} process confinement mechanisms might look like.
+
+%In this literature review, I present the status quo in process confinement,
+%with an emphasis on Unix and modern Unix-like systems such as Linux.  Further,
+%I present a novel taxonomy, categorizing existing process confinement
+%mechanisms into \textit{maladaptive}, \textit{semi-adaptive}, and
+%\textit{adaptive} solutions.  Finally, I argue the case for the development and
+%adoption of \textit{adaptive process confinement mechanisms}.
+
+The rest of this paper proceeds as follows. \Cref{sec:threat_model} presents the
+process confinement threat model.
+%and examines the motivation for considering
+%process confinement from an adaptive security perspective.
+\Cref{sec:maladaptive} discusses maladaptive process confinement solutions, while
+\Cref{sec:semi-adaptive} presents semi-adaptive approaches that fail to meet the
+mark of a truly adaptive process confinement mechanism. \Cref{sec:towards}
+discusses moving toward truly adaptive process confinement mechanisms and argues
+that new operating system technologies coupled with well-known techniques from
+the anomaly detection literature may enable a paradigm shift in this direction.
 \Cref{sec:conclusion} concludes.
 
-\section{Motivation}
-\label{sec:motivation}
-
-\subsection{The Process Confinement Threat Model}
+\section{The Process Confinement Threat Model}
+\label{sec:threat_model}
 
 To understand why process confinement is a desirable goal in operating system
-security, we must first identify the credible threats to system stability and
-security that process confinement addresses. To that end, I first describe three
-attack vectors (\crefrange{a:1}{a:3}), followed by three attack goals
-(\crefrange{g:1}{g:3}) which highlight just a few of the credible threats posed
-by unconfined processes running on a given host.
+security, we must first identify the credible threats that process confinement
+addresses. To that end, I first describe three attack vectors
+(\crefrange{a:1}{a:3}), followed by three attack goals (\crefrange{g:1}{g:3})
+which highlight just a few of the threats posed by unconfined processes to
+system security, stability, and user privacy.
 
 \begin{enumerate}[label=\bfseries A\arabic*., ref=A\arabic*, labelindent=2em]
     \item \label{a:1} \textsc{Compromised processes.} Unconfined running
     processes have classically presented a valuable target for attacker
     exploitation. With the advent of the Internet, web-facing processes which
     handle untrusted user input are especially vulnerable, particularly as they
-    often run with heightened privileges \cite{cohen1996_secure}. The attacker
+    often run with heightened privileges \cite{cohen1996_secure}. An attacker
     may send specially crafted input to the target application, hoping to
-    compromise its control flow integrity via a classic buffer overflow,
+    subvert its control flow integrity via a classic buffer overflow,
     return-oriented programming \cite{shacham2007_rop}, or some other means. The
     venerable Morris Worm, regarded as the first computer worm on the Internet,
     exploited a classic buffer overflow vulnerability in the \texttt{fingerd}
@@ -156,11 +194,13 @@ by unconfined processes running on a given host.
     in place to restrict the behaviour of such an application, it may continue
     to perform the undesired actions ad infinitum, so long as it remains
     installed on the host. As a topical example, an \texttt{strace} of the
-    popular Discord \cite{discord} voice communication client on Linux reveals that
-    it repeatedly scans the process tree and reports a list of \textit{all applications}
-    running on the system, even when the \enquote{display active game} feature
-    is turned \textbf{off}. This represents a clear violation of the user's
-    privacy expectations.
+    popular Discord \cite{discord} voice communication client on Linux reveals
+    that it repeatedly scans the process tree and reports a list of \textit{all
+    applications} running on the system, even when the \enquote{display active
+    game} feature\footnote{This feature allows Discord to report, in the user's
+    status message, what game the user is currently playing, and appears to be
+    the original motivation behind scanning the process tree.} is turned off.
+    This represents a clear violation of the user's privacy expectations.
 
     \item \label{a:3} \textsc{Malicious software.} In contrast to semi-honest
     software, malicious software is that which is expressly designed and
@@ -195,47 +235,52 @@ by unconfined processes running on a given host.
     privileges are required to leak the list of processes running on a Linux
     system, as in the case of Discord \cite{discord} highlighted above.
 
-    \item \label{g:3} \textsc{Tampering and denial of service.} \todo{Write this}
+    \item \label{g:3} \textsc{Denial of service.} A compromised process could be
+    used to mount a denial of service attack against the host system. For
+    example, an attacker could take down network interfaces, consume system
+    resources, kill important processes, or cause the system to shut down or
+    reboot at an inopportune moment.
 \end{enumerate}
 
-\todo{Talk about how the internet has exacerbated this problem}
+As shown in the examples above, unconfined processes can pose significant
+threats to system security and stability as well as user privacy. With the
+advent of the Internet, many of these threats are now exacerbated. Unconfined
+network-facing daemons continually process untrusted user input, resulting in an
+easy and potentially valuable target for attacker exploitation. Email and web
+browsers have enabled powerful social engineering and drive-by download attacks
+which often result in the installation of malicious software. Semi-honest
+software can violate user expectations of security and privacy by performing
+unwanted actions without the user's knowledge. It is clear that a solution is
+needed to mitigate these threats---for this, we turn to process confinement.
+Unfortunately, process confinement is not yet a solved problem
+\cite{crowell2013_confinement_problem}, and so the exploration of new solutions
+is necessary.
 
-\subsection{Defining Adaptive Process Confinement}
+\section{Maladaptive Process Confinement Approaches}
+\label{sec:maladaptive}
 
-Here, I define adaptive process confinement mechanisms as those which greatly
-help defenders confine their processes and are robust in the presence of
-attacker innovation. Roughly, this definition can be broken down into the
-following properties:
-\begin{enumerate}[label=\bfseries P\arabic*., ref=P\arabic*, labelindent=2em]
-    \item \label{p:1} \textsc{Robustness to attacker innovation.} An adaptive
-    process confinement mechanism should continue to protect the host system,
-    even in the presence of attacker innovation. That is, it should be resistant
-    to an adaptive adversary.
+A \textit{maladaptive} process confinement mechanism is a process confinement
+mechanism which either does not cleanly fit the majority of the adaptive
+properties outlined in \Cref{sec:introduction} (\crefrange{p:1}{p:5}). For
+example, a process confinement mechanism with high reconfigurability and low
+adoption effort, but with low robustness to attacker innovation, low
+transparency, and low usability would constitute a maladaptive approach.
 
-    \item \label{p:2} \textsc{Low adoption effort.} An adaptive process
-    confinement mechanism should require minimal effort to adopt on a variety of
-    system configurations.
+Unfortunately, maladaptive techniques cover the majority or the process
+confinement literature, but many are widely used and studying them can provide
+good insight into what an adaptive or semi-adaptive approach might do
+differently in practice. To further compartmentalize this study, I categorize
+maladaptive approaches into the lower-level techniques (i.e.~at the operating
+system kernel or application source code levels) and the higher-level techniques
+that often build upon them.
 
-    \item \label{p:3} \textsc{High reconfigurability.} An adaptive process
-    confinement mechanism should be highly reconfigurable based on the needs of
-    the end user and the environment in which it is running. This
-    reconfiguration could either be automated, semi-automated, or manual, but
-    should not impose significant adoptability barriers (c.f.~\ref{p:2}).
+\subsection{Low Level Techniques}
 
-    \item \label{p:4} \textsc{Transparency.} An adaptive process confinement
-    mechanism should be as transparent to the end user as possible. It should
-    not get in the way of ordinary system functionality.
 
-    \item \label{p:5} \textsc{Usability.} An adaptive process confinement
-    mechanism should maximize its usability such that it is usable by largest
-    and most diverse set of defenders possible. In particular, it should not
-    require significant computer security expertise from its users.
-\end{enumerate}
-Ideally, an adaptive process confinement mechanism should have most---if not
-all---of the above properties.
 
-\section{Traditional Process Confinement Approaches}
-\label{sec:traditional}
+\subsection{High Level Techniques}
+
+In Linux, a recent trend of \textit{containerized package management} has emerged.
 
 \begin{figure}[htpb]
     \centering
@@ -250,11 +295,12 @@ all---of the above properties.
     \label{fig:containerized}
 \end{figure}
 
-\section{Automating Policy Generation}
-\label{sec:automating_generation}
+\section{Semi-Adaptive Process Confinement Approaches}
+\label{sec:semi-adaptive}
 
-\section{Automating Policy Audit}
-\label{sec:automating_audit}
+\subsection{Automated Policy Generation}
+
+\subsection{Automated Policy Auditing}
 
 \section{Towards Truly Adaptive Process Confinement}
 \label{sec:towards}
@@ -268,7 +314,7 @@ all---of the above properties.
 
 
 % Uncomment for bibliography:
-\nocite{*} % TODO: Comment this out when done
+%\nocite{*} % TODO: Comment this out when done
 \clearpage
 \printbibliography
 
