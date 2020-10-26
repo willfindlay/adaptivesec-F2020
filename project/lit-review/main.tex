@@ -19,6 +19,16 @@ Mechanisms\\{\large COMP5900I Literature Review}}
 %\affiliation{Carleton University}
 %\email{williamfindlay@cmail.carleton.ca}
 
+\usepackage{adjustbox}
+\usepackage{array}
+
+\newcolumntype{R}[2]{%
+    >{\adjustbox{angle=#1,lap=\width-(#2)}\bgroup}%
+    l%
+    <{\egroup}%
+}
+\newcommand*\rot{\multicolumn{1}{R{45}{1em}}}% no optional argument here, please!
+
 % Add bibliography:
 \addbibresource{references.bib}
 
@@ -199,7 +209,7 @@ system security, stability, and user privacy.
     that it repeatedly scans the process tree and reports a list of \textit{all
     applications} running on the system, even when the \enquote{display active
     game} feature\footnote{This feature allows Discord to report, in the user's
-    status message, what game the user is currently playing, and appears to be
+    status message, what game the user is currently playing. This appears to be
     the original motivation behind scanning the process tree.} is turned off.
     This represents a clear violation of the user's privacy expectations.
 
@@ -275,17 +285,35 @@ maladaptive approaches into the lower-level techniques (e.g.~at the operating
 system kernel or application source code levels) and the higher-level techniques
 that often build upon them.
 
+\begin{table}
+\begin{tabular}{ll|ccccc}
+%\hline
+Mechanism & Classification &
+\rot{\ref{p:1} \textsc{Robustness}} &
+\rot{\ref{p:1} \textsc{Robustness}} &
+\rot{\ref{p:1} \textsc{Robustness}} &
+\rot{\ref{p:1} \textsc{Robustness}} &
+\rot{\ref{p:1} \textsc{Robustness}} \\
+\hline
+Foo & Bar & \fullc & \fullc  & \fullc  & \fullc  & \fullc \\
+\hline
+\end{tabular}
+\caption{Test}
+\label{tab:maladaptive}
+\end{table}
+
 \subsection{Low Level Techniques}
 
 \textit{Discretionary access control} (DAC) forms the most basic access control
 mechanism in many operating systems, including popular commodity operating
-systems such as Linux, MacOS, and Windows.  First defined in a 1983 Department
-of Defense standard \todo{cite}, a discretionary access control system mechanism
-system objects (e.g.~files) by their respective owners, and allows resource
-owners to grant access to other users at their discretion. Typically, these
-systems also provide a special user or role with the power to override
-discretionary access controls, such as the superuser (i.e.~\texttt{root}) in
-Unix-like operating systems and the Administrator role in Windows.
+systems such as Linux, MacOS, and Windows.  First formalized in the 1983
+Department of Defense standard \cite{orange_book}, a discretionary access
+control system mechanism system objects (e.g.~files) by their respective owners,
+and allows resource owners to grant access to other users at their discretion.
+Typically, these systems also provide a special user or role with the power to
+override discretionary access controls, such as the superuser
+(i.e.~\texttt{root}) in Unix-like operating systems and the Administrator role
+in Windows.
 
 While discretionary access controls themselves are insufficient to implement
 proper process confinement, they do form the basis for the bare minimum level of
@@ -295,16 +323,30 @@ discretionary access controls are abused to create per-application
 \enquote{users} and \enquote{groups}. For instance, a common pattern in
 Unix-like systems such as Linux, MacOS, FreeBSD, and OpenBSD is to have specific
 users reserved for security-sensitive applications such as network-facing
-daemons. Many mobile device operating systems, such as Android and iOS, take
-this one step further, instead assigning an application- or developer-specific
-UID and GID to each application on the system that is not part of the trusted
-computing base \todo{cite}.
+daemons. The Android mobile operating system takes this one step further,
+instead assigning an application- or developer-specific UID and GID to
+\textit{each} application on the system \cite{android_security}.
 
 In theory, these abuses of the DAC model would help mitigate the potential
 damage that a compromised application can do to the resources that belong to
-other users and applications on the system.
+other users and applications on the system. However, due to the discretionary
+nature of DAC, there nothing preventing a user from simply granting permissions
+to all other users on the system. Further, the inclusion of non-human users into
+a user-centric permission model may result in disparity between an end-user's
+expectations and the reality of what a \enquote{user} actually is. This gap in
+understanding could result in usability and security concerns.
 
-\todo{POSIX Capabilities}
+Related to discretionary access control are POSIX capabilities
+\cite{posix_capabilities,corbet2006_capabities_a,corbet2006_capabities_b}, which
+can be used to grant additional privileges to specific processes, overriding
+existing discretionary permissions. This provides a finer-grained alternative to
+the all-or-nothing superuser privileges that would be required by certain
+applications. For instance, a web-facing process that requires access to
+privileged ports has no business overriding file permissions. POSIX capabilities
+provide an interface for making such distinctions. Despites these benefits,
+POSIX capabilities have been criticized for adding additional complexity to an
+increasingly complex Linux permission model
+\cite{corbet2006_capabities_b,corbet2006_capabities_a}.
 
 %In Unix-like systems such as Linux, MacOS, OpenBSD, and FreeBSD, the most basic
 %form of access control is implemented using Unix DAC (\textit{discretionary
@@ -323,7 +365,7 @@ In Linux, a recent trend of \textit{containerized package management} has emerge
 
 \begin{figure}[htpb]
     \centering
-    \includegraphics[width=0.6\linewidth]{figs/high-level.pdf}
+    \includegraphics[width=0.8\linewidth]{figs/high-level.pdf}
     \caption{
         The basic architecture of containerized package management solutions for
         Linux, such as Snapcraft \cite{snap}, Flatpak \cite{flatpak}, and Docker
