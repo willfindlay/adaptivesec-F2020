@@ -104,11 +104,14 @@ as to whether our current techniques for process confinement are simply
 inadequate for dealing with an evolving technical and adversarial landscape.  In
 this literature review, I argue that, in order to solve the process confinement
 problem, we need to rethink the status quo in process confinement, and instead
-move towards \textit{adaptive} process confinement mechanisms.  Here, I define
-adaptive process confinement mechanisms as those which greatly help defenders
-confine their processes, are easily adoptable across a variety of system
-configurations, and are robust in the presence of attacker innovation.  Roughly,
-this definition can be broken down into the following properties:
+move towards \textit{adaptive} process confinement mechanisms.
+
+\subsection{Defining Adaptive Process Confinement}
+
+Here, I define adaptive process confinement mechanisms as those which greatly
+help defenders confine their processes, are easily adoptable across a variety of
+system configurations, and are robust in the presence of attacker innovation.
+Roughly, this definition can be broken down into the following properties:
 \begin{enumerate}[label=\bfseries P\arabic*., ref=P\arabic*, labelindent=2em]
     \item \label{p:1} \textsc{High robustness to attacker innovation.} An adaptive
     process confinement mechanism should continue to protect the host system,
@@ -140,31 +143,24 @@ this definition can be broken down into the following properties:
     require significant computer security expertise from its users.
 \end{enumerate}
 
+\subsection{Outline of the Literature Review}
+
 To argue the case for adaptive process confinement, we need to understand the
 existing process confinement literature from an adaptive perspective. To that
 end, I present a novel taxonomy of the existing literature, categorizing process
-confinement mechanisms as either \textit{maladaptive} or \textit{semi-adaptive}.
+confinement mechanisms as either \textit{maladaptive} or \textit{semi-adaptive}
+using the adaptive properties (items \ref{p:1}--\ref{p:5}) outlined above.
 In light of this categorization, I then discuss what the move toward
 \textit{truly adaptive} process confinement mechanisms might look like.
 
-%In this literature review, I present the status quo in process confinement,
-%with an emphasis on Unix and modern Unix-like systems such as Linux.  Further,
-%I present a novel taxonomy, categorizing existing process confinement
-%mechanisms into \textit{maladaptive}, \textit{semi-adaptive}, and
-%\textit{adaptive} solutions.  Finally, I argue the case for the development and
-%adoption of \textit{adaptive process confinement mechanisms}.
-
 The rest of this paper proceeds as follows. \Cref{sec:threat_model} presents the
-process confinement threat model.
-%and examines the motivation for considering
-%process confinement from an adaptive security perspective.
-\Cref{sec:maladaptive} discusses maladaptive process confinement solutions, while
-\Cref{sec:semi-adaptive} presents semi-adaptive approaches that fail to meet the
-mark of a truly adaptive process confinement mechanism. \Cref{sec:towards}
-discusses moving toward truly adaptive process confinement mechanisms and argues
-that new operating system technologies coupled with well-known techniques from
-the anomaly detection literature may enable a paradigm shift in this direction.
-\Cref{sec:conclusion} concludes.
+process confinement threat model.  \Cref{sec:maladaptive} discusses maladaptive
+process confinement solutions, while \Cref{sec:semi-adaptive} presents
+semi-adaptive approaches that fail to meet the mark of a truly adaptive process
+confinement mechanism. \Cref{sec:towards} discusses moving toward truly adaptive
+process confinement mechanisms and argues that new operating system technologies
+coupled with well-known techniques from the anomaly detection literature may
+enable a paradigm shift in this direction.  \Cref{sec:conclusion} concludes.
 
 \section{The Process Confinement Threat Model}
 \label{sec:threat_model}
@@ -266,7 +262,7 @@ is necessary.
 
 A \textit{maladaptive} process confinement mechanism is one which does not
 cleanly fit the majority of the adaptive properties outlined in
-\Cref{sec:introduction} (\crefrange{p:1}{p:5}). For example, a process
+\Cref{sec:introduction} (items \ref{p:1}--\ref{p:5}). For example, a process
 confinement mechanism with high reconfigurability and low adoption effort, but
 with low robustness to attacker innovation, low transparency, and low usability
 would constitute a maladaptive approach.
@@ -275,17 +271,20 @@ Unfortunately, maladaptive techniques cover the majority or the process
 confinement literature, but many are widely used and studying them can provide
 good insight into what an adaptive or semi-adaptive approach might do
 differently in practice. To further compartmentalize this study, I categorize
-maladaptive approaches into the lower-level techniques (i.e.~at the operating
+maladaptive approaches into the lower-level techniques (e.g.~at the operating
 system kernel or application source code levels) and the higher-level techniques
 that often build upon them.
 
 \subsection{Low Level Techniques}
 
+\todo{SELinux, AppArmor, TOMOYO, yama}
 
+\todo{seccomp-bpf, capsicum, pledge}
 
 \subsection{High Level Techniques}
 
 In Linux, a recent trend of \textit{containerized package management} has emerged.
+\todo{Snapcraft, Docker, Flatpak}
 
 \begin{figure}[htpb]
     \centering
@@ -299,6 +298,10 @@ In Linux, a recent trend of \textit{containerized package management} has emerge
     }%
     \label{fig:containerized}
 \end{figure}
+
+\todo{Firejail, Bubblewrap, mbox}
+
+\todo{bpfbox}
 
 \section{Semi-Adaptive Process Confinement Approaches}
 \label{sec:semi-adaptive}
