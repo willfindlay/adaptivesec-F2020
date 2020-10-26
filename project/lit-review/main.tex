@@ -117,7 +117,9 @@ this definition can be broken down into the following properties:
 
     \item \label{p:2} \textsc{Low adoption effort.} An adaptive process
     confinement mechanism should require minimal effort to adopt on a variety of
-    system configurations.
+    system configurations. It should work out of the box on the majority of
+    target systems and should be deployable in a production environment without
+    major security or stability concerns.
 
     \item \label{p:3} \textsc{High reconfigurability.} An adaptive process
     confinement mechanism should be highly reconfigurable based on the needs of
@@ -125,11 +127,14 @@ this definition can be broken down into the following properties:
     reconfiguration could either be automated, semi-automated, or manual, but
     should not impose significant adoptability barriers (c.f.~\ref{p:2}).
 
-    \item \label{p:4} \textsc{High transparency.} An adaptive process confinement
-    mechanism should be as transparent to the end user as possible. It should
-    not get in the way of ordinary system functionality.
+    \item \label{p:4} \textsc{High transparency.} An adaptive process
+    confinement mechanism should be as transparent to the end user as possible.
+    It should not get in the way of ordinary system functionality, and should
+    not require the modification of application source code in order to
+    function. Further, its base functionality should not require significant
+    user intervention, if at all.
 
-    \item \label{p:5} \textsc{High usability.} An adaptive process confinement
+    \item \label{p:5} \textsc{High usability (by non-experts).} An adaptive process confinement
     mechanism should maximize its usability such that it is usable by largest
     and most diverse set of defenders possible. In particular, it should not
     require significant computer security expertise from its users.
@@ -259,12 +264,12 @@ is necessary.
 \section{Maladaptive Process Confinement Approaches}
 \label{sec:maladaptive}
 
-A \textit{maladaptive} process confinement mechanism is a process confinement
-mechanism which either does not cleanly fit the majority of the adaptive
-properties outlined in \Cref{sec:introduction} (\crefrange{p:1}{p:5}). For
-example, a process confinement mechanism with high reconfigurability and low
-adoption effort, but with low robustness to attacker innovation, low
-transparency, and low usability would constitute a maladaptive approach.
+A \textit{maladaptive} process confinement mechanism is one which does not
+cleanly fit the majority of the adaptive properties outlined in
+\Cref{sec:introduction} (\crefrange{p:1}{p:5}). For example, a process
+confinement mechanism with high reconfigurability and low adoption effort, but
+with low robustness to attacker innovation, low transparency, and low usability
+would constitute a maladaptive approach.
 
 Unfortunately, maladaptive techniques cover the majority or the process
 confinement literature, but many are widely used and studying them can provide
