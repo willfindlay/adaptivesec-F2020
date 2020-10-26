@@ -277,9 +277,44 @@ that often build upon them.
 
 \subsection{Low Level Techniques}
 
-\todo{SELinux, AppArmor, TOMOYO, yama}
+\textit{Discretionary access control} (DAC) forms the most basic access control
+mechanism in many operating systems, including popular commodity operating
+systems such as Linux, MacOS, and Windows.  First defined in a 1983 Department
+of Defense standard \todo{cite}, a discretionary access control system mechanism
+system objects (e.g.~files) by their respective owners, and allows resource
+owners to grant access to other users at their discretion. Typically, these
+systems also provide a special user or role with the power to override
+discretionary access controls, such as the superuser (i.e.~\texttt{root}) in
+Unix-like operating systems and the Administrator role in Windows.
 
-\todo{seccomp-bpf, capsicum, pledge}
+While discretionary access controls themselves are insufficient to implement
+proper process confinement, they do form the basis for the bare minimum level of
+protection available on many operating systems, and are therefore an important
+part of the process confinement discussion. In many cases, user-centric
+discretionary access controls are abused to create per-application
+\enquote{users} and \enquote{groups}. For instance, a common pattern in
+Unix-like systems such as Linux, MacOS, FreeBSD, and OpenBSD is to have specific
+users reserved for security-sensitive applications such as network-facing
+daemons. Many mobile device operating systems, such as Android and iOS, take
+this one step further, instead assigning an application- or developer-specific
+UID and GID to each application on the system that is not part of the trusted
+computing base \todo{cite}.
+
+In theory, these abuses of the DAC model would help mitigate the potential
+damage that a compromised application can do to the resources that belong to
+other users and applications on the system.
+
+\todo{POSIX Capabilities}
+
+%In Unix-like systems such as Linux, MacOS, OpenBSD, and FreeBSD, the most basic
+%form of access control is implemented using Unix DAC (\textit{discretionary
+%access control}), which allows users to
+
+\todo{Namespaces, Cgroups}
+
+\todo{seccomp-bpf, capsicum, pledge, ptrace}
+
+\todo{Linux MAC: LSM Hooks, SELinux, AppArmor, TOMOYO, yama}
 
 \subsection{High Level Techniques}
 
@@ -301,7 +336,7 @@ In Linux, a recent trend of \textit{containerized package management} has emerge
 
 \todo{Firejail, Bubblewrap, mbox}
 
-\todo{bpfbox}
+\todo{Janus}
 
 \section{Semi-Adaptive Process Confinement Approaches}
 \label{sec:semi-adaptive}
@@ -316,6 +351,8 @@ In Linux, a recent trend of \textit{containerized package management} has emerge
 \subsection{Anomaly Detection Techniques}
 
 \subsection{Extended BPF}
+
+\todo{bpfbox}
 
 \section{Conclusion}
 \label{sec:conclusion}
