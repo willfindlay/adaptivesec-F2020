@@ -19,16 +19,6 @@ Mechanisms\\{\large COMP5900I Literature Review}}
 %\affiliation{Carleton University}
 %\email{williamfindlay@cmail.carleton.ca}
 
-\usepackage{adjustbox}
-\usepackage{array}
-
-\newcolumntype{R}[2]{%
-    >{\adjustbox{angle=#1,lap=\width-(#2)}\bgroup}%
-    l%
-    <{\egroup}%
-}
-\newcommand*\rot{\multicolumn{1}{R{45}{1em}}}% no optional argument here, please!
-
 % Add bibliography:
 \addbibresource{references.bib}
 
@@ -123,31 +113,31 @@ help defenders confine their processes, are easily adoptable across a variety of
 system configurations, and are robust in the presence of attacker innovation.
 Roughly, this definition can be broken down into the following properties:
 \begin{enumerate}[label=\bfseries P\arabic*., ref=P\arabic*, labelindent=2em]
-    \item \label{p:1} \textsc{High robustness to attacker innovation.} An adaptive
+    \item \label{p:1} \textsc{Robustness to attacker innovation.} An adaptive
     process confinement mechanism should continue to protect the host system,
     even in the presence of attacker innovation. That is, it should be resistant
     to an adaptive adversary.
 
-    \item \label{p:2} \textsc{Low adoption effort.} An adaptive process
+    \item \label{p:2} \textsc{Adoptability.} An adaptive process
     confinement mechanism should require minimal effort to adopt on a variety of
     system configurations. It should work out of the box on the majority of
     target systems and should be deployable in a production environment without
     major security or stability concerns.
 
-    \item \label{p:3} \textsc{High reconfigurability.} An adaptive process
+    \item \label{p:3} \textsc{Reconfigurability.} An adaptive process
     confinement mechanism should be highly reconfigurable based on the needs of
     the end user and the environment in which it is running. This
     reconfiguration could either be automated, semi-automated, or manual, but
     should not impose significant adoptability barriers (c.f.~\ref{p:2}).
 
-    \item \label{p:4} \textsc{High transparency.} An adaptive process
+    \item \label{p:4} \textsc{Transparency.} An adaptive process
     confinement mechanism should be as transparent to the end user as possible.
     It should not get in the way of ordinary system functionality, and should
     not require the modification of application source code in order to
     function. Further, its base functionality should not require significant
     user intervention, if at all.
 
-    \item \label{p:5} \textsc{High usability (by non-experts).} An adaptive process confinement
+    \item \label{p:5} \textsc{Usability (by non-experts).} An adaptive process confinement
     mechanism should maximize its usability such that it is usable by largest
     and most diverse set of defenders possible. In particular, it should not
     require significant computer security expertise from its users.
@@ -285,18 +275,27 @@ maladaptive approaches into the lower-level techniques (e.g.~at the operating
 system kernel or application source code levels) and the higher-level techniques
 that often build upon them.
 
+% TODO: Maybe move this down ()
 \begin{table}
-\begin{tabular}{ll|ccccc}
-%\hline
-Mechanism & Classification &
-\rot{\ref{p:1} \textsc{Robustness}} &
-\rot{\ref{p:1} \textsc{Robustness}} &
-\rot{\ref{p:1} \textsc{Robustness}} &
-\rot{\ref{p:1} \textsc{Robustness}} &
-\rot{\ref{p:1} \textsc{Robustness}} \\
-\hline
-Foo & Bar & \fullc & \fullc  & \fullc  & \fullc  & \fullc \\
-\hline
+\begin{tabular}{llccccc}
+    %\toprule
+    Mechanism & Classification &
+    \rot{\ref{p:1} Robustness} &
+    \rot{\ref{p:2} Adoptability} &
+    \rot{\ref{p:3} Reconfigurability} &
+    \rot{\ref{p:4} Transparency} &
+    \rot{\ref{p:5} Usability} \\
+    \midrule
+    Unix DAC & Maladaptive & \emptyc & - & \halfc  & \halfc  & \halfc \\
+    POSIX Capabilities & Maladaptive & \emptyc & - & \halfc  & \halfc  & \emptyc \\
+    Namespaces + Cgroups & Maladaptive & \halfc & - & \emptyc  & \emptyc  & \emptyc \\
+    %Cgroups & Maladaptive & \emptyc & - & \emptyc  & \emptyc  & \emptyc \\
+    % TODO:
+    seccomp-bpf & Maladaptive & \halfc & - & \emptyc  & \emptyc  & \emptyc \\
+    capsicum & Maladaptive & \halfc & - & \halfc  & \emptyc  & \emptyc \\
+    pledge & Maladaptive & \halfc & - & \halfc  & \emptyc  & \emptyc \\
+    ptrace & Maladaptive & \halfc & - & \halfc  & \emptyc  & \emptyc \\
+    \bottomrule
 \end{tabular}
 \caption{Test}
 \label{tab:maladaptive}
@@ -304,14 +303,25 @@ Foo & Bar & \fullc & \fullc  & \fullc  & \fullc  & \fullc \\
 
 \subsection{Low Level Techniques}
 
-\textit{Discretionary access control} (DAC) forms the most basic access control
-mechanism in many operating systems, including popular commodity operating
-systems such as Linux, MacOS, and Windows.  First formalized in the 1983
-Department of Defense standard \cite{orange_book}, a discretionary access
-control system mechanism system objects (e.g.~files) by their respective owners,
-and allows resource owners to grant access to other users at their discretion.
-Typically, these systems also provide a special user or role with the power to
-override discretionary access controls, such as the superuser
+In this section, I discuss many of the low level techniques used to implement
+process confinement. Notably, many of these techniques were not designed
+expressly for the purpose of directly confining processes. Rather, they are
+often used in \textit{combination} by higher level process confinement
+mechanisms, many of which are discussed in \Cref{sec:high-level}. Despite the
+fact that many of these techniques come pre-enabled on their respective operating
+systems, they all suffer to some in extent in the robustness, reconfigurability,
+transparency, and usability categories, which cements their position as
+maladaptive approaches.
+
+\paragraph*{Discretionary Access Control}
+Discretionary access control (DAC) forms the most basic access control mechanism
+in many operating systems, including popular commodity operating systems such as
+Linux, MacOS, and Windows.  First formalized in the 1983 Department of Defense
+standard \cite{orange_book}, a discretionary access control system mechanism
+system objects (e.g.~files) by their respective owners, and allows resource
+owners to grant access to other users at their discretion.  Typically, systems
+implementing discretionary access control also provide a special user or role
+with the power to override discretionary access controls, such as the superuser
 (i.e.~\texttt{root}) in Unix-like operating systems and the Administrator role
 in Windows.
 
@@ -324,8 +334,9 @@ discretionary access controls are abused to create per-application
 Unix-like systems such as Linux, MacOS, FreeBSD, and OpenBSD is to have specific
 users reserved for security-sensitive applications such as network-facing
 daemons. The Android mobile operating system takes this one step further,
-instead assigning an application- or developer-specific UID and GID to
-\textit{each} application on the system \cite{android_security}.
+instead assigning an application- or developer-specific UID (user ID) and GID
+(group ID) to \textit{each} application installed on the device
+\cite{android_security}.
 
 In theory, these abuses of the DAC model would help mitigate the potential
 damage that a compromised application can do to the resources that belong to
@@ -340,25 +351,124 @@ Related to discretionary access control are POSIX capabilities
 \cite{posix_capabilities,corbet2006_capabities_a,corbet2006_capabities_b}, which
 can be used to grant additional privileges to specific processes, overriding
 existing discretionary permissions. This provides a finer-grained alternative to
-the all-or-nothing superuser privileges that would be required by certain
-applications. For instance, a web-facing process that requires access to
-privileged ports has no business overriding file permissions. POSIX capabilities
-provide an interface for making such distinctions. Despites these benefits,
-POSIX capabilities have been criticized for adding additional complexity to an
-increasingly complex Linux permission model
-\cite{corbet2006_capabities_b,corbet2006_capabities_a}.
+the all-or-nothing superuser privileges required by certain applications. For
+instance, a web-facing process that requires access to privileged ports has no
+business overriding file permissions. POSIX capabilities provide an interface
+for making such distinctions. Despite these benefits, POSIX capabilities have
+been criticized for adding additional complexity to an increasingly complex
+Linux permission model \cite{corbet2006_capabities_b,corbet2006_capabities_a}.
+Further, POSIX capabilities do nothing to confine processes---rather, they help
+to solve the problem of overprivileged processes by limiting the privileges that
+need to be given to them in the first place.
 
-%In Unix-like systems such as Linux, MacOS, OpenBSD, and FreeBSD, the most basic
-%form of access control is implemented using Unix DAC (\textit{discretionary
-%access control}), which allows users to
+\paragraph*{Namespaces and Cgroups}
+In Linux, \textit{namespaces} and \textit{cgroups} (short for control groups)
+allow for further confinement of processes by restricting the system resources
+that a process or group of processes is allowed to access. Namespaces isolate
+access by providing a process group a private, virtualized naming of a class of
+resources, such as process IDs, filesystem mountpoints, and user IDs. As of
+version 5.6, Linux supports eight distinct namespaces, depicted in
+\Cref{tab:namespaces}.  Complementary to namespaces, cgroups place limits on
+\textit{quantities} of system resources that can be used, such as CPU, memory,
+and block device I/O.  Namespaces and cgroups provide fine granularity for
+limiting the resources that a process or process group can access; however,
+these are low level mechanisms designed to be used by application developers and
+higher level frameworks, and thus do not constitute an adaptive process
+confinement mechanism by themselves.
 
-\todo{Namespaces, Cgroups}
+\begin{table}
+\begin{tabular}{lp{3in}}
+    \toprule
+    Namespace & Isolates \\
+    \midrule
+    \multirow{1}{*}{PID} & Process IDs (PIDs)\\
+    \multirow{1}{*}{Mount} & Filesystem mountpoints\\
+    \multirow{1}{*}{Network} & Networking stack\\
+    \multirow{1}{*}{UTS} & Host and domain names\\
+    \multirow{1}{*}{IPC} & Inter-process communication mechanisms\\
+    \multirow{1}{*}{User} & User IDs (UIDs) and group IDs (GIDs)\\
+    \multirow{1}{*}{Time} & System time\\
+    \multirow{1}{*}{Cgroup} & Visibility of cgroup membership\\
+    \bottomrule
+\end{tabular}
+\caption{Linux namespaces and what they can be used to isolate.}
+\label{tab:namespaces}
+\end{table}
 
-\todo{seccomp-bpf, capsicum, pledge, ptrace}
+\paragraph*{System Call Interposition}
+System call interposition has historically been a very popular process
+confinement technique, and a number of frameworks exist for system call
+interposition on a variety of Unix-like operating systems
+\cite{anderson2017_comparison, padala2002_ptrace, watson2010_capsicum, pledge}.
+System calls define significant portions of the boundary between userspace
+and kernelspace, and, as such, define the interface to the operating system's reference
+monitor \cite{anderson1973_reference_monitor}; this makes system call interposition
+a particularly appealing technique for implementing enhanced security policies.
+
+Perhaps the most pervasive framework for interposing on system calls is
+ptrace \cite{padala2002_ptrace}, a process tracing and debugging framework that
+comes enabled in some form or another on all Unix-like operating systems.  While
+ptrace itself is \textit{not} designed process confinement, some research
+prototypes \cite{goldberg96_janus, jain05_janus2, wagner1999_janus} have
+leveraged it in the past. Unfortunately, ptrace is not generally considered
+production-safe due to its high overhead and buggy interactions with more
+complex programs such as sendmail. This is especially problematic considering
+that these are the types of programs that we often wish to confine.
+
+Anderson published a study in the FreeBSD journal \cite{anderson2017_comparison}
+comparing three system call interposition frameworks for three distinct
+Unix-like operating systems: Linux's seccomp-bpf
+\cite{seccomp_bpf,drewry2012_seccomp_bpf}, OpenBSD's pledge \cite{pledge}, and
+FreeBSD's Capsicum \cite{capsicum, watson2010_capsicum}. While these three
+frameworks all interpose on system calls, they do so with varying degrees of
+complexity and granularity \cite{anderson2017_comparison}, and so each merits
+study in its own regard.
+
+In the original Linux seccomp implementation, processes use a special
+\texttt{seccomp(2)} system call to enter a secure computing state. By default,
+processes that have entered this state are restricted to performing
+\texttt{read(2)}, \texttt{write(2)}, \texttt{sigreturn(2)}, and \texttt{exit(2)}
+system calls.  Pragmatically, this means that a process could read and write on
+its open file descriptors, return from invoked signal handlers, and terminate
+itself. All violations of this policy would result in forced termination. In
+a 2012 RFC \cite{drewry2012_seccomp_bpf}, Drewry introduced an extension to
+seccomp enabling the use of BPF programs\footnote{BPF is a special bytecode
+language, originally implemented for packet filtering in BSD Unix
+\cite{classic_bpf}.} for the defining filters on system call arguments. This
+extension, dubbed seccomp-bpf, enables the creation of fine-grained seccomp
+policies that filter on system call numbers and arguments, providing a high
+degree of control to applications that wish to sandbox themselves.
+
+Despite the high degree of control that seccomp-bpf offers to applications, it
+has severe usability and security concerns, which make it a poor solution for
+ad-hoc confinement by end users. Classic BPF \cite{classic_bpf} is a rather
+arcane bytecode language, and writing classic BPF programs by hand is a task
+left only to expert users. Further, seccomp-bpf policy is easy to misconfigure,
+resulting in potential security violations; for instance, a policy that
+specifies restrictions on the \texttt{open(2)} system call but not the
+\texttt{openat(2)} system call can be circumvented entirely. Finally, despite
+userspace library efforts to abstract away the underlying BPF programs
+\cite{libseccomp}, seccomp-bpf remains accessible only to application developers
+with significant security expertise.
+
+OpenBSD's pledge \cite{pledge} takes a simpler a coarser-grained approach to
+system call filtering than seccomp-bpf, instead grouping system calls into
+high-level semantically meaningful categories, such as \texttt{stdio} which
+includes \texttt{read(2)} and \texttt{write(2)}, for example
+\cite{anderson2017_comparison}. This coarse granularity and simplicity provide
+increased usability, but come at the expense of expressiveness. For instance,
+there is no canonical way to distinguish subsets of system call groups or filter
+system calls by their arguments.  Despite its increased usability for
+developers, pledge still suffers from a lack of application transparency just as
+seccomp-bpf does, meaning that it is only suitable for use by application
+developers rather than end users.
+
+\paragraph*{Mandatory Access Control}
 
 \todo{Linux MAC: LSM Hooks, SELinux, AppArmor, TOMOYO, yama}
 
 \subsection{High Level Techniques}
+\label{sec:high-level}
 
 In Linux, a recent trend of \textit{containerized package management} has emerged.
 \todo{Snapcraft, Docker, Flatpak}
@@ -401,7 +511,7 @@ In Linux, a recent trend of \textit{containerized package management} has emerge
 
 
 % Uncomment for bibliography:
-%\nocite{*} % TODO: Comment this out when done
+\nocite{*} % TODO: Comment this out when done
 \clearpage
 \printbibliography
 
