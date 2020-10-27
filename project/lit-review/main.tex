@@ -451,7 +451,7 @@ userspace library efforts to abstract away the underlying BPF programs
 \cite{libseccomp}, seccomp-bpf remains accessible only to application developers
 with significant security expertise.
 
-OpenBSD's pledge \cite{pledge} takes a simpler a coarser-grained approach to
+OpenBSD's pledge \cite{pledge} takes a simpler, coarser-grained approach to
 system call filtering than seccomp-bpf, instead grouping system calls into
 high-level semantically meaningful categories, such as \texttt{stdio} which
 includes \texttt{read(2)} and \texttt{write(2)}, for example
@@ -463,7 +463,9 @@ developers, pledge still suffers from a lack of application transparency just as
 seccomp-bpf does, meaning that it is only suitable for use by application
 developers rather than end users.
 
-\paragraph*{Mandatory Access Control}
+\todo{Capsicum}
+
+\paragraph*{Linux Security Modules and Mandatory Access Control}
 
 \todo{Linux MAC: LSM Hooks, SELinux, AppArmor, TOMOYO, yama}
 
