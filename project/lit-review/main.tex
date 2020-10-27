@@ -463,7 +463,15 @@ developers, pledge still suffers from a lack of application transparency just as
 seccomp-bpf does, meaning that it is only suitable for use by application
 developers rather than end users.
 
-\todo{Capsicum}
+Unlike seccomp-bpf and pledge, which apply filtering rules to system calls
+directly, FreeBSD's Capsicum takes the approach of restricting access to global
+namespaces via a capbility-based implementation \cite{watson2010_capsicum}. In
+Capsicum, a process enters \textit{capability mode}  using a special
+\texttt{cap\_enter} system call. Once in capability mode, access to global
+namespaces is restricted to the capabilities requested by the process, and these
+capabilities are inherited across \texttt{fork(2)} and \texttt{execve(2)} calls.
+Much like seccomp-bpf and pledege, however, Capsicum is \textit{not} application
+transparent, and is designed for use by developers rather than end users.
 
 \paragraph*{Linux Security Modules and Mandatory Access Control}
 
@@ -472,7 +480,15 @@ developers rather than end users.
 \subsection{High Level Techniques}
 \label{sec:high-level}
 
-In Linux, a recent trend of \textit{containerized package management} has emerged.
+In Linux, a recent trend of \textit{containerized package management} has
+emerged \cite{docker, snap, flatpak}, allowing users to download applications as
+packages which are then confined using a combination of lower level techniques
+exposed by the operating system. Typically a package maintainer or application
+author would write a high-level package manifest declaring the privileges required
+by the application. This package manifest would then be translated into policy
+for the underlying process confinement mechanisms. This architecture is depicted
+in \Cref{fig:containerized}.
+
 \todo{Snapcraft, Docker, Flatpak}
 
 \begin{figure}[htpb]
