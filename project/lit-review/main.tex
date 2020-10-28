@@ -36,6 +36,23 @@ Mechanisms\\{\large COMP5900I Literature Review}}
   leftmargin=*
 }
 
+\newcommand\YAMLkeystyle{\bfseries\color{listing-keyword-3}}
+\newcommand\YAMLcolonstyle{\bfseries\color{listing-keyword-3}}
+\newcommand\YAMLvaluestyle{\normalfont\ttfamily\color{listing-string}}
+
+\lstdefinelanguage{yaml}{
+  keywords={true,false,null,y,n},
+  basicstyle=\singlespacing\footnotesize\ttfamily\YAMLkeystyle,
+  sensitive=false,
+  comment=[l]{\#},
+  morecomment=[s]{/*}{*/},
+  stringstyle=\YAMLvaluestyle,
+  moredelim=**[il][\YAMLcolonstyle{:}\YAMLvaluestyle]{:},   % switch to value style at :
+  moredelim=**[l][\YAMLvaluestyle]{-},   % switch to value style at -
+  morestring=[b]',
+  morestring=[b]",
+}
+
 % =========================================================================== %
 % Document                                                                    %
 % =========================================================================== %
@@ -275,32 +292,6 @@ maladaptive approaches into the lower-level techniques (e.g.~at the operating
 system kernel or application source code levels) and the higher-level techniques
 that often build upon them.
 
-% TODO: Maybe move this down ()
-\begin{table}
-\begin{tabular}{llccccc}
-    %\toprule
-    Mechanism & Classification &
-    \rot{\ref{p:1} Robustness} &
-    \rot{\ref{p:2} Adoptability} &
-    \rot{\ref{p:3} Reconfigurability} &
-    \rot{\ref{p:4} Transparency} &
-    \rot{\ref{p:5} Usability} \\
-    \midrule
-    Unix DAC & Maladaptive & \emptyc & - & \halfc  & \halfc  & \halfc \\
-    POSIX Capabilities & Maladaptive & \emptyc & - & \halfc  & \halfc  & \emptyc \\
-    Namespaces + Cgroups & Maladaptive & \halfc & - & \emptyc  & \emptyc  & \emptyc \\
-    %Cgroups & Maladaptive & \emptyc & - & \emptyc  & \emptyc  & \emptyc \\
-    % TODO:
-    seccomp-bpf & Maladaptive & \halfc & - & \emptyc  & \emptyc  & \emptyc \\
-    capsicum & Maladaptive & \halfc & - & \halfc  & \emptyc  & \emptyc \\
-    pledge & Maladaptive & \halfc & - & \halfc  & \emptyc  & \emptyc \\
-    ptrace & Maladaptive & \halfc & - & \halfc  & \emptyc  & \emptyc \\
-    \bottomrule
-\end{tabular}
-\caption{Test}
-\label{tab:maladaptive}
-\end{table}
-
 \subsection{Low Level Techniques}
 \label{sec:low-level}
 
@@ -396,25 +387,63 @@ confinement mechanism by themselves.
 \label{tab:namespaces}
 \end{table}
 
-\paragraph*{System Call Interposition}
-System call interposition has historically been a very popular process
-confinement technique, and a number of frameworks exist for system call
-interposition on a variety of Unix-like operating systems
-\cite{anderson2017_comparison, padala2002_ptrace, watson2010_capsicum, pledge}.
-System calls define significant portions of the boundary between userspace
-and kernelspace, and, as such, define the interface to the operating system's reference
-monitor \cite{anderson1973_reference_monitor}; this makes system call interposition
-a particularly appealing technique for implementing enhanced security policies.
+\paragraph*{System Call Interposition} System call interposition has
+historically been a very popular process confinement technique, and a number of
+frameworks exist today for system call interposition on a variety of Unix-like
+operating systems \cite{anderson2017_comparison, padala2002_ptrace,
+watson2010_capsicum, pledge}.  System calls define significant portions of the
+boundary between userspace and kernelspace, and, as such, they capture
+significant portions of the interface to the operating system's reference
+monitor \cite{anderson1973_reference_monitor}; this makes system call
+interposition a particularly attractive technique for the implementation of
+fine-grained policy enforcement mechanisms.
 
-Perhaps the most pervasive framework for interposing on system calls is
-ptrace \cite{padala2002_ptrace}, a process tracing and debugging framework that
-comes enabled in some form or another on all Unix-like operating systems.  While
+One of the earliest forays into system call interposition for process
+confinement was TRON \cite{berman1995_tron}. Implemented in 1995 for the Unix
+operating system, TRON provided a kernelspace mechanism for enforcing
+\textit{protection domains} on userspace processes. A TRON protection domain can
+be thought of as a set of confined processes, a set of allowed operations, and
+a \textit{violation handler} which is invoked on policy violations. Processes
+configure protection domains and then invoke a special \texttt{tron\_fork}
+system call to spawn a confined child process. While TRON by itself is not
+application transparent, it does come with a set of userspace tools to abstract
+away the configuration of protection domains. Unfortunately, even with these
+higher level userspace tools, TRON still assumes a certain degree of security
+expertise in order for a user to properly confine their applications.
+
+Perhaps the most pervasive framework for interposing on system calls is ptrace
+\cite{padala2002_ptrace}, a process tracing and debugging framework that comes
+enabled in some form or another on all Unix-like operating systems.  While
 ptrace itself is \textit{not} designed process confinement, some research
-prototypes \cite{goldberg96_janus, jain05_janus2, wagner1999_janus} have
-leveraged it in the past. Unfortunately, ptrace is not generally considered
-production-safe due to its high overhead and buggy interactions with more
-complex programs such as sendmail. This is especially problematic considering
-that these are the types of programs that we often wish to confine.
+prototypes \cite{goldberg96_janus, wagner1999_janus} have leveraged it in the
+past. Unfortunately, ptrace is not generally considered production-safe due to
+its high overhead and buggy interactions with more complex programs such as
+sendmail. This is especially problematic considering that these are the types of
+programs that we often wish to confine.
+
+Janus \cite{goldberg96_janus} was an early exploration of process confinement
+using Solaris' version of ptrace. In Solaris, ptrace provides a library call
+interface into the procfs virtual file system, and allows tracer applications
+make filtering decisions on behalf of traced processes while interposing on
+system calls. Janus was later ported to Linux using a modified version of
+Linux's \texttt{ptrace(2)} system call \cite{wagner1999_janus}. In Janus,
+a supervisor process reads a policy file, and attaches itself to a confined
+process with ptrace. From there, security-sensitive system calls in the confined
+application are forwarded to the Janus supervisor process to make a policy
+decision. This approach, however, adds considerable overhead to confined
+processes because ptrace requires \textit{multiple} context switches between
+userspace and kernelspace to coordinate between the tracer and tracee.
+
+To implement its policy language, Janus defines higher level interfaces into
+various groups of system calls, called \textit{policy modules}. These policy
+modules can be used to filter groups of related system calls by parameterizing
+them with the set of allowed actions and system objects. While this abstraction
+is helpful to group system calls by their related functionality, it does little
+to help Janus' usability, which is still tightly coupled with the underlying
+system calls. This makes it difficult for a non-expert user to write effective
+Janus policy.
+
+\todo{Talk maybe about Jain and Sekar's work, similar to Janus. If I do talk about this, add it to the summary table}
 
 Anderson published a study in the FreeBSD journal \cite{anderson2017_comparison}
 comparing three system call interposition frameworks for three distinct
@@ -423,13 +452,13 @@ drewry2012_seccomp_bpf}, OpenBSD's pledge \cite{pledge}, and FreeBSD's Capsicum
 \cite{capsicum, watson2010_capsicum}. While these three frameworks all interpose
 on system calls, they do so with varying degrees of complexity and granularity
 \cite{anderson2017_comparison}, and so each merits study in its own regard.
-\Cref{fig:syscall_interposition} presents an overview of the usability, security,
+\Cref{fig:syscall_interposition} presents an overview of the security
 and granularity trade-offs in each framework.
 
 \begin{figure}[htpb]
     \centering
     \includegraphics[width=0.8\linewidth]{figs/systemcall-interposition.pdf}
-    \caption{Usability, security, and granularity trade-offs of pledge,
+    \caption{Security and granularity trade-offs of pledge,
     Capsicum, and seccomp-bpf.}%
     \label{fig:syscall_interposition}
 \end{figure}
@@ -444,10 +473,12 @@ itself. All violations of this policy would result in forced termination. In
 a 2012 RFC \cite{drewry2012_seccomp_bpf}, Drewry introduced an extension to
 seccomp enabling the use of BPF programs\footnote{BPF is a special bytecode
 language, originally implemented for packet filtering in BSD Unix
-\cite{classic_bpf}.} for the defining filters on system call arguments. This
-extension, dubbed seccomp-bpf, enables the creation of fine-grained seccomp
-policies that filter on system call numbers and arguments, providing a high
-degree of control to applications that wish to sandbox themselves.
+\cite{classic_bpf}. In seccomp-bpf, it was retrofitted for the purpose of
+filtering system calls instead.} for the defining filters on system call
+arguments. This extension, dubbed seccomp-bpf, enables the creation of
+fine-grained seccomp policies that filter on system call numbers and arguments,
+providing a high degree of control to applications that wish to sandbox
+themselves.
 
 Despite the high degree of control that seccomp-bpf offers to applications, it
 has severe usability and security concerns, which make it a poor solution for
@@ -475,12 +506,12 @@ developers rather than end users.
 
 Unlike seccomp-bpf and pledge, which apply filtering rules to system calls
 directly, FreeBSD's Capsicum takes the approach of restricting access to global
-namespaces via a capbility-based implementation \cite{watson2010_capsicum}. In
+namespaces via a capability-based implementation \cite{watson2010_capsicum}. In
 Capsicum, a process enters \textit{capability mode}  using a special
 \texttt{cap\_enter} system call. Once in capability mode, access to global
 namespaces is restricted to the capabilities requested by the process, and these
 capabilities are inherited across \texttt{fork(2)} and \texttt{execve(2)} calls.
-Much like seccomp-bpf and pledege, however, Capsicum is \textit{not} application
+Much like seccomp-bpf and pledge, however, Capsicum is \textit{not} application
 transparent, and is designed for use by developers rather than end users.
 
 \paragraph*{Linux Security Modules and Mandatory Access Control}
@@ -490,7 +521,14 @@ transparent, and is designed for use by developers rather than end users.
 \subsection{High Level Techniques}
 \label{sec:high-level}
 
-\paragraph*{Docker, Snap, and Flatpak}
+In this section, I examine some higher level process confinement techniques that
+typically employ more than one of the lower level techniques described in the
+previous section (\Cref{sec:low-level}). Although these solutions generally
+constitute higher level abstractions, they are not strictly any better than
+their lower level counterparts, particularly with respect to the adaptive
+process confinement properties outlined in \Cref{sec:introduction}.
+
+\paragraph*{Containerized Package Management}
 In Linux, a recent trend of \textit{containerized package management} has
 emerged, allowing users to download applications as packages which are then
 confined using a combination of lower level techniques exposed by the operating
@@ -528,19 +566,92 @@ lines of policy across multiple underlying process confinement mechanisms; thus,
 auditing the generated policy also becomes a seemingly hopeless task, even for
 seasoned security experts.
 
-As a motivating example, consider the package manifest for Snap's Apache
-\texttt{httpd} package. \todo{present package manifest...}
+As a motivating example, consider the package manifest for Snap's Nextcloud\footnote{\url{https://snapcraft.io/nextcloud}}
+package, which includes the Apache \texttt{httpd} websever. The package
+manifest lists the following permissions for Apache \texttt{httpd}:
 
-\todo{Firejail, Bubblewrap}
+\begin{listing}[language=yaml]
+confine: strict
+/* ... */
+apache:
+  daemon: simple
+  plugs:
+  - network
+  - network-bind
+  - removable-media
+\end{listing}
 
-\todo{Janus, mbox}
+The result, after policy generation, is 411 seccomp-bpf filters and a 653 line
+AppArmor policy. The policy is overly permissive, covering a broad scope of
+capabilities beyond what would be expected based on the three lines of security
+policy defined in the manifest. For instance, the AppArmor profile allows the
+execution of over 120 common shell utilities, which is not indicated in the
+manifest whatsoever. Further, the policy defined in the generated seccomp-bpf
+policy file often does not align with the policy defined in the generated
+AppArmor file, adding an extra layer of difficulty to auditing the generated
+policy.
+
+\paragraph*{Confinement with Wrapper Applications}
+
+\todo{Firejail, Bubblewrap, mbox}
+
+\subsection{Summary of Maladaptive Techniques}
+
+\FloatBarrier
+
+% TODO: Maybe move this down ()
+\begin{table}
+\begin{tabular}{rcccccl}
+    \toprule
+    Mechanism &
+    \rot{\ref{p:1} Robustness} &
+    \rot{\ref{p:2} Adoptability} &
+    \rot{\ref{p:3} Reconfigurability} &
+    \rot{\ref{p:4} Transparency} &
+    \rot{\ref{p:5} Usability} &
+    Score (max 5) \\
+    \midrule
+    %Unix DAC            & \emptyc & -       & \halfc  & \halfc  & \halfc  & Maladaptive \\
+    POSIX Capabilities   & \emptyc & \halfc  & \halfc  & \halfc  & \emptyc & 1.5         \\
+    Namespaces + Cgroups & \halfc  & \halfc  & \halfc  & \emptyc & \emptyc & 1.5         \\
+    ptrace               & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & 0           \\
+    Janus                & \halfc  & \emptyc & \halfc  & \halfc  & \emptyc & 1.5         \\
+    seccomp-bpf          & \halfc  & \halfc  & \emptyc & \emptyc & \emptyc & 1           \\
+    capsicum             & \halfc  & \halfc  & \emptyc & \emptyc & \emptyc & 1           \\
+    pledge               & \emptyc & \halfc  & \emptyc & \emptyc & \emptyc & 0.5         \\
+    SELinux              & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
+    AppArmor             & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
+    TOMOYO               & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
+    Yama                 & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
+    %bpfbox               & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
+    \hline
+    Docker               & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
+    Snap                 & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
+    Flatpak              & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
+    Firejail             & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
+    Bubblewrap           & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
+    mbox                 & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
+    \bottomrule
+\end{tabular}
+\caption{The adaptive evaluation for process confinement techniques discussed in
+this section. Since Unix DAC is not a process confinement mechanism in its own
+right, it is omitted here. Note that scores for lower level mechanisms \textit{do not}
+consider the merits of the higher level mechanisms that make use of them.}
+\label{tab:maladaptive}
+\end{table}
 
 \section{Semi-Adaptive Process Confinement Approaches}
 \label{sec:semi-adaptive}
 
-\subsection{Automated Policy Generation}
+\subsection{(Semi-)Automated Policy Generation}
 
-\subsection{Automated Policy Auditing}
+\todo{aa\_easyprof, audit2allow, Madison, Polgen}
+
+\todo{systrace}
+
+\todo{Inoue Java policy}
+
+\subsection{(Semi-)Automated Policy Auditing}
 
 \section{Towards Truly Adaptive Process Confinement}
 \label{sec:towards}
