@@ -75,7 +75,7 @@ Mechanisms\\{\large COMP5900I Literature Review}}
 \setcounter{page}{1}
 
 % Uncomment for 1.5 spacing:
-%\onehalfspacing
+\onehalfspacing
 
 \section{Introduction}
 \label{sec:introduction}
@@ -205,7 +205,7 @@ system security, stability, and user privacy.
 
     \item \label{a:3} \textsc{Malicious software.} In contrast to semi-honest
     software, malicious software is that which is expressly designed and
-    distributed with malicious intent. Typically this software would be
+    distributed with malicious intent. Typically, this software would be
     downloaded by an unsuspecting user either through social engineering
     (e.g.~fake antivirus scams) or without the user's knowledge (e.g.~a drive-by
     download attack). It would be useful to provide the user with a means of
@@ -302,6 +302,7 @@ that often build upon them.
 \end{table}
 
 \subsection{Low Level Techniques}
+\label{sec:low-level}
 
 In this section, I discuss many of the low level techniques used to implement
 process confinement. Notably, many of these techniques were not designed
@@ -317,7 +318,7 @@ maladaptive approaches.
 Discretionary access control (DAC) forms the most basic access control mechanism
 in many operating systems, including popular commodity operating systems such as
 Linux, MacOS, and Windows.  First formalized in the 1983 Department of Defense
-standard \cite{orange_book}, a discretionary access control system mechanism
+standard \cite{orange_book}, a discretionary access control system partitions
 system objects (e.g.~files) by their respective owners, and allows resource
 owners to grant access to other users at their discretion.  Typically, systems
 implementing discretionary access control also provide a special user or role
@@ -417,12 +418,21 @@ that these are the types of programs that we often wish to confine.
 
 Anderson published a study in the FreeBSD journal \cite{anderson2017_comparison}
 comparing three system call interposition frameworks for three distinct
-Unix-like operating systems: Linux's seccomp-bpf
-\cite{seccomp_bpf,drewry2012_seccomp_bpf}, OpenBSD's pledge \cite{pledge}, and
-FreeBSD's Capsicum \cite{capsicum, watson2010_capsicum}. While these three
-frameworks all interpose on system calls, they do so with varying degrees of
-complexity and granularity \cite{anderson2017_comparison}, and so each merits
-study in its own regard.
+Unix-like operating systems: Linux's seccomp-bpf \cite{seccomp_bpf,
+drewry2012_seccomp_bpf}, OpenBSD's pledge \cite{pledge}, and FreeBSD's Capsicum
+\cite{capsicum, watson2010_capsicum}. While these three frameworks all interpose
+on system calls, they do so with varying degrees of complexity and granularity
+\cite{anderson2017_comparison}, and so each merits study in its own regard.
+\Cref{fig:syscall_interposition} presents an overview of the usability, security,
+and granularity trade-offs in each framework.
+
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figs/systemcall-interposition.pdf}
+    \caption{Usability, security, and granularity trade-offs of pledge,
+    Capsicum, and seccomp-bpf.}%
+    \label{fig:syscall_interposition}
+\end{figure}
 
 In the original Linux seccomp implementation, processes use a special
 \texttt{seccomp(2)} system call to enter a secure computing state. By default,
@@ -480,20 +490,22 @@ transparent, and is designed for use by developers rather than end users.
 \subsection{High Level Techniques}
 \label{sec:high-level}
 
+\paragraph*{Docker, Snap, and Flatpak}
 In Linux, a recent trend of \textit{containerized package management} has
-emerged \cite{docker, snap, flatpak}, allowing users to download applications as
-packages which are then confined using a combination of lower level techniques
-exposed by the operating system. Typically a package maintainer or application
-author would write a high-level package manifest declaring the privileges required
-by the application. This package manifest would then be translated into policy
-for the underlying process confinement mechanisms. This architecture is depicted
-in \Cref{fig:containerized}.
-
-\todo{Snapcraft, Docker, Flatpak}
+emerged, allowing users to download applications as packages which are then
+confined using a combination of lower level techniques exposed by the operating
+system. Among the most popular of these containerized package management
+frameworks are Docker \cite{docker}, Snap \cite{snap}, and Flatpak
+\cite{flatpak}. Typically, a package maintainer or application author would
+write a high-level package manifest declaring the privileges required by the
+application. This package manifest would then be translated into policy for the
+underlying process confinement mechanisms (such as those presented in
+\Cref{sec:low-level}).  This architecture is depicted in
+\Cref{fig:containerized}.
 
 \begin{figure}[htpb]
     \centering
-    \includegraphics[width=0.8\linewidth]{figs/high-level.pdf}
+    \includegraphics[width=0.9\linewidth]{figs/high-level.pdf}
     \caption{
         The basic architecture of containerized package management solutions for
         Linux, such as Snapcraft \cite{snap}, Flatpak \cite{flatpak}, and Docker
@@ -504,9 +516,24 @@ in \Cref{fig:containerized}.
     \label{fig:containerized}
 \end{figure}
 
-\todo{Firejail, Bubblewrap, mbox}
+Despite their widespread adoption, these containerized package management
+solutions are far from perfect \cite{sultan2019_container_security}. Due to the
+coarse granularity of package manifests and high complexity of the underlying
+policy enforcement mechanisms, policy for containerized applications tends
+toward gross overpermission. Auditability of policy also suffers due to the
+disparity between user \textit{expectations} of protection described in package
+manifests and the actual policy which is enforced in practice. In effect, five
+or six lines of policy in a package manifest may end up generating thousands of
+lines of policy across multiple underlying process confinement mechanisms; thus,
+auditing the generated policy also becomes a seemingly hopeless task, even for
+seasoned security experts.
 
-\todo{Janus}
+As a motivating example, consider the package manifest for Snap's Apache
+\texttt{httpd} package. \todo{present package manifest...}
+
+\todo{Firejail, Bubblewrap}
+
+\todo{Janus, mbox}
 
 \section{Semi-Adaptive Process Confinement Approaches}
 \label{sec:semi-adaptive}
