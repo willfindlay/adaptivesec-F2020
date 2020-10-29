@@ -27,32 +27,6 @@ Mechanisms\\{\large COMP5900I Literature Review}}
 
 \lhead{Towards Adaptive Process Confinement Mechanisms}
 
-% Magic to stop overfull hbox in bibliography!
-\emergencystretch=1em
-
-\ExecuteBibliographyOptions{maxbibnames=999}
-
-\setlist[enumerate]{
-  leftmargin=*
-}
-
-\newcommand\YAMLkeystyle{\bfseries\color{listing-keyword-3}}
-\newcommand\YAMLcolonstyle{\bfseries\color{listing-keyword-3}}
-\newcommand\YAMLvaluestyle{\normalfont\ttfamily\color{listing-string}}
-
-\lstdefinelanguage{yaml}{
-  keywords={true,false,null,y,n},
-  basicstyle=\singlespacing\footnotesize\ttfamily\YAMLkeystyle,
-  sensitive=false,
-  comment=[l]{\#},
-  morecomment=[s]{/*}{*/},
-  stringstyle=\YAMLvaluestyle,
-  moredelim=**[il][\YAMLcolonstyle{:}\YAMLvaluestyle]{:},   % switch to value style at :
-  moredelim=**[l][\YAMLvaluestyle]{-},   % switch to value style at -
-  morestring=[b]',
-  morestring=[b]",
-}
-
 % =========================================================================== %
 % Document                                                                    %
 % =========================================================================== %
@@ -421,18 +395,19 @@ its high overhead and buggy interactions with more complex programs such as
 sendmail. This is especially problematic considering that these are the types of
 programs that we often wish to confine.
 
-Janus \cite{goldberg96_janus} was an early exploration of process confinement
-using Solaris' version of ptrace. In Solaris, ptrace provides a library call
-interface into the procfs virtual file system, and allows tracer applications
-make filtering decisions on behalf of traced processes while interposing on
-system calls. Janus was later ported to Linux using a modified version of
-Linux's \texttt{ptrace(2)} system call \cite{wagner1999_janus}. In Janus,
-a supervisor process reads a policy file, and attaches itself to a confined
-process with ptrace. From there, security-sensitive system calls in the confined
-application are forwarded to the Janus supervisor process to make a policy
-decision. This approach, however, adds considerable overhead to confined
-processes because ptrace requires \textit{multiple} context switches between
-userspace and kernelspace to coordinate between the tracer and tracee.
+Janus \cite{goldberg96_janus,wagner1999_janus} was an early exploration of
+process confinement using Solaris' version of ptrace. In Solaris, ptrace
+provides a library call interface into the procfs virtual file system, and
+allows tracer applications make filtering decisions on behalf of traced
+processes while interposing on system calls. Janus was later ported to Linux
+using a modified version of Linux's \texttt{ptrace(2)} system call
+\cite{wagner1999_janus}. In Janus, a supervisor process reads a policy file, and
+attaches itself to a confined process with ptrace. From there,
+security-sensitive system calls in the confined application are forwarded to the
+Janus supervisor process to make a policy decision. This approach, however, adds
+considerable overhead to confined processes because ptrace requires
+\textit{multiple} context switches between userspace and kernelspace to
+coordinate between the tracer and tracee.
 
 To implement its policy language, Janus defines higher level interfaces into
 various groups of system calls, called \textit{policy modules}. These policy
@@ -514,9 +489,54 @@ capabilities are inherited across \texttt{fork(2)} and \texttt{execve(2)} calls.
 Much like seccomp-bpf and pledge, however, Capsicum is \textit{not} application
 transparent, and is designed for use by developers rather than end users.
 
-\paragraph*{Linux Security Modules and Mandatory Access Control}
+\paragraph*{Linux Security Modules}
+The Linux Security Modules (LSM) API \cite{wright2002_lsm} provides an
+extensible security framework for the Linux kernel, allowing for the
+implementation of powerful kernelspace security mechanisms that can be chained
+together. LSM works by integrating a series of strategically placed
+\textit{security hooks} into kernelspace code. These hooks roughly correspond
+with boundaries for the modification of kernel objects. Multiple security
+implementations can hook into these LSM hooks and provide callbacks that
+generate audit logs and make policy decisions.
 
-\todo{Linux MAC: LSM Hooks, SELinux, AppArmor, TOMOYO, yama}
+The LSM API sits at a level of abstraction just above the system call API---a
+single LSM hook may cover multiple system calls and a single system call may
+contain multiple such LSM hooks. For instance, the \texttt{execve(2)} and
+\texttt{execveat(2)} calls both result in a call to the
+\texttt{bprm\_set\_creds} and  \texttt{bprm\_committing\_creds} hooks. This
+provides a nice level of abstraction compared to system-call-based approaches
+like seccomp-bpf \cite{seccomp_bpf, drewry2012_seccomp_bpf} in that a single LSM
+hook can cover all closely related security events (recall the issue of
+\texttt{open(2)} vs \texttt{openat(2)} in seccomp-bpf).
+
+The Linux kernel ships with a number of LSM-based security modules by default.
+Many such modules implement \textit{mandatory access control} (MAC) schemes,
+which enable fine-grained access control that can be used to limit the
+privileges of \textit{all users}---even the superuser. SELinux
+\cite{smalley2001_selinux} and AppArmor \cite{cowan2000_apparmor}, are two such
+MAC LSMs, each with its own policy semantics. I discuss each in turn.
+
+SELinux \cite{smalley2001_selinux} was originally developed by the NSA as
+a Linux implementation of the Flask \cite{spencer1999_flask} security model.
+Under SELinux, system subjects (users, processes, etc.) and system objects
+(files, network sockets, etc.) are each assigned corresponding labels. Security
+policy is then written based on these labels, specifying the allowed access
+patterns between a particular object type and subject type. SELinux's policy
+language is famously arcane \cite{schreuders12_towards}, and despite multiple
+efforts to introduce automatic policy generation \cite{audit2allow,
+macmillan07_madison, macmillan07_madison}, writing and auditing SELinux security
+policy remains a task for security experts rather than end users. Further, due
+to the difficulty of writing and auditing the complex SELinux policy language,
+there is a natural tendency for human policy authors to err on the side of
+over-permission, violating the principle of least privilege.
+
+AppArmor (originally called SubDomain) \cite{cowan2000_apparmor} is often touted
+as a more usable alternative to SELinux. Rather than basing security policy on
+labelling system subjects and objects, AppArmor instead takes the approach of
+path-based enforcement.
+\todo{continue this}
+
+%\todo{Linux MAC: LSM Hooks, SELinux, AppArmor, TOMOYO, yama}
 
 \subsection{High Level Techniques}
 \label{sec:high-level}
@@ -538,7 +558,7 @@ frameworks are Docker \cite{docker}, Snap \cite{snap}, and Flatpak
 write a high-level package manifest declaring the privileges required by the
 application. This package manifest would then be translated into policy for the
 underlying process confinement mechanisms (such as those presented in
-\Cref{sec:low-level}).  This architecture is depicted in
+\Cref{sec:low-level}). This architecture is depicted in
 \Cref{fig:containerized}.
 
 \begin{figure}[htpb]
@@ -591,6 +611,16 @@ policy file often does not align with the policy defined in the generated
 AppArmor file, adding an extra layer of difficulty to auditing the generated
 policy.
 
+Ultimately, the problem with containers as an isolation mechanism lies in the
+complexity of the underlying process confinement mechanisms that they leverage.
+Namespaces, cgroups, and filesystem mounts are used to virtualize the
+containers, while complex mechanisms like seccomp, SELinux, and AppArmor are
+used to enforce least privilege. The simplicity of high-level package manifests
+belies the complexity underneath, wherein full userlands must be secured for
+each application. This can often result in a false sense of security,
+particularly when the underlying process confinement mechanisms are
+misconfigured, transparently to the end user.
+
 \paragraph*{Confinement with Wrapper Applications}
 
 \todo{Firejail, Bubblewrap, mbox}
@@ -613,7 +643,7 @@ policy.
     \midrule
     %Unix DAC            & \emptyc & -       & \halfc  & \halfc  & \halfc  & Maladaptive \\
     POSIX Capabilities   & \emptyc & \halfc  & \halfc  & \halfc  & \emptyc & 1.5         \\
-    Namespaces + Cgroups & \halfc  & \halfc  & \halfc  & \emptyc & \emptyc & 1.5         \\
+    Namespaces + Cgroups & \halfc  & \halfc  & \emptyc & \emptyc & \emptyc & 1           \\
     ptrace               & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & 0           \\
     Janus                & \halfc  & \emptyc & \halfc  & \halfc  & \emptyc & 1.5         \\
     seccomp-bpf          & \halfc  & \halfc  & \emptyc & \emptyc & \emptyc & 1           \\
@@ -622,12 +652,12 @@ policy.
     SELinux              & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
     AppArmor             & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
     TOMOYO               & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
-    Yama                 & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
-    %bpfbox               & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
+    %Yama                 & \emptyc & \halfc  & \emptyc & \fullc  & \emptyc & 1.5         \\
+    %bpfbox              & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
     \hline
-    Docker               & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
-    Snap                 & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
-    Flatpak              & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
+    Docker               & \emptyc & \halfc  & \emptyc & \halfc  & \halfc  & 1.5         \\
+    Snap                 & \emptyc & \halfc  & \emptyc & \halfc  & \halfc  & 1.5         \\
+    Flatpak              & \emptyc & \halfc  & \emptyc & \halfc  & \halfc  & 1.5         \\
     Firejail             & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
     Bubblewrap           & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
     mbox                 & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
@@ -669,6 +699,7 @@ consider the merits of the higher level mechanisms that make use of them.}
 % Uncomment for bibliography:
 \nocite{*} % TODO: Comment this out when done
 \clearpage
+\singlespacing
 \printbibliography
 
 \end{document}
