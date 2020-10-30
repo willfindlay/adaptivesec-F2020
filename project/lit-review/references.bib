@@ -215,7 +215,8 @@ Usability study of AppArmor, SELinux, and FBAC-LSM
   number       = {1},
   pages        = {57--76},
   year         = {2012},
-  doi          = {10.4018/jisp.2012010104},
+  %doi          = {10.4018/jisp.2012010104},
+  url          = {https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.963.860&rep=rep1&type=pdf},
 }
 
 SELinux
@@ -238,7 +239,7 @@ Flask Architecture
                Mike Hibler and
                Dave G. Andersen and
                Jay Lepreau},
-  editor    = {G. Winfield Treese},
+  %editor    = {G. Winfield Treese},
   title     = {{The Flask Security Architecture: System Support for Diverse Security
                Policies}},
   booktitle = {Proceedings of the 8th {USENIX} Security Symposium, Washington, DC,
@@ -277,7 +278,7 @@ LSM Hooks
                Stephen Smalley and
                James Morris and
                Greg Kroah{-}Hartman},
-  editor    = {Dan Boneh},
+  %editor    = {Dan Boneh},
   title     = {{Linux Security Modules: General Security Support for the Linux Kernel}},
   booktitle = {Proceedings of the 11th {USENIX} Security Symposium, San Francisco,
                CA, USA, August 5-9, 2002},
@@ -327,6 +328,20 @@ LSM Hooks
   urldate      = {2020-10-25},
 }
 
+@inproceedings{kim2013_mbox,
+  author    = {Taesoo Kim and
+               Nickolai Zeldovich},
+  %editor    = {Andrew Birrell and
+  %             Emin G{\"{u}}n Sirer},
+  title     = {{Practical and Effective Sandboxing for Non-root Users}},
+  booktitle = {2013 {USENIX} Annual Technical Conference, San Jose, CA, USA, June
+               26-28, 2013},
+  pages     = {139--144},
+  publisher = {{USENIX} Association},
+  year      = {2013},
+  url       = {https://www.usenix.org/conference/atc13/technical-sessions/presentation/kim},
+}
+
 @article{sultan2019_container_security,
   author={S. {Sultan} and I. {Ahmad} and T. {Dimitriou}},
   journal={IEEE Access},
@@ -346,9 +361,17 @@ Policy Generation
   title        = {{Madison: A new approach to policy generation}},
   author       = {MacMillan, Karl},
   booktitle    = {{SELinux Symposium}},
-  volume       = {7},
   year         = {2007},
   url          = {http://selinuxsymposium.org/2007/papers/08-polgen.pdf},
+}
+
+Reference Policy for Security Enhanced Linux
+@inproceedings{pebenito2006_refpol,
+  title        = {{Reference Policy for Security Enhanced Linux}},
+  author       = {Christopher J. PeBenito and Frank Mayer and Karl MacMillan},
+  booktitle    = {{SELinux Symposium}},
+  year         = {2006},
+  url          = {http://selinuxsymposium.org/2006/papers/05-refpol.pdf},
 }
 
 TODO: Add other systems cited in the madison paper
@@ -370,10 +393,25 @@ TODO: Add other systems cited in the madison paper
 
 @misc{aa_easyprof,
   title        = {{aa-easyprof(8)}},
-  author       = {{AppArmor}},
+  %author       = {{AppArmor}},
   note         = {Linux user's manual},
   url          = {https://manpages.ubuntu.com/manpages/precise/man8/aa-easyprof.8.html},
 }
+
+@misc{aa_genprof,
+  title        = {{aa-genprof(8)}},
+  %author       = {{AppArmor}},
+  note         = {Linux user's manual},
+  url          = {https://manpages.ubuntu.com/manpages/precise/man8/aa-genprof.8.html},
+}
+
+@misc{aa_logprof,
+  title        = {{aa-logprof(8)}},
+  %author       = {{AppArmor}},
+  note         = {Linux user's manual},
+  url          = {https://manpages.ubuntu.com/manpages/precise/man8/aa-logprof.8.html},
+}
+
 
 @inproceedings{inoue05_java,
   title        = {{Inferring Java Security Policies through Dynamic Sandboxing}},

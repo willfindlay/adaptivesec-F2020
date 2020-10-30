@@ -27,6 +27,8 @@ Mechanisms\\{\large COMP5900I Literature Review}}
 
 \lhead{Towards Adaptive Process Confinement Mechanisms}
 
+\newcommand{\kimmbox}{\textsc{Mbox}}
+
 % =========================================================================== %
 % Document                                                                    %
 % =========================================================================== %
@@ -128,10 +130,10 @@ Roughly, this definition can be broken down into the following properties:
     function. Further, its base functionality should not require significant
     user intervention, if at all.
 
-    \item \label{p:5} \textsc{Usability (by non-experts).} An adaptive process confinement
-    mechanism should maximize its usability such that it is usable by largest
-    and most diverse set of defenders possible. In particular, it should not
-    require significant computer security expertise from its users.
+    \item \label{p:5} \textsc{Usability (by non-experts).} An adaptive process
+    confinement mechanism should maximize its usability such that it is usable
+    by largest and most diverse set of defenders possible. In particular, it
+    should not require significant computer security expertise from its users.
 \end{enumerate}
 
 \subsection{Outline of the Literature Review}
@@ -145,13 +147,13 @@ In light of this categorization, I then discuss what the move toward
 \textit{truly adaptive} process confinement mechanisms might look like.
 
 The rest of this paper proceeds as follows. \Cref{sec:threat_model} presents the
-process confinement threat model.  \Cref{sec:maladaptive} discusses maladaptive
-process confinement solutions, while \Cref{sec:semi-adaptive} presents
-semi-adaptive approaches that fail to meet the mark of a truly adaptive process
-confinement mechanism. \Cref{sec:towards} discusses moving toward truly adaptive
-process confinement mechanisms and argues that new operating system technologies
-coupled with well-known techniques from the anomaly detection literature may
-enable a paradigm shift in this direction.  \Cref{sec:conclusion} concludes.
+process confinement threat model.  \Cref{sec:status_quo} examines the status quo
+in process confinement, which is predominantly made up or maladaptive and
+semi-adaptive solutions. \Cref{sec:towards} discusses moving toward truly
+adaptive process confinement mechanisms and argues that new operating system
+technologies coupled with well-known techniques from the anomaly detection
+literature may enable a paradigm shift in this direction.  \Cref{sec:conclusion}
+concludes.
 
 \section{The Process Confinement Threat Model}
 \label{sec:threat_model}
@@ -248,23 +250,12 @@ Unfortunately, process confinement is not yet a solved problem
 \cite{crowell2013_confinement_problem}, and so the exploration of new solutions
 is necessary.
 
-\section{Maladaptive Process Confinement Approaches}
-\label{sec:maladaptive}
+\section{The Status Quo in Process Confinement}
+\label{sec:status_quo}
 
-A \textit{maladaptive} process confinement mechanism is one which does not
-cleanly fit the majority of the adaptive properties outlined in
-\Cref{sec:introduction} (items \ref{p:1}--\ref{p:5}). For example, a process
-confinement mechanism with high reconfigurability and low adoption effort, but
-with low robustness to attacker innovation, low transparency, and low usability
-would constitute a maladaptive approach.
+\todo{TODO: new intro}
 
-Unfortunately, maladaptive techniques cover the majority or the process
-confinement literature, but many are widely used and studying them can provide
-good insight into what an adaptive or semi-adaptive approach might do
-differently in practice. To further compartmentalize this study, I categorize
-maladaptive approaches into the lower-level techniques (e.g.~at the operating
-system kernel or application source code levels) and the higher-level techniques
-that often build upon them.
+\paragraph*{Criteria for Selecting Process Confinement Mechanisms} \todo{TODO}
 
 \subsection{Low Level Techniques}
 \label{sec:low-level}
@@ -307,11 +298,12 @@ instead assigning an application- or developer-specific UID (user ID) and GID
 In theory, these abuses of the DAC model would help mitigate the potential
 damage that a compromised application can do to the resources that belong to
 other users and applications on the system. However, due to the discretionary
-nature of DAC, there nothing preventing a user from simply granting permissions
-to all other users on the system. Further, the inclusion of non-human users into
-a user-centric permission model may result in disparity between an end-user's
-expectations and the reality of what a \enquote{user} actually is. This gap in
-understanding could result in usability and security concerns.
+nature of DAC, there is nothing preventing a given user from simply granting
+permissions to all other users on the system. Further, the inclusion of
+non-human users into a user-centric permission model may result in disparity
+between an end-user's expectations and the reality of what a \enquote{user}
+actually is. This gap in understanding could result in usability and security
+concerns.
 
 Related to discretionary access control are POSIX capabilities
 \cite{posix_capabilities,corbet2006_capabities_a,corbet2006_capabities_b}, which
@@ -418,7 +410,7 @@ to help Janus' usability, which is still tightly coupled with the underlying
 system calls. This makes it difficult for a non-expert user to write effective
 Janus policy.
 
-\todo{Talk maybe about Jain and Sekar's work, similar to Janus. If I do talk about this, add it to the summary table}
+\todo{TODO: Talk maybe about Jain and Sekar's work, similar to Janus. If I do talk about this, add it to the summary table}
 
 Anderson published a study in the FreeBSD journal \cite{anderson2017_comparison}
 comparing three system call interposition frameworks for three distinct
@@ -497,23 +489,34 @@ together. LSM works by integrating a series of strategically placed
 \textit{security hooks} into kernelspace code. These hooks roughly correspond
 with boundaries for the modification of kernel objects. Multiple security
 implementations can hook into these LSM hooks and provide callbacks that
-generate audit logs and make policy decisions.
+generate audit logs and make policy decisions. The LSM architecture is
+depicted in \Cref{fig:lsm}
+
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figs/lsm.pdf}
+    \caption{The LSM architecture. Note the many-to-many relation between access
+    requests and hook invocations. Multiple LSM hooks may be chained together,
+    incorporating policy from many security mechanisms. All hooks must agree to
+    allow the access or it will be denied.}%
+    \label{fig:lsm}
+\end{figure}
 
 The LSM API sits at a level of abstraction just above the system call API---a
 single LSM hook may cover multiple system calls and a single system call may
 contain multiple such LSM hooks. For instance, the \texttt{execve(2)} and
 \texttt{execveat(2)} calls both result in a call to the
-\texttt{bprm\_set\_creds} and  \texttt{bprm\_committing\_creds} hooks. This
-provides a nice level of abstraction compared to system-call-based approaches
-like seccomp-bpf \cite{seccomp_bpf, drewry2012_seccomp_bpf} in that a single LSM
-hook can cover all closely related security events (recall the issue of
-\texttt{open(2)} vs \texttt{openat(2)} in seccomp-bpf).
+\texttt{bprm\_committing\_creds} and  \texttt{bprm\_committed\_creds} hooks.
+This provides a nice level of abstraction compared to system-call-based
+approaches like seccomp-bpf \cite{seccomp_bpf, drewry2012_seccomp_bpf} in that
+a single LSM hook can cover all closely related security events (recall the
+issue of \texttt{open(2)} vs \texttt{openat(2)} in seccomp-bpf).
 
 The Linux kernel ships with a number of LSM-based security modules by default.
 Many such modules implement \textit{mandatory access control} (MAC) schemes,
 which enable fine-grained access control that can be used to limit the
 privileges of \textit{all users}---even the superuser. SELinux
-\cite{smalley2001_selinux} and AppArmor \cite{cowan2000_apparmor}, are two such
+\cite{smalley2001_selinux} and AppArmor \cite{cowan2000_apparmor} are two such
 MAC LSMs, each with its own policy semantics. I discuss each in turn.
 
 SELinux \cite{smalley2001_selinux} was originally developed by the NSA as
@@ -531,12 +534,20 @@ there is a natural tendency for human policy authors to err on the side of
 over-permission, violating the principle of least privilege.
 
 AppArmor (originally called SubDomain) \cite{cowan2000_apparmor} is often touted
-as a more usable alternative to SELinux. Rather than basing security policy on
-labelling system subjects and objects, AppArmor instead takes the approach of
-path-based enforcement.
-\todo{continue this}
+as a more usable alternative to SELinux, although usability studies have shown
+that this claim merits scrutiny \cite{schreuders12_towards}. Rather than basing
+security policy on labelling system subjects and objects, AppArmor instead takes
+the approach of path-based enforcement. Policy is defined in per-application
+profiles which contain rules specifying what system objects the application is
+allowed to access. System objects are specified directly rather than being
+labelled.  AppArmor also supports the notion of \textit{changing hats}, wherein
+a process may change its AppArmor profile under certain conditions specified in
+the policy.  Although AppArmor profiles are more conforming to standard Unix
+semantics than their SELinux counterparts, users who wish to write AppArmor
+policy still require a considerable amount of knowledge about operating system
+security \cite{schreuders12_towards}.
 
-%\todo{Linux MAC: LSM Hooks, SELinux, AppArmor, TOMOYO, yama}
+\todo{TODO: Come back and discuss other LSM if I have time---FBAC-LSM, TOMOYO, SMACK, yama}
 
 \subsection{High Level Techniques}
 \label{sec:high-level}
@@ -586,9 +597,10 @@ lines of policy across multiple underlying process confinement mechanisms; thus,
 auditing the generated policy also becomes a seemingly hopeless task, even for
 seasoned security experts.
 
-As a motivating example, consider the package manifest for Snap's Nextcloud\footnote{\url{https://snapcraft.io/nextcloud}}
-package, which includes the Apache \texttt{httpd} websever. The package
-manifest lists the following permissions for Apache \texttt{httpd}:
+As a motivating example, consider the package manifest for Snap's
+Nextcloud\footnote{Available: \url{https://snapcraft.io/nextcloud}} package, which includes
+the Apache \texttt{httpd} websever. The package manifest lists the following
+permissions for Apache \texttt{httpd}:
 
 \begin{listing}[language=yaml]
 confine: strict
@@ -621,15 +633,157 @@ each application. This can often result in a false sense of security,
 particularly when the underlying process confinement mechanisms are
 misconfigured, transparently to the end user.
 
-\paragraph*{Confinement with Wrapper Applications}
+\paragraph*{Confinement with Wrapper Sandboxes}
 
-\todo{Firejail, Bubblewrap, mbox}
+Separate but related to containerized application management are \textit{wrapper
+sandboxes}. Like containers, these wrappers use a combination of multiple lower
+level process confinement techniques to achieve an end result.  The user
+typically executes a wrapper application which sets up the sandbox before
+launching the target application (e.g.~\texttt{generic-wrapper-application
+firefox}).  Some examples of these wrappers include Firejail \cite{firejail},
+Bubblewrap \cite{bubblewrap}, and \kimmbox{} \cite{kim2013_mbox}.
 
-\subsection{Summary of Maladaptive Techniques}
+Even very early on in the development of Unix process confinement mechanisms, it
+was recognized that wrapper applications can provide significant usability
+benefits by abstracting away the underlying details of process confinement.  For
+instance, TRON \cite{berman1995_tron} provided a wrapper application for its
+protection-domain-based enforcement back in 1995. While these wrapper
+applications often do come with usability and transparency benefits, they suffer
+from auditability and robustness issues not dissimilar from the containerized
+package managers discussed above.
+
+Firejail \cite{firejail} uses seccomp-bpf and Linux namespaces to confine
+applications. Recent versions also include a generic AppArmor profile to provide
+an extra layer of basic protection. As with other high level process confinement
+mechanisms, policy is defined using per-application profiles which are then
+compiled down to the underlying policy mechanisms. While these policy files are
+quite high level and designed to be used out the box (on Arch Linux, the latest
+version of Firejail comes with over 1000 pre-configured profiles), their
+auditability and robustness suffer due to the coarse-granularity of rules. For
+instance, Firejail takes an all-or-nothing approach to file access, specified
+using either \texttt{whitelist}, \texttt{blacklist}, or \texttt{noblacklist}. It
+is possible to combine all three keywords on a shared pathname, leading to
+results that may be unpredictable for end users\footnote{See this GitHub issue
+for an example: \url{https://github.com/netblue30/firejail/issues/1569}}.
+
+Kim and Zeldovich take a rather different approach with \kimmbox{}
+\cite{kim2013_mbox}; instead of using policy profiles, access in \kimmbox{} is
+specified using coarse-grained flags passed to a wrapper application. To confine
+applications, \kimmbox{} leverages a seccomp-bpf to filter and interpose on
+system calls, and ptrace to \textit{re-write} system call arguments.
+Applications are confined to a sandboxed filesystem by re-writing the arguments
+to the \texttt{open(2)}, \texttt{read(2)}, and \texttt{write(2)} system calls.
+Since \kimmbox{} policy is expressed using command line arguments, auditing
+\kimmbox{} is impossible without actually reading its source code. Further,
+a user requires sufficient knowledge to know which command line arguments should
+be used with which application.
+
+Like \kimmbox{}, Bubblewrap \cite{bubblewrap} confines applications using
+command line arguments. Bubblewrap confines applications using a combination of
+filesystem mounts, Linux namespaces and seccomp-bpf rules, and is designed to
+work cooperatively with other container-based approaches like Flatpak
+\cite{flatpak}. Just as with \kimmbox{}, the auditability and usability of
+Bubblewrap suffers due to the advanced knowledge required to run an application
+using the appropriate confinement arguments, which may end up being overly
+permissive regardless.
+
+\subsection{(Semi-)Automated Policy Generation}
+
+Usability and transparency issues represent a common theme among several of the
+process confinement mechanisms I have discussed thus far. This is particularly
+true for highly complex, low-level mechanisms like SELinux
+\cite{smalley2001_selinux}, AppArmor \cite{cowan2000_apparmor}, and seccomp-bpf
+\cite{drewry2012_seccomp_bpf,seccomp_bpf}. It is tempting to turn toward the
+notion of \textit{automatic policy generation} to alleviate these issues.
+
+Both SELinux and AppArmor include mechanisms for automatic policy generation.
+AppArmor's \texttt{aa-easyprof} \cite{aa_easyprof} guides the user through
+policy generation, and supplementary templates and abstractions can be provided
+to bootstrap the policy generation process. However, policy generated using this
+method tends toward overpermission and its quality is highly dependent on the
+quality of the provided policy templates \cite{aa_easyprof}.  AppArmor also
+supports two lower-level policy generation tools.  \texttt{aa-genprof}
+\cite{aa_genprof} generates policy using AppArmor's audit logs, while
+\texttt{aa-logprof} \cite{aa_logprof} does the same thing with guided input from
+the user. Both these approaches have the advantage of higher transparency to the
+end user, but may generate more restrictive policy which could require manual
+modification to function.
+
+SELinux policy generation was originally supported via the \texttt{audit2allow}
+\cite{audit2allow} command line tool. This tool functions similarly to
+\texttt{aa-genprof} \cite{aa_genprof} above, automatically generating policy
+with the help of SELinux's audit logs. Sniffen \etal recognized the need for
+improving upon the existing policy generation in SELinux and introduced a guided
+policy generation approach, \texttt{polgen} \cite{sniffen06_guided}.
+\texttt{polgen} semi-automates the policy generation process using modified
+version of the \texttt{strace}\footnote{\texttt{strace} uses the ptrace system
+call under the hood.} command line utility which interposes on system calls and
+analyzes patterns in their arguments to infer policy. Policy is expressed in an
+intermediate representation language called PSL, which is then fed into
+a modelling program which constructs an information flow graph and a type
+generation program to generate new labels for system objects. In the end, the
+resulting PSL policy is compiled into actual SELinux policy to be installed on
+the system. Unfortunately, this approach does little to alleviate SELinux's
+primary usability concerns, as the generated policy is still tied down to
+SELinux's arcane labelling and type enforcement mechanisms.
+
+The 2006 introduction of the SELinux reference policy \cite{pebenito2006_refpol}
+refactored existing SELinux sample policy into re-usable modules that could be
+plugged into new policy files using higher level interfaces. This motivated
+MacMillan to develop Madison \cite{macmillan07_madison}, yet another take on
+SELinux policy generation. Rather than re-inventing the wheel, Madison was
+designed to be complementary to existing policy generation mechanisms. The idea
+was that Madison would be used to generate the \textit{reference policy} itself,
+which could then be integrated with new policy files using existing tools like
+\texttt{polgen} or by hand. Miranda's approach does help to abstract away the
+underlying SELinux implementation details, but ultimately falls short of its
+goal of improving usability. Users still need to understand the underlying
+SELinux policy language if they are to have any hope of auditing or modifying
+the generated reference policy files.
+
+\todo{TODO: maybe TOMOYO actually belongs here?}
+
+While SELinux and AppArmor included policy generation as an afterthought, other
+approaches to policy generation have taken an alternative approach, building the
+initial process confinement mechanism with policy generation in mind. Systrace
+\cite{provos2003_systrace}
+
+\todo{TODO: Inoue Java policy}
+
+While policy generation can indeed help with transparency issues in policy
+authorship, it does not necessarily fully alleviate usability concerns. So long
+as the underlying confinement language remains complex, it will be difficult for
+a user to audit the generated policy. Manual modification of the generated
+policy also remains a challenge here; it would be desirable to make this easy so as
+to enable ad hoc process confinement by end users and painless debugging of
+overly restrictive auto-generated policies.
+
+\subsection{(Semi-)Automated Policy Audit}
+
+\section{Adaptive Analysis}
+
+\todo{Intro}
+
+A \textit{maladaptive} process confinement mechanism is one which does not
+cleanly fit the majority of the adaptive properties outlined in
+\Cref{sec:introduction} (items \ref{p:1}--\ref{p:5}). For example, a process
+confinement mechanism with high reconfigurability and low adoption effort, but
+with low robustness to attacker innovation, low transparency, and low usability
+would constitute a maladaptive approach.
+
+%Unfortunately, maladaptive techniques cover the majority or the process
+%confinement literature, but many are widely used and studying them can provide
+%good insight into what an adaptive or semi-adaptive approach might do
+%differently in practice.
+%To further compartmentalize this study, I categorize
+%maladaptive approaches into the lower-level techniques (e.g.~at the operating
+%system kernel or application source code levels) and the higher-level techniques
+%that often build upon them.
+
+\todo{Semi-Adaptive Description}
 
 \FloatBarrier
 
-% TODO: Maybe move this down ()
 \begin{table}
 \begin{tabular}{rcccccl}
     \toprule
@@ -642,25 +796,25 @@ misconfigured, transparently to the end user.
     Score (max 5) \\
     \midrule
     %Unix DAC            & \emptyc & -       & \halfc  & \halfc  & \halfc  & Maladaptive \\
-    POSIX Capabilities   & \emptyc & \halfc  & \halfc  & \halfc  & \emptyc & 1.5         \\
-    Namespaces + Cgroups & \halfc  & \halfc  & \emptyc & \emptyc & \emptyc & 1           \\
-    ptrace               & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & 0           \\
-    Janus                & \halfc  & \emptyc & \halfc  & \halfc  & \emptyc & 1.5         \\
-    seccomp-bpf          & \halfc  & \halfc  & \emptyc & \emptyc & \emptyc & 1           \\
-    capsicum             & \halfc  & \halfc  & \emptyc & \emptyc & \emptyc & 1           \\
-    pledge               & \emptyc & \halfc  & \emptyc & \emptyc & \emptyc & 0.5         \\
+    POSIX Capabilities   & \emptyc & \fullc  & \emptyc & \halfc  & \emptyc & TODO        \\
+    Namespaces + Cgroups & \halfc  & \fullc  & \emptyc & \emptyc & \emptyc & TODO        \\
+    ptrace               & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
+    Janus                & \halfc  & \emptyc & \emptyc & \halfc  & \emptyc & TODO        \\
+    seccomp-bpf          & \halfc  & \fullc  & \emptyc & \emptyc & \emptyc & TODO        \\
+    capsicum             & \halfc  & \fullc  & \emptyc & \emptyc & \emptyc & TODO        \\
+    pledge               & \emptyc & \fullc  & \emptyc & \emptyc & \emptyc & TODO        \\
     SELinux              & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
     AppArmor             & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
-    TOMOYO               & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
-    %Yama                 & \emptyc & \halfc  & \emptyc & \fullc  & \emptyc & 1.5         \\
+    %TOMOYO              & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
+    %Yama                & \emptyc & \halfc  & \emptyc & \fullc  & \emptyc & TODO        \\
     %bpfbox              & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
     \hline
-    Docker               & \emptyc & \halfc  & \emptyc & \halfc  & \halfc  & 1.5         \\
-    Snap                 & \emptyc & \halfc  & \emptyc & \halfc  & \halfc  & 1.5         \\
-    Flatpak              & \emptyc & \halfc  & \emptyc & \halfc  & \halfc  & 1.5         \\
-    Firejail             & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
-    Bubblewrap           & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
-    mbox                 & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
+    Docker               & \emptyc & \fullc  & \emptyc & \halfc  & \halfc  & TODO        \\
+    Snap                 & \emptyc & \fullc  & \emptyc & \halfc  & \halfc  & TODO        \\
+    Flatpak              & \emptyc & \fullc  & \emptyc & \halfc  & \halfc  & TODO        \\
+    Firejail             & \emptyc & \halfc  & \emptyc & \halfc  & \halfc  & TODO        \\
+    Bubblewrap           & \emptyc & \halfc  & \emptyc & \emptyc & \emptyc & TODO        \\
+    \kimmbox{}           & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
     \bottomrule
 \end{tabular}
 \caption{The adaptive evaluation for process confinement techniques discussed in
@@ -670,18 +824,7 @@ consider the merits of the higher level mechanisms that make use of them.}
 \label{tab:maladaptive}
 \end{table}
 
-\section{Semi-Adaptive Process Confinement Approaches}
-\label{sec:semi-adaptive}
-
-\subsection{(Semi-)Automated Policy Generation}
-
-\todo{aa\_easyprof, audit2allow, Madison, Polgen}
-
-\todo{systrace}
-
-\todo{Inoue Java policy}
-
-\subsection{(Semi-)Automated Policy Auditing}
+\FloatBarrier
 
 \section{Towards Truly Adaptive Process Confinement}
 \label{sec:towards}
@@ -697,7 +840,7 @@ consider the merits of the higher level mechanisms that make use of them.}
 
 
 % Uncomment for bibliography:
-\nocite{*} % TODO: Comment this out when done
+%\nocite{*} % TODO: Comment this out when done
 \clearpage
 \singlespacing
 \printbibliography
