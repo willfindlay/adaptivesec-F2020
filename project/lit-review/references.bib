@@ -126,7 +126,7 @@ Process Confinement
 A comparison of Unix sandboxing techniques
 Comparing seccomp-bpf, capsicum, and pledge
 @article{anderson2017_comparison,
-  author       = {Anderson, James},
+  author       = {Anderson, James P.},
   title        = {{A Comparison of Unix Sandboxing Techniques}},
   journaltitle = {FreeBSD Journal},
   %volume      = {NN},
@@ -145,7 +145,8 @@ My paper on bpfbox
   month        = {Nov},
   year         = {2020},
   doi          = {10.1145/3411495.3421358},
-  note         = {To appear}
+  note         = {To appear},
+  url          = {https://www.cisl.carleton.ca/~will/written/conference/bpfbox-ccsw2020.pdf}
 }
 
 @inproceedings{gamble1993_execution_controls,
@@ -181,7 +182,7 @@ of ptrace (ptrace++)
 }
 @mastersthesis{wagner1999_janus,
   title        = {{Janus: An Approach for Confinement of Untrusted Applications}},
-  author       = {Wagner, David A},
+  author       = {Wagner, David A.},
   year         = {1999},
   school       = {University of California, Berkeley},
   url          = {https://www2.eecs.berkeley.edu/Pubs/TechRpts/1999/CSD-99-1056.pdf},
@@ -209,7 +210,7 @@ Provos
 Usability study of AppArmor, SELinux, and FBAC-LSM
 @inproceedings{schreuders12_towards,
   title        = {{Towards Usable Application-Oriented Access Controls}},
-  author       = {Schreuders, Z Cliffe and McGill, Tanya Jane and Payne, Christian},
+  author       = {Schreuders, Z. Cliffe and McGill, Tanya Jane and Payne, Christian},
   booktitle    = {{International Journal of Information Security and Privacy}},
   volume       = {6},
   number       = {1},
@@ -343,14 +344,14 @@ LSM Hooks
 }
 
 @article{sultan2019_container_security,
-  author={S. {Sultan} and I. {Ahmad} and T. {Dimitriou}},
-  journal={IEEE Access},
-  title={{Container Security: Issues, Challenges, and the Road Ahead}},
-  year={2019},
-  volume={7},
-  number={},
-  pages={52976-52996},
-  doi={10.1109/ACCESS.2019.2911732},
+  author  = {S. {Sultan} and I. {Ahmad} and T. {Dimitriou}},
+  journal = {IEEE Access},
+  title   = {{Container Security: Issues, Challenges, and the Road Ahead}},
+  year    = {2019},
+  volume  = {7},
+  number  = {},
+  pages   = {52976-52996},
+  doi     = {10.1109/ACCESS.2019.2911732},
 }
 
 -------------------------------------------------------------------------------
@@ -378,7 +379,7 @@ TODO: Add other systems cited in the madison paper
 
 @inproceedings{sniffen06_guided,
   title        = {{Guided policy generation for application authors}},
-  author       = {Sniffen, Brian T and Harris, David R and Ramsdell, John D},
+  author       = {Sniffen, Brian T. and Harris, David R. and Ramsdell, John D.},
   booktitle    = {{SELinux Symposium}},
   year         = {2006},
   url          = {http://gelit.ch/td/SELinux/Publications/Mitre_Tools.pdf},
@@ -393,21 +394,21 @@ TODO: Add other systems cited in the madison paper
 
 @misc{aa_easyprof,
   title        = {{aa-easyprof(8)}},
-  %author       = {{AppArmor}},
+  author       = {{AppArmor}},
   note         = {Linux user's manual},
   url          = {https://manpages.ubuntu.com/manpages/precise/man8/aa-easyprof.8.html},
 }
 
 @misc{aa_genprof,
   title        = {{aa-genprof(8)}},
-  %author       = {{AppArmor}},
+  author       = {{AppArmor}},
   note         = {Linux user's manual},
   url          = {https://manpages.ubuntu.com/manpages/precise/man8/aa-genprof.8.html},
 }
 
 @misc{aa_logprof,
   title        = {{aa-logprof(8)}},
-  %author       = {{AppArmor}},
+  author       = {{AppArmor}},
   note         = {Linux user's manual},
   url          = {https://manpages.ubuntu.com/manpages/precise/man8/aa-logprof.8.html},
 }
@@ -428,6 +429,16 @@ TODO: Add other systems cited in the madison paper
   school       = {University of New Mexico},
   url          = {https://www.cs.unm.edu/~forrest/dissertations/inoue-dissertation.pdf},
 }
+
+
+@article{gong1993_java2,
+  author    = {Li Gong and Gary Ellison and Mary Dageforde},
+  title     = {{Inside Java 2 Platform Security: Architecture, API Design, and Implementation}},
+  year      = {1993},
+  publisher = {Addison-Wesley},
+  note      = {Second Edition},
+}
+
 
 -------------------------------------------------------------------------------
 Policy Auditing
@@ -461,10 +472,50 @@ Policy Auditing
 Taint Tracking
 -------------------------------------------------------------------------------
 
+TODO: maybe?
 Dynamic Taint Analysis for Automatic Detection,Analysis, and Signature Generation of Exploitson Commodity Software
 https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.307.8389&rep=rep1&type=pdf
 
-TODO: perl taint is probably good to mention here
+@misc{hurst2004_perl,
+  title  = {{Analysis of Perl’s Taint Mode}},
+  author = {Hurst, Andrew},
+  year   = {2004},
+  url    = {http://hurstdog.org/papers/hurst04taint.pdf}
+}
+
+@inproceedings{bello2012_taint,
+  author    = {Luciano Bello and
+               Alejandro Russo},
+  %editor    = {Sergio Maffeis and
+  %             Tamara Rezk},
+  title     = {{Towards a Taint Mode for Cloud Computing Web Applications}},
+  booktitle = {Proceedings of the 2012 Workshop on Programming Languages and Analysis
+               for Security, {PLAS} 2012, Beijing, China, 15 June, 2012},
+  pages     = {7},
+  publisher = {{ACM}},
+  year      = {2012},
+  %url       = {https://doi.org/10.1145/2336717.2336724},
+  doi       = {10.1145/2336717.2336724},
+}
+
+@inproceedings{conti2010_taint,
+  author    = {Juan Jos{\'{e}} Conti and
+               Alejandro Russo},
+  %editor    = {Tuomas Aura and
+  %             Kimmo J{\"{a}}rvinen and
+  %             Kaisa Nyberg},
+  title     = {{A Taint Mode for Python via a Library}},
+  booktitle = {Information Security Technology for Applications - 15th Nordic Conference
+               on Secure {IT} Systems, NordSec 2010, Espoo, Finland, October 27-29,
+               2010, Revised Selected Papers},
+  %series    = {Lecture Notes in Computer Science},
+  volume    = {7127},
+  pages     = {210--222},
+  publisher = {Springer},
+  year      = {2010},
+  %url       = {https://doi.org/10.1007/978-3-642-27937-9\_15},
+  doi       = {10.1007/978-3-642-27937-9\_15},
+}
 
 -------------------------------------------------------------------------------
 Langauge Generation
@@ -537,11 +588,11 @@ Article on eBPF in LWN
 
 The literal book on eBPF
 @book{gregg19_bpf,
-  title        = {{BPF Performance Tools}},
-  author       = {Gregg, Brendan},
-  year         = {2019},
-  isbn         = {0-13-655482-2},
-publisher    = {Addison-Wesley Professional}
+  title     = {{BPF Performance Tools}},
+  author    = {Gregg, Brendan},
+  year      = {2019},
+  isbn      = {0-13-655482-2},
+  publisher = {Addison-Wesley Professional}
 }
 
 -------------------------------------------------------------------------------
@@ -550,7 +601,7 @@ Misc.
 
 Anderson Reference Monitor
 @techreport{anderson1973_reference_monitor,
-  author       = {Anderson, J.},
+  author       = {Anderson, James P.},
   title        = {{Computer Security Technology Planning Study}},
   number       = {ESD-TR-73-51},
   organization = {US Air Force Electronic Systems Division},
@@ -618,7 +669,7 @@ Android Security Documentation
 
 @misc{posix_capabilities,
   title        = {{capabilities(7)}},
-  %author      = {},
+  author       = {{Linux}},
   note         = {Linux user's manual},
   url          = {https://linux.die.net/man/7/capabilities},
 }
@@ -726,16 +777,16 @@ Android Security Documentation
 
 % Classic BPF
 @article{classic_bpf,
-  author={Steven McCanne and Van Jacobson},
-  year={1992},
-  title={{The BSD Packet Filter: A New Architecture for User-level Packet Capture}},
-  journal={{USENIX Winter}},
-  url={https://www.tcpdump.org/papers/bpf-usenix93.pdf},
-  volume={93}
+  author  = {Steven McCanne and Van Jacobson},
+  year    = {1992},
+  title   = {{The BSD Packet Filter: A New Architecture for User-level Packet Capture}},
+  journal = {{USENIX Winter}},
+  url     = {https://www.tcpdump.org/papers/bpf-usenix93.pdf},
+  volume  = {93}
 }
 
 @misc{libseccomp,
-  author        = {{libseccomp authors}},
+  author        = {{Seccomp Contributors}},
   title         = {{libseccomp}},
   url           = {https://github.com/seccomp/libseccomp},
   urldate       = {2020-10-27},

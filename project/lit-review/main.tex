@@ -96,10 +96,11 @@ unsolved to date \cite{crowell2013_confinement_problem}. This begs the question
 as to whether our current techniques for process confinement are simply
 inadequate for dealing with an evolving technical and adversarial landscape.  In
 this literature review, I argue that, in order to solve the process confinement
-problem, we need to rethink the status quo in process confinement, and instead
+problem, we need to rethink the status quo in process confinement and instead
 move towards \textit{adaptive} process confinement mechanisms.
 
 \subsection{Defining Adaptive Process Confinement}
+\label{sec:defining}
 
 Here, I define adaptive process confinement mechanisms as those which greatly
 help defenders confine their processes, are easily adoptable across a variety of
@@ -141,19 +142,17 @@ Roughly, this definition can be broken down into the following properties:
 To argue the case for adaptive process confinement, we need to understand the
 existing process confinement literature from an adaptive perspective. To that
 end, I present a novel taxonomy of the existing literature, categorizing process
-confinement mechanisms as either \textit{maladaptive} or \textit{semi-adaptive}
-using the adaptive properties (items \ref{p:1}--\ref{p:5}) outlined above.
-In light of this categorization, I then discuss what the move toward
-\textit{truly adaptive} process confinement mechanisms might look like.
+confinement mechanisms based on how well they conform to the adaptive properties
+(items \ref{p:1}--\ref{p:5}) outlined above.  In light of this categorization,
+I then discuss what the move towards \textit{truly adaptive} process confinement
+mechanisms might look like.
 
 The rest of this paper proceeds as follows. \Cref{sec:threat_model} presents the
 process confinement threat model.  \Cref{sec:status_quo} examines the status quo
-in process confinement, which is predominantly made up or maladaptive and
-semi-adaptive solutions. \Cref{sec:towards} discusses moving toward truly
-adaptive process confinement mechanisms and argues that new operating system
-technologies coupled with well-known techniques from the anomaly detection
-literature may enable a paradigm shift in this direction.  \Cref{sec:conclusion}
-concludes.
+in process confinement.  \Cref{sec:towards} presents an adaptive analysis of the
+systems discussed in \Cref{sec:status_quo} and discusses what the move towards
+truly adaptive process confinement mechanisms might look like.
+\Cref{sec:conclusion} concludes.
 
 \section{The Process Confinement Threat Model}
 \label{sec:threat_model}
@@ -253,22 +252,27 @@ is necessary.
 \section{The Status Quo in Process Confinement}
 \label{sec:status_quo}
 
-\todo{TODO: new intro}
+To understand the need for a move towards adaptive process confinement, we first
+need to contextualize the existing process confinement literature. This section
+presents an overview of the process confinement landscape and discusses many
+of the trade-offs and drawbacks present in existing approaches.
 
-\paragraph*{Criteria for Selecting Process Confinement Mechanisms} \todo{TODO}
+%\paragraph*{Criteria for Selecting Process Confinement Mechanisms} \todo{TODO}
 
 \subsection{Process Confinement Building Blocks}
 \label{sec:low-level}
 
-In this section, I discuss many of the low level techniques used to implement
+Here, I discuss many of the low level techniques used to implement
 process confinement. Notably, many of these techniques were not designed
 expressly for the purpose of directly confining processes. Rather, they are
 often used in \textit{combination} by higher level process confinement
-mechanisms, many of which are discussed in \Cref{sec:high-level}. Despite the
-fact that many of these techniques come pre-enabled on their respective operating
-systems, they all suffer to some in extent in the robustness, reconfigurability,
-transparency, and usability categories, which cements their position as
-maladaptive approaches.
+mechanisms, many of which are discussed in \Cref{sec:high-level}.
+
+%Despite the
+%fact that many of these techniques come pre-enabled on their respective operating
+%systems, they all suffer to some in extent in the robustness, reconfigurability,
+%transparency, and usability categories, which cements their position as
+%maladaptive approaches.
 
 \paragraph*{Discretionary Access Control}
 Discretionary access control (DAC) forms the most basic access control mechanism
@@ -410,7 +414,7 @@ to help Janus' usability, which is still tightly coupled with the underlying
 system calls. This makes it difficult for a non-expert user to write effective
 Janus policy.
 
-\todo{TODO: Talk maybe about Jain and Sekar's work, similar to Janus. If I do talk about this, add it to the summary table}
+%\todo{TODO: Talk maybe about Jain and Sekar's work, similar to Janus. If I do talk about this, add it to the summary table}
 
 Anderson published a study in the FreeBSD journal \cite{anderson2017_comparison}
 comparing three system call interposition frameworks for three distinct
@@ -557,7 +561,7 @@ typically employ more than one of the lower level techniques described in the
 previous section (\Cref{sec:low-level}). Although these solutions generally
 constitute higher level abstractions, they are not strictly any better than
 their lower level counterparts, particularly with respect to the adaptive
-process confinement properties outlined in \Cref{sec:introduction}.
+process confinement properties outlined in \Cref{sec:defining}.
 
 \paragraph*{Containerized Package Management}
 In Linux, a recent trend of \textit{containerized package management} has
@@ -716,39 +720,39 @@ with the help of SELinux's audit logs. Sniffen \etal recognized the need for
 improving upon the existing policy generation in SELinux and introduced a guided
 policy generation approach, \texttt{polgen} \cite{sniffen06_guided}.
 \texttt{polgen} semi-automates the policy generation process using modified
-version of the \texttt{strace}\footnote{\texttt{strace} uses the ptrace system
-call under the hood.} command line utility which interposes on system calls and
-analyzes patterns in their arguments to infer policy. Policy is expressed in an
-intermediate representation language called PSL, which is then fed into
-a modelling program which constructs an information flow graph and a type
-generation program to generate new labels for system objects. In the end, the
-resulting PSL policy is compiled into actual SELinux policy to be installed on
-the system. Unfortunately, this approach does little to alleviate SELinux's
-primary usability concerns, as the generated policy is still tied down to
-SELinux's arcane labelling and type enforcement mechanisms.
+version of the \texttt{strace}\footnote{\texttt{strace} uses the
+\texttt{ptrace(2)} system call under the hood.} command line utility which
+interposes on system calls and analyzes patterns in their arguments to infer
+policy. Policy is expressed in an intermediate representation language called
+PSL, which is then fed into a modelling program which constructs an information
+flow graph and a type generation program to generate new labels for system
+objects. In the end, the resulting PSL policy is compiled into actual SELinux
+policy to be installed on the system. Unfortunately, this approach does little
+to alleviate SELinux's primary usability concerns, as the generated policy is
+still tied down to SELinux's arcane labelling and type enforcement mechanisms.
 
 The 2006 introduction of the SELinux reference policy \cite{pebenito2006_refpol}
-refactored existing SELinux sample policy into re-usable modules that could be
-plugged into new policy files using higher level interfaces. This motivated
-MacMillan to develop Madison \cite{macmillan07_madison}, yet another take on
-SELinux policy generation. Rather than re-inventing the wheel, Madison was
-designed to be complementary to existing policy generation mechanisms. The idea
-was that Madison would be used to generate the \textit{reference policy} itself,
-which could then be integrated with new policy files using existing tools like
-\texttt{polgen} or by hand. Miranda's approach does help to abstract away the
-underlying SELinux implementation details, but ultimately falls short of its
-goal of improving usability. Users still need to understand the underlying
-SELinux policy language if they are to have any hope of auditing or modifying
-the generated reference policy files.
+provided re-usable modules that could be plugged into new policy files using
+high-level interfaces. This motivated MacMillan to develop Madison
+\cite{macmillan07_madison}, yet another take on SELinux policy generation.
+Rather than re-inventing the wheel, Madison was designed to be complementary to
+existing policy generation mechanisms. The idea was that Madison would be used
+to generate the \textit{reference policy} itself, which could then be integrated
+with new policy files using existing tools like \texttt{polgen} or by hand.
+Miranda's approach does help to abstract away the underlying SELinux
+implementation details, but ultimately falls short of its goal of improving
+usability. Users still need to understand the underlying SELinux policy language
+if they are to have any hope of auditing or modifying the generated reference
+policy files.
 
-\todo{TODO: maybe TOMOYO actually belongs here?}
 
 While SELinux and AppArmor included policy generation as an afterthought, other
-approaches to policy generation have taken an alternative approach, building the
-initial process confinement mechanism with policy generation in mind. Systrace
+policy generation mechanisms have taken an alternative approach, building the
+initial process confinement mechanism with policy generation in mind.
+\todo{TODO: maybe TOMOYO actually belongs here?} Systrace
 \cite{provos2003_systrace} builds policy by observing individual system calls on
 the running system along with their relevant arguments. Policy may be built
-automatically or semi-automatically through pop-up dialogs on mediated security
+automatically or semi-automatically, through pop-up dialogs on mediated security
 events. Systrace's policy language design is reminiscent of the higher level
 seccomp-bpf policy representations found in frameworks like Snap \cite{snap}.
 Although Systrace's policy language design integrates nicely with its policy
@@ -756,47 +760,174 @@ generation mechanism, its usability is impacted by the fact that the end user
 must be familiar with system call semantics to read, understand, and modify
 Systrace policy.
 
-Inoue's dynamic sandboxing framework for Java applies a similar concept to the
-Java runtime \cite{inoue05_java, inoue05_thesis}. \todo{Continue this}
+Inoue and Forrest \cite{inoue05_java, inoue05_thesis} recognized an opportunity
+to apply a similar technique to the Java runtime's extant sandboxing mechanisms
+\cite{gong1993_java2}. Inoue and Forrest's work enables the dynamic creation
+of Java security policy by instrumenting Java's \texttt{checkPermission} method
+and recording cases where permission would be denied under normal operation.
+Java sandboxing is a rather unique case in that it is not strictly designed to
+be written or audited by the end user; rather, it is the application programmers
+that write policy for their own applications. Dynamically generating a minimal
+security policy for a Java application could have great benefits for Java
+developers who could then distribute this policy with their applications,
+transparently to the end user.  However, an ideal security policy should be
+understandable by \textit{all} stakeholders---this approach makes no effort to
+move away from the complex semantics of Java security policy; rather, it tries
+its best to make them as transparent as possible.
 
 While policy generation can indeed help with transparency issues in policy
 authorship, it does not necessarily fully alleviate usability concerns. So long
 as the underlying confinement language remains complex, it will be difficult for
 a user to audit the generated policy. Manual modification of the generated
-policy also remains a challenge here; it would be desirable to make this easy so as
-to enable ad hoc process confinement by end users and painless debugging of
-overly restrictive auto-generated policies.
+policy also remains a challenge here; it would be desirable to make this easy so
+as to enable ad hoc process confinement by end users and painless debugging of
+overly restrictive auto-generated policies. It is clear that policy generation
+represents at least a partial step towards adaptive process confinement, but it
+does not completely close the gap.
 
 \subsection{(Semi-)Automated Policy Audit}
 
+To attempt to solve the problem of auditing complex policy languages
+(e.g.~SELinux \cite{smalley2001_selinux} and AppArmor
+\cite{cowan2000_apparmor}), many researchers have turned to the same automation
+techniques used in the policy generation literature. Chen \etal wrote VulSAN
+\cite{chen09_vulsan} to alleviate some of the auditability concerns present in
+SELinux and AppArmor and to compare the default protection offered by both
+systems. VulSAN builds a Prolog\footnote{Prolog is a logic programming language
+wherein a developer writes a series of \textit{facts} which can then be used to
+resolve \textit{queries}. In this respect, Prolog programs may be thought of as
+a sort of \textit{logic database}.} database of facts about the MAC policy
+(i.e.~the SELinux or AppArmor policy), Unix DAC, and state of the running
+system. Users then issue queries encoding a threat model---an attack goal and
+a set of assumptions about an attacker's resources---and VulSAN generates an
+\textit{attack graph} describing the shortest path of exploitation needed to
+realize the attack.
+
+While VulSAN can certainly help security experts analyze
+the protection benefits afforded by their choice of MAC implementation, it offers
+little benefit to users who are not already well-versed in operating system security
+(precisely the same skillset one would need to audit SELinux and AppArmor policy
+in the first place). Further, VulSAN is capable of identifying vulnerabilities in
+security policy, but incapable of describing how to fix these vulnerabilities.
+
+iOracle \cite{deshotels18_ioracle} takes a similar approach to VulSAN, but
+applies it to security policy under the iOS mobile operating system instead.
+Unlike the majority of the confinement mechanisms I have discussed thus far,
+iOS's sandbox is proprietary, closed-source software. This makes auditing such
+a system a particularly daunting task without any knowledge about the inner
+workings of the system. To rectify this, iOracle employs reverse engineering and
+static analysis techniques to infer security policy from compiled policy
+binaries. It then builds out a similar logic database to that of VulSAN
+\cite{chen09_vulsan}, allowing users to issue queries about the security
+properties of applications on the system. Unlike VulSAN, iOracle attempts to
+describe how identified vulnerabilities might be fixed. However, iOracle still
+assumes considerable security knowledge on the part of the user, as the user
+needs to formulate correct queries to make use of the model.
+
+Although systems like VulSAN and iOracle can help defenders by automating the
+audit of security policy, they assume that defenders have enough security
+knowledge to be able to issue the correct security queries. After all, even
+a perfect oracle is completely useless if one does not know the correct
+questions to ask. This does little to help an average user develop and audit
+their own security policy, and so these systems cannot be considered truly
+adaptive security mechanisms in their own right.
+
 \subsection{Taint Propagation}
 
-\section{Adaptive Analysis}
+Unlike traditional process confinement mechanisms which seek to limit the set of
+possible actions that a program can ever take, the notion of \textit{taint
+propagation} directly seeks to limit the impact that untrusted user input can
+have on the running system. This is typically done by marking data with
+a special taint flag and propagating this flag across function calls; according
+to policy, using tainted data to perform a specific operation would cause that
+operation to fail.  Perl's \enquote{taint mode} \cite{hurst2004_perl} was the
+first implementation of such a tainting mechanism on program data. A special
+command line flag passed to a Perl program triggers it to run in taint mode,
+wherein untrusted input from the user cannot be directly passed into
+a pre-determined list of unsafe built-in functions. To get around this
+restriction, the developer must implement sanity checks on the data which would
+then \textit{untaint} it. While Perl's taint mode provides some inherent level
+of protection, it mostly exists as a means to encourage developers to implement
+proper sanity checks on untrusted data, and incorrect sanity checks may result
+in no protection at all \cite{hurst2004_perl}. Beyond Perl, similar taint
+mechanisms have since been implemented for a myriad other interpreted
+programming languages\footnote{To name a few: Ruby, PHP, and Python now all
+provide native tainting support \cite{conti2010_taint}.}.
 
-\todo{Intro}
+Conti, Bello, and Russo \cite{conti2010_taint,bello2012_taint} implemented
+a novel tainting mechanism for Python as a library, and argue that it can be
+used to effectively confine modern web applications in the presence of untrusted
+user data. By implementing tainting at the language level rather than at the level
+of the interpreter itself, the authors argue that the approach can be easily adapted
+to accommodate new use cases and data types \cite{conti2010_taint, bello2012_taint}.
+This is in stark contrast to the original taint implementation in Perl which
+focuses on securing only certain access primitives \cite{hurst2004_perl}.
 
-A \textit{maladaptive} process confinement mechanism is one which does not
-cleanly fit the majority of the adaptive properties outlined in
-\Cref{sec:introduction} (items \ref{p:1}--\ref{p:5}). For example, a process
-confinement mechanism with high reconfigurability and low adoption effort, but
-with low robustness to attacker innovation, low transparency, and low usability
-would constitute a maladaptive approach.
+%A similar taint mechanism was implemented for Java by Haldar, Chandra, and Franz
+%\todo{cite}.
 
-%Unfortunately, maladaptive techniques cover the majority or the process
-%confinement literature, but many are widely used and studying them can provide
-%good insight into what an adaptive or semi-adaptive approach might do
-%differently in practice.
-%To further compartmentalize this study, I categorize
-%maladaptive approaches into the lower-level techniques (e.g.~at the operating
-%system kernel or application source code levels) and the higher-level techniques
-%that often build upon them.
+Findlay, Somayaji, and Barrera's bpfbox \cite{findlay20_bpfbox} approaches
+tainting from a different angle.  Instead of tainting data, bpfbox policy taints
+the entire process after a pre-determined taint rule has been matched. This
+allows bpfbox to simplify its policy by only enforcing after a process has been
+exposed to untrusted input.
 
-\todo{Semi-Adaptive Description}
+\section{Towards Truly Adaptive Process Confinement}
+\label{sec:towards}
 
-\FloatBarrier
+Throughout this literature review, I have examined several process confinement
+implementations which span a variety of techniques (both high-level and
+low-level), operating systems, and programming languages. Despite a rich history
+of process confinement dating back nearly five decades
+\cite{lampson1973_a_note}, none of the solutions presented here constitutes
+a full solution to the process confinement problem.
 
-\begin{table}
-\begin{tabular}{rcccccl}
+Complex mandatory access control mechanisms like SELinux
+\cite{smalley2001_selinux} and AppArmor \cite{cowan2000_apparmor} provide
+incredibly precise policy languages, but are only accessible to knowledgeable
+security experts; higher level mechanisms like Docker, Snap, and Flatpak offer
+only overly-permissive, difficult-to-audit package manifests, and cobble together
+a myriad of mostly unrelated solutions to implement their confinement under the
+hood.
+
+Automated policy generation and audit mechanisms tend to be too tied down to
+existing enforcement mechanisms and operating system semantics to be truly
+useful to end users. A user without significant security expertise cannot hope
+to understand the output generated by such a mechanism. Many such mechanisms
+even impose significant usability barriers before viable output can even be
+generated. Taint propagation mechanisms suffer a similar fate, as they are
+designed to be used by application developers rather than end users, and buggy
+applications that conform to these taint mechanisms can still expose the user to
+risk.
+
+To truly solve the problem of process confinement, I propose that we need to
+move away from the traditional process confinement mechanisms discussed above,
+and instead move towards \textit{truly adaptive} process confinement mechanisms.
+A truly adaptive process confinement would help solve the process confinement
+problem by providing defenders with tools that can automate the protection of
+a running system without relying on complex policy languages or advanced
+security knowledge. These mechanisms would be mostly transparent to the end
+user, easy to use and reconfigure, and effective at responding to novel attacks.
+
+Clearly none of the solutions presented here is a \textit{truly} adaptive
+process confinement mechanism, although some are certainly closer than others.
+To formalize this taxonomy, \Cref{tab:analysis} presents a full classification
+of the mechanisms presented in this literature review, according to properties
+\ref{p:1}--\ref{p:5} listed on \cpageref{p:1}.
+
+\begin{longtable}[c]{rcccccl}
+    \caption{The adaptive evaluation for process confinement techniques discussed in
+    this section. Since Unix DAC is not a process confinement mechanism in its own
+    right, it is omitted here. Note that scores for lower level mechanisms \textit{do not}
+    consider the merits of the higher level mechanisms which make use of them.}
+    \label{tab:analysis}
+    \endfirsthead
+    \caption{(continued)}\\
+    %\midrule
+    \endhead
+    %\midrule
+    %\endfoot
+    %\endlastfoot
     \toprule
     Mechanism &
     \rot{\ref{p:1} Robustness} &
@@ -811,6 +942,7 @@ would constitute a maladaptive approach.
     Namespaces + Cgroups & \halfc  & \fullc  & \emptyc & \emptyc & \emptyc & TODO        \\
     ptrace               & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
     Janus                & \halfc  & \emptyc & \emptyc & \halfc  & \emptyc & TODO        \\
+    TRON                 & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
     seccomp-bpf          & \halfc  & \fullc  & \emptyc & \emptyc & \emptyc & TODO        \\
     capsicum             & \halfc  & \fullc  & \emptyc & \emptyc & \emptyc & TODO        \\
     pledge               & \emptyc & \fullc  & \emptyc & \emptyc & \emptyc & TODO        \\
@@ -819,7 +951,6 @@ would constitute a maladaptive approach.
     %TOMOYO              & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
     %Yama                & \emptyc & \halfc  & \emptyc & \fullc  & \emptyc & TODO        \\
     %bpfbox              & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
-    \hline
     Docker               & \emptyc & \fullc  & \emptyc & \halfc  & \halfc  & TODO        \\
     Snap                 & \emptyc & \fullc  & \emptyc & \halfc  & \halfc  & TODO        \\
     Flatpak              & \emptyc & \fullc  & \emptyc & \halfc  & \halfc  & TODO        \\
@@ -827,34 +958,31 @@ would constitute a maladaptive approach.
     Bubblewrap           & \emptyc & \halfc  & \emptyc & \emptyc & \emptyc & TODO        \\
     \kimmbox{}           & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
     \bottomrule
-\end{tabular}
-\caption{The adaptive evaluation for process confinement techniques discussed in
-this section. Since Unix DAC is not a process confinement mechanism in its own
-right, it is omitted here. Note that scores for lower level mechanisms \textit{do not}
-consider the merits of the higher level mechanisms that make use of them.}
-\label{tab:maladaptive}
-\end{table}
+\end{longtable}
 
-\FloatBarrier
-
-\section{Towards Truly Adaptive Process Confinement}
-\label{sec:towards}
-
-\subsection{Anomaly Detection Techniques}
+\subsection{Bridging the Gap with Anomaly Detection}
 
 \todo{Use the phrase "bridge the gap between process confinement and anomaly
 detection"}
 
+\todo{TODO: Talk about trade-off of \enquote{expressiveness} vs
+\enquote{usability/auditability} + other trade-offs... Adaptive process
+confinement mechanisms could solve this trade-off by dynamically creating the
+policy language itself---policy language conforms to underlying semantics but
+is expressed at a high enough level that users can understand}
+
 \todo{Systrace and Inoue as early examples of bridging the gap between process
 confinement and anomaly detection}
 
-\subsection{Extended BPF}
-
-\todo{bpfbox}
+%\subsection{Extended BPF}
+%
+%\todo{bpfbox}
 
 \section{Conclusion}
 \label{sec:conclusion}
 
+Process confinement is a hard problem that has been studied for nearly
+five decades \cite{lampson1973_a_note}.
 
 % Uncomment for bibliography:
 %\nocite{*} % TODO: Comment this out when done
