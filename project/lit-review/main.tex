@@ -257,7 +257,7 @@ is necessary.
 
 \paragraph*{Criteria for Selecting Process Confinement Mechanisms} \todo{TODO}
 
-\subsection{Low Level Techniques}
+\subsection{Process Confinement Building Blocks}
 \label{sec:low-level}
 
 In this section, I discuss many of the low level techniques used to implement
@@ -549,7 +549,7 @@ security \cite{schreuders12_towards}.
 
 \todo{TODO: Come back and discuss other LSM if I have time---FBAC-LSM, TOMOYO, SMACK, yama}
 
-\subsection{High Level Techniques}
+\subsection{High-Level Approaches}
 \label{sec:high-level}
 
 In this section, I examine some higher level process confinement techniques that
@@ -678,14 +678,14 @@ Since \kimmbox{} policy is expressed using command line arguments, auditing
 a user requires sufficient knowledge to know which command line arguments should
 be used with which application.
 
-Like \kimmbox{}, Bubblewrap \cite{bubblewrap} confines applications using
-command line arguments. Bubblewrap confines applications using a combination of
-filesystem mounts, Linux namespaces and seccomp-bpf rules, and is designed to
-work cooperatively with other container-based approaches like Flatpak
-\cite{flatpak}. Just as with \kimmbox{}, the auditability and usability of
-Bubblewrap suffers due to the advanced knowledge required to run an application
-using the appropriate confinement arguments, which may end up being overly
-permissive regardless.
+Like \kimmbox{}, Bubblewrap \cite{bubblewrap} specifies confinement rules for
+applications using command line arguments. Bubblewrap confines applications
+using a combination of filesystem mounts, Linux namespaces and seccomp-bpf
+rules, and is designed to work cooperatively with other container-based
+approaches like Flatpak \cite{flatpak}. Just as with \kimmbox{}, the
+auditability and usability of Bubblewrap suffers due to the advanced knowledge
+required to run an application using the appropriate confinement arguments,
+which may end up being overly permissive regardless.
 
 \subsection{(Semi-)Automated Policy Generation}
 
@@ -746,9 +746,18 @@ the generated reference policy files.
 While SELinux and AppArmor included policy generation as an afterthought, other
 approaches to policy generation have taken an alternative approach, building the
 initial process confinement mechanism with policy generation in mind. Systrace
-\cite{provos2003_systrace}
+\cite{provos2003_systrace} builds policy by observing individual system calls on
+the running system along with their relevant arguments. Policy may be built
+automatically or semi-automatically through pop-up dialogs on mediated security
+events. Systrace's policy language design is reminiscent of the higher level
+seccomp-bpf policy representations found in frameworks like Snap \cite{snap}.
+Although Systrace's policy language design integrates nicely with its policy
+generation mechanism, its usability is impacted by the fact that the end user
+must be familiar with system call semantics to read, understand, and modify
+Systrace policy.
 
-\todo{TODO: Inoue Java policy}
+Inoue's dynamic sandboxing framework for Java applies a similar concept to the
+Java runtime \cite{inoue05_java, inoue05_thesis}. \todo{Continue this}
 
 While policy generation can indeed help with transparency issues in policy
 authorship, it does not necessarily fully alleviate usability concerns. So long
@@ -759,6 +768,8 @@ to enable ad hoc process confinement by end users and painless debugging of
 overly restrictive auto-generated policies.
 
 \subsection{(Semi-)Automated Policy Audit}
+
+\subsection{Taint Propagation}
 
 \section{Adaptive Analysis}
 
@@ -830,6 +841,12 @@ consider the merits of the higher level mechanisms that make use of them.}
 \label{sec:towards}
 
 \subsection{Anomaly Detection Techniques}
+
+\todo{Use the phrase "bridge the gap between process confinement and anomaly
+detection"}
+
+\todo{Systrace and Inoue as early examples of bridging the gap between process
+confinement and anomaly detection}
 
 \subsection{Extended BPF}
 
