@@ -1,3 +1,3 @@
 [submodule "project/WARDEN"]
-	path = project/WARDEN
+	path = project/warden
 	url = https://github.com/willfindlay/WARDEN
