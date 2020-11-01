@@ -94,10 +94,10 @@ Despite decades of work since Lampson's first proposal of the process
 confinement problem in 1973 \cite{lampson1973_a_note}, it remains largely
 unsolved to date \cite{crowell2013_confinement_problem}. This begs the question
 as to whether our current techniques for process confinement are simply
-inadequate for dealing with an evolving technical and adversarial landscape.  In
-this literature review, I argue that, in order to solve the process confinement
-problem, we need to rethink the status quo in process confinement and instead
-move towards \textit{adaptive} process confinement mechanisms.
+inadequate for dealing with an evolving technical and adversarial landscape.
+Here, I argue that, in order to solve the process confinement problem, we need
+to rethink the status quo in process confinement and instead move towards
+\textit{adaptive} process confinement mechanisms.
 
 \subsection{Defining Adaptive Process Confinement}
 \label{sec:defining}
@@ -140,12 +140,16 @@ Roughly, this definition can be broken down into the following properties:
 \subsection{Outline of the Literature Review}
 
 To argue the case for adaptive process confinement, we need to understand the
-existing process confinement literature from an adaptive perspective. To that
-end, I present a novel taxonomy of the existing literature, categorizing process
-confinement mechanisms based on how well they conform to the adaptive properties
-(items \ref{p:1}--\ref{p:5}) outlined above.  In light of this categorization,
-I then discuss what the move towards \textit{truly adaptive} process confinement
-mechanisms might look like.
+existing process confinement literature from an adaptive perspective. In this
+literature review, I examine the process confinement literature and critique its
+adaptiveness according to the definition outlined above (\ref{p:1}--\ref{p:5}).
+I then argue the case for moving towards truly adaptive process confinement
+mechanisms and explore what such a solution might look like.
+%To that end, I present a novel taxonomy of the existing literature,
+%categorizing process confinement mechanisms based on how well they conform to
+%the adaptive properties (items \ref{p:1}--\ref{p:5}) outlined above.  In light
+%of this categorization, I then discuss what the move towards \textit{truly
+%adaptive} process confinement mechanisms might look like.
 
 The rest of this paper proceeds as follows. \Cref{sec:threat_model} presents the
 process confinement threat model.  \Cref{sec:status_quo} examines the status quo
@@ -551,7 +555,7 @@ semantics than their SELinux counterparts, users who wish to write AppArmor
 policy still require a considerable amount of knowledge about operating system
 security \cite{schreuders12_towards}.
 
-\todo{TODO: Come back and discuss other LSM if I have time---FBAC-LSM, TOMOYO, SMACK, yama}
+%\todo{TODO: Come back and discuss other LSM if I have time---FBAC-LSM, TOMOYO, SMACK, yama}
 
 \subsection{High-Level Approaches}
 \label{sec:high-level}
@@ -745,20 +749,19 @@ usability. Users still need to understand the underlying SELinux policy language
 if they are to have any hope of auditing or modifying the generated reference
 policy files.
 
-
 While SELinux and AppArmor included policy generation as an afterthought, other
 policy generation mechanisms have taken an alternative approach, building the
 initial process confinement mechanism with policy generation in mind.
-\todo{TODO: maybe TOMOYO actually belongs here?} Systrace
-\cite{provos2003_systrace} builds policy by observing individual system calls on
-the running system along with their relevant arguments. Policy may be built
-automatically or semi-automatically, through pop-up dialogs on mediated security
-events. Systrace's policy language design is reminiscent of the higher level
-seccomp-bpf policy representations found in frameworks like Snap \cite{snap}.
-Although Systrace's policy language design integrates nicely with its policy
-generation mechanism, its usability is impacted by the fact that the end user
-must be familiar with system call semantics to read, understand, and modify
-Systrace policy.
+%\todo{TODO: maybe TOMOYO actually belongs here?}
+Systrace \cite{provos2003_systrace} builds policy by observing individual system
+calls on the running system along with their relevant arguments. Policy may be
+built automatically or semi-automatically, through pop-up dialogs on mediated
+security events. Systrace's policy language design is reminiscent of the higher
+level seccomp-bpf policy representations found in frameworks like Snap
+\cite{snap}.  Although Systrace's policy language design integrates nicely with
+its policy generation mechanism, its usability is impacted by the fact that the
+end user must be familiar with system call semantics to read, understand, and
+modify Systrace policy.
 
 Inoue and Forrest \cite{inoue05_java, inoue05_thesis} recognized an opportunity
 to apply a similar technique to the Java runtime's extant sandboxing mechanisms
@@ -909,70 +912,116 @@ a running system without relying on complex policy languages or advanced
 security knowledge. These mechanisms would be mostly transparent to the end
 user, easy to use and reconfigure, and effective at responding to novel attacks.
 
-Clearly none of the solutions presented here is a \textit{truly} adaptive
-process confinement mechanism, although some are certainly closer than others.
-To formalize this taxonomy, \Cref{tab:analysis} presents a full classification
-of the mechanisms presented in this literature review, according to properties
-\ref{p:1}--\ref{p:5} listed on \cpageref{p:1}.
-
-\begin{longtable}[c]{rcccccl}
-    \caption{The adaptive evaluation for process confinement techniques discussed in
-    this section. Since Unix DAC is not a process confinement mechanism in its own
-    right, it is omitted here. Note that scores for lower level mechanisms \textit{do not}
-    consider the merits of the higher level mechanisms which make use of them.}
-    \label{tab:analysis}
-    \endfirsthead
-    \caption{(continued)}\\
-    %\midrule
-    \endhead
-    %\midrule
-    %\endfoot
-    %\endlastfoot
-    \toprule
-    Mechanism &
-    \rot{\ref{p:1} Robustness} &
-    \rot{\ref{p:2} Adoptability} &
-    \rot{\ref{p:3} Reconfigurability} &
-    \rot{\ref{p:4} Transparency} &
-    \rot{\ref{p:5} Usability} &
-    Score (max 5) \\
-    \midrule
-    %Unix DAC            & \emptyc & -       & \halfc  & \halfc  & \halfc  & Maladaptive \\
-    POSIX Capabilities   & \emptyc & \fullc  & \emptyc & \halfc  & \emptyc & TODO        \\
-    Namespaces + Cgroups & \halfc  & \fullc  & \emptyc & \emptyc & \emptyc & TODO        \\
-    ptrace               & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
-    Janus                & \halfc  & \emptyc & \emptyc & \halfc  & \emptyc & TODO        \\
-    TRON                 & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
-    seccomp-bpf          & \halfc  & \fullc  & \emptyc & \emptyc & \emptyc & TODO        \\
-    capsicum             & \halfc  & \fullc  & \emptyc & \emptyc & \emptyc & TODO        \\
-    pledge               & \emptyc & \fullc  & \emptyc & \emptyc & \emptyc & TODO        \\
-    SELinux              & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
-    AppArmor             & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
-    %TOMOYO              & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
-    %Yama                & \emptyc & \halfc  & \emptyc & \fullc  & \emptyc & TODO        \\
-    %bpfbox              & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
-    Docker               & \emptyc & \fullc  & \emptyc & \halfc  & \halfc  & TODO        \\
-    Snap                 & \emptyc & \fullc  & \emptyc & \halfc  & \halfc  & TODO        \\
-    Flatpak              & \emptyc & \fullc  & \emptyc & \halfc  & \halfc  & TODO        \\
-    Firejail             & \emptyc & \halfc  & \emptyc & \halfc  & \halfc  & TODO        \\
-    Bubblewrap           & \emptyc & \halfc  & \emptyc & \emptyc & \emptyc & TODO        \\
-    \kimmbox{}           & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
-    \bottomrule
-\end{longtable}
+%Clearly none of the solutions presented here is a \textit{truly} adaptive
+%process confinement mechanism, although some are certainly closer than others.
+%To formalize this taxonomy, \Cref{tab:analysis} presents a full classification
+%of the mechanisms presented in this literature review, according to properties
+%\ref{p:1}--\ref{p:5} listed on \cpageref{p:1}.
+%
+%\begin{longtable}[c]{rcccccl}
+%    \caption{The adaptive evaluation for process confinement techniques discussed in
+%    this section. Since Unix DAC is not a process confinement mechanism in its own
+%    right, it is omitted here. Note that scores for lower level mechanisms \textit{do not}
+%    consider the merits of the higher level mechanisms which make use of them.}
+%    \label{tab:analysis}
+%    \endfirsthead
+%    \caption{(continued)}\\
+%    %\midrule
+%    \endhead
+%    %\midrule
+%    %\endfoot
+%    %\endlastfoot
+%    \toprule
+%    Mechanism &
+%    \rot{\ref{p:1} Robustness} &
+%    \rot{\ref{p:2} Adoptability} &
+%    \rot{\ref{p:3} Reconfigurability} &
+%    \rot{\ref{p:4} Transparency} &
+%    \rot{\ref{p:5} Usability} &
+%    Score (max 5) \\
+%    \midrule
+%    %Unix DAC            & \emptyc & -       & \halfc  & \halfc  & \halfc  & Maladaptive \\
+%    POSIX Capabilities   & \emptyc & \fullc  & \emptyc & \halfc  & \emptyc & TODO        \\
+%    Namespaces + Cgroups & \halfc  & \fullc  & \emptyc & \emptyc & \emptyc & TODO        \\
+%    ptrace               & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
+%    Janus                & \halfc  & \emptyc & \emptyc & \halfc  & \emptyc & TODO        \\
+%    TRON                 & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
+%    seccomp-bpf          & \halfc  & \fullc  & \emptyc & \emptyc & \emptyc & TODO        \\
+%    capsicum             & \halfc  & \fullc  & \emptyc & \emptyc & \emptyc & TODO        \\
+%    pledge               & \emptyc & \fullc  & \emptyc & \emptyc & \emptyc & TODO        \\
+%    SELinux              & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
+%    AppArmor             & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
+%    %TOMOYO              & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
+%    %Yama                & \emptyc & \halfc  & \emptyc & \fullc  & \emptyc & TODO        \\
+%    %bpfbox              & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
+%    Docker               & \emptyc & \fullc  & \emptyc & \halfc  & \halfc  & TODO        \\
+%    Snap                 & \emptyc & \fullc  & \emptyc & \halfc  & \halfc  & TODO        \\
+%    Flatpak              & \emptyc & \fullc  & \emptyc & \halfc  & \halfc  & TODO        \\
+%    Firejail             & \emptyc & \halfc  & \emptyc & \halfc  & \halfc  & TODO        \\
+%    Bubblewrap           & \emptyc & \halfc  & \emptyc & \emptyc & \emptyc & TODO        \\
+%    \kimmbox{}           & \emptyc & \emptyc & \emptyc & \emptyc & \emptyc & TODO        \\
+%    \bottomrule
+%\end{longtable}
 
 \subsection{Bridging the Gap with Anomaly Detection}
 
-\todo{Use the phrase "bridge the gap between process confinement and anomaly
-detection"}
+In anomaly detection, the behaviour of the running system is compared with
+previously observed behaviour to determine if any deviations have occurred;
+these deviations are flagged as anomalous behaviour which may be correlated with
+an active attack \todo{cite}. Many anomaly detection systems include a response
+component, which can thwart detected attacks altogether, while others simply
+report possible attacks to an administrator.
 
-\todo{TODO: Talk about trade-off of \enquote{expressiveness} vs
-\enquote{usability/auditability} + other trade-offs... Adaptive process
-confinement mechanisms could solve this trade-off by dynamically creating the
-policy language itself---policy language conforms to underlying semantics but
-is expressed at a high enough level that users can understand}
+At first glance, it may seem as though anomaly detection obviates the need for
+process confinement entirely. If an anomaly detection system could detect
+anomalous behaviour with perfect accuracy, this would be true. However, anomaly
+detection is not an exact science, and even the most robust anomaly detection
+systems are subject to false positives and false negatives \todo{cite}. In
+process confinement, we have a similar yet subtly different problem: policy can
+be overly permissive (c.f.~false negatives) or overly restrictive (c.f.~false
+positives).
 
-\todo{Systrace and Inoue as early examples of bridging the gap between process
-confinement and anomaly detection}
+There are many possible reasons why policy may be imprecise, as we have seen in
+the process confinement literature. For instance, a policy language might be too
+coarse-grained to properly confine a process; on the other hand, another policy
+language might be too complex for a human policy author to have any hope of
+understanding it. Ultimately, this is symptomatic of a fundamental trade-off in
+process confinement: terseness of policy versus expressiveness of policy. A terse
+policy will be easy to understand and write, but may not be expressive enough to
+capture all possible behaviour, while an expressive policy may be difficult
+for users to write and audit.
+
+I hypothesize that the key to solving this trade-off and creating a truly
+adaptive process confinement mechanism lies in bridging the gap between anomaly
+detection and process confinement. Anomaly detection techniques could be
+leveraged to generate the building blocks of the policy language itself. Since
+this policy language would be generated using behaviour observed on the running
+system, its semantics would conform precisely to the sort of behaviour that
+defenders are interested in confining. Applying meaningful abstractions to this
+generated policy language could then allow it to be used by humans without
+sacrificing its underlying precision.
+
+As a motivating example, consider observed sequences of system calls:
+a \texttt{fork(2)} followed by an \texttt{execve(2)} could be abstracted into
+one rule called \texttt{run\_program}; the complex sequence of \texttt{fstat}'s,
+\texttt{mmap}'s, \texttt{access}'es, \texttt{openat}'s, and \texttt{read}'s at
+the beginning of a C program could be abstracted into another rule called
+\texttt{load\_libc}. The user doesn't need to know or care about the underlying
+details of these rules, yet the basis of the policy language conforms precisely
+with the semantics of the system.
+
+In the process confinement literature, the idea of bridging the gap between
+anomaly detection and process confinement is not unheard of. Provos' Systrace
+\cite{provos2003_systrace} and Inoue and Forrest's technique for dynamic
+sandboxing in Java \cite{inoue05_java, inoue05_thesis} are two excellent
+examples of this. Both of these mechanisms analyze the behaviour of running
+software to automatically generate policy; however, the resulting policy is
+often complex since it is expressed in a confinement language that directly
+conforms to the semantics of the underlying system. An ideal solution would
+achieve a generated policy that is simultaneously precise and understandable by
+users. By generating the confinement language itself, this complexity could be
+abstracted away while preserving the underlying semantics of the operating
+system.
 
 %\subsection{Extended BPF}
 %
@@ -982,7 +1031,8 @@ confinement and anomaly detection}
 \label{sec:conclusion}
 
 Process confinement is a hard problem that has been studied for nearly
-five decades \cite{lampson1973_a_note}.
+five decades \cite{lampson1973_a_note}. Many proposed solutions exist,
+yet none is capable of \todo{FINISH THIS}
 
 % Uncomment for bibliography:
 %\nocite{*} % TODO: Comment this out when done
