@@ -564,8 +564,8 @@ Under SELinux, system subjects (users, processes, etc.) and system objects
 policy is then written based on these labels, specifying the allowed access
 patterns between a particular object type and subject type. SELinux's policy
 language is famously arcane \cite{schreuders12_towards}, and despite multiple
-efforts to introduce automatic policy generation \cite{audit2allow,
-macmillan07_madison, macmillan07_madison}, writing and auditing SELinux security
+efforts to introduce automated policy generation \cite{audit2allow,
+macmillan07_madison, sniffen06_guided}, writing and auditing SELinux security
 policy remains a task for security experts rather than end-users. Further, due
 to the difficulty of writing and auditing the complex SELinux policy language,
 there is a natural tendency for human policy authors to err on the side of
@@ -738,20 +738,20 @@ process confinement mechanisms I have discussed thus far. This is particularly
 true for highly complex, low-level mechanisms like SELinux
 \cite{smalley2001_selinux}, AppArmor \cite{cowan2000_apparmor}, and seccomp-bpf
 \cite{drewry2012_seccomp_bpf,seccomp_bpf}. It is tempting to turn toward the
-notion of \textit{automatic policy generation} to alleviate these issues.
+notion of \textit{automated policy generation} to alleviate these issues.
 
-Both SELinux and AppArmor include mechanisms for automatic policy generation.
-AppArmor's \texttt{aa-easyprof} \cite{aa_easyprof} guides the user through
-policy generation, and supplementary templates and abstractions can be provided
-to bootstrap the policy generation process. However, policy generated using this
-method tends toward over-permission, and its quality is highly dependent on the
-quality of the provided policy templates \cite{aa_easyprof}.  AppArmor also
-supports two lower-level policy generation tools.  \texttt{aa-genprof}
-\cite{aa_genprof} generates policy using AppArmor's audit logs, while
-\texttt{aa-logprof} \cite{aa_logprof} does the same thing with guided input from
-the user. Both these approaches have the advantage of higher transparency to the
-end-user but may generate a more restrictive policy that could require manual
-modification to function.
+Both SELinux and AppArmor include mechanisms for automated and semi-automated
+policy generation.  AppArmor's \texttt{aa-easyprof} \cite{aa_easyprof} guides
+the user through policy generation, and supplementary templates and abstractions
+can be provided to bootstrap the policy generation process. However, policy
+generated using this method tends toward over-permission, and its quality is
+highly dependent on the quality of the provided policy templates
+\cite{aa_easyprof}.  AppArmor also supports two lower-level policy generation
+tools.  \texttt{aa-genprof} \cite{aa_genprof} generates policy using AppArmor's
+audit logs, while \texttt{aa-logprof} \cite{aa_logprof} does the same thing with
+guided input from the user. Both these approaches have the advantage of higher
+transparency to the end-user but may generate a more restrictive policy that
+could require manual modification to function.
 
 SELinux policy generation was originally supported via the \texttt{audit2allow}
 \cite{audit2allow} command line tool. This tool functions similarly to
