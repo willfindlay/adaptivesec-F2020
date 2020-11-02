@@ -22,12 +22,12 @@ A system call sequence:
 name: run_program
 description: |
     Allows a fork or clone followed by an execve or execveat.
-parameters:
+arguments:
     - name: program
       type: glob
 order: strict
 sequence:
-    - fork, clone
+    - fork, vfork, clone
     - execve program, execveat program
 ```
 
