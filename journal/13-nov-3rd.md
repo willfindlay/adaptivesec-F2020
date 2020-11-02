@@ -43,3 +43,8 @@ audit:
 deny:
     - run_program '*'
 ```
+
+Still unsure what role automatic generation will play in all of this. I was
+originally thinking the sequence files would be generated and modified by the
+user. Could also bootstrap with some pre-configured defaults, such as the
+run_program example above.
