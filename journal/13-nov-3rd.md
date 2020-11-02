@@ -31,6 +31,8 @@ sequence:
     - execve program, execveat program
 ```
 
+An example profile for `ls` using that sequence:
+
 ```yaml
 profile: /usr/bin/ls
 description: |
