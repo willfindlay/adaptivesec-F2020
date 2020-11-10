@@ -33,7 +33,7 @@ Notes                  = Much of the same rationale applies here. However I upgr
 
 First Author           = Berman
 Title                  = TRON: Process-Specific File Protection for the UNIX Operating System
-Venue                  = US 1995
+Venue                  = USENIX Security 1995
 Type                   = Defense
 Relevance              = High
 Scope                  = Broad
@@ -45,7 +45,7 @@ Notes                  = TRON was one of the first works that really looked into
 
 First Author           = Goldberg
 Title                  = A Secure Environment for Untrusted Helper Applications (Confining the Wily Hacker)
-Venue                  = US 1996
+Venue                  = USENIX Security 1996
 Type                   = Defense
 Relevance              = High
 Scope                  = Narrow
@@ -55,27 +55,27 @@ Notes                  = Janus proposes some good process confinement ideas, but
 
 ### Polgen
 
-First Author           =
+First Author           = Sniffen
 Title                  = Guided policy generation for application authors
-Venue                  =
-Type                   =
-Relevance              =
-Scope                  =
-Feasibility/Utility    =
+Venue                  = SELinux Symposium 2006
+Type                   = Defense
+Relevance              = Medium
+Scope                  = Narrow
+Feasibility/Utility    = Medium
 Durability of Insights = Low
-Notes                  =
+Notes                  = Only really applies to SELinux, does not divorce itself enough from underlying complex policy language to be that useful in practice.
 
 ### Madison
 
-First Author           =
+First Author           = MacMillan
 Title                  = Madison: A New Approach to Policy Generation
-Venue                  =
-Type                   =
-Relevance              =
-Scope                  =
-Feasibility/Utility    =
+Venue                  = SELinux Symposium 2007
+Type                   = Defense
+Relevance              = Medium
+Scope                  = Narrow
+Feasibility/Utility    = Medium
 Durability of Insights = Low
-Notes                  =
+Notes                  = Same as Polgen
 
 ## Project Updates
 
