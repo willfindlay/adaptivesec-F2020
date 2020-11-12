@@ -1,0 +1,15 @@
+===============================
+Alex Stamos Election Fraud Talk
+===============================
+
+WOW! He's talking about acamedia vs industry!
+    - The _disconnect between academia and reality_
+    - "CS Hard Problems" vs "Practical Problems" with real-world implications
+    - Who cares if you can run rowhammer attacks to mess around with VM memory
+    - None of this is practical
+    - We need to _incentivize_ practical academic work
+
+trade-offs between preventing harm and respecting privacy
+    - We need to see more research here
+
+open sourcing lectures!!!
