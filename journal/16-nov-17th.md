@@ -30,6 +30,48 @@ What's next:
     * Area by conference by year? (maybe)
     * etc.
 
+## Thoughts on the Readings
+
+### Establishing a Baseline for Measuring Advancement in theScience of Security – an Analysis of the 2015 IEEESecurity & Privacy Proceedings
+
+The focus here is on the quality of scientific reporting in security papers.
+
+* Not so much attack vs defense
+* Rather, do they present:
+    * Research objectives?
+    * Limitations?
+    * Threats to validity?
+    * Etc.
+
+In theory, it would be nice to move towards higher quality scientific reporting
+in security. But this doesn't really solve the problem of increasingly
+irrelevant and impractical security literature in academia.
+
+However, we can certainly borrow some of the ideas here (e.g. how the
+paper is structured, the types of research questions, etc.).
+
+"Five of the authors developed and evolved a rubric of indicators of scientific research based upon the literature."
+
+* This sounds similar to the rubric we have been discussing in class
+* But it seems to be much finer-grained
+    * (probably closer to what we initially discussed than where we ended up)
+
+"Six other authors applied this rubric to evaluate the 55 papers in the 2015
+IEEE Security and Privacy conference proceedings."
+
+* It seems that the scope of their study is also much narrower than our own
+
+"Because of the opportunistic nature of much of the current security research..."
+
+* I think this hits the nail on the head
+* A new attack comes up, and everyone piles on
+
+### Characterizing Scientific Reporting in Security Literature:An analysis of ACM CCS and IEEE S&P Papers
+
+A criterion given here that would be nice to include in our analysis:
+
+* "Does the paper include an artifact?" -- A nice binary question with implications for practicality
+
 ## Project Updates
 
 Now working on eBPF containers, tentatively calling the project "cell".
