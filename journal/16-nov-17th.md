@@ -66,6 +66,24 @@ IEEE Security and Privacy conference proceedings."
 * I think this hits the nail on the head
 * A new attack comes up, and everyone piles on
 
+"In security science, as an applied discipline, in addition to providing
+scientific knowledge, theories should also be  useful to practitioners to
+support decision-making."
+
+* Now they are approaching our thesis: Security research needs to matter in practice.
+* I would argue that this extends beyond theory and into the realm of practicality
+* Current research trends are far too narrow and tend not to focus on the problems that really matter
+    * Anil's analogy: It's like fixing a tiny leak in the roof instead of the water gushing in right next to you
+
+Would be useful to check out references [21, 10, 11] as they refer to studies that
+"provide classifications of the type of research reports [...] published".
+
+Section 3.1 seems useful to compare with our classification categories. I also
+like the idea of using concise labels like AL, M, L instead of spelling out each
+category. It's also interesting that their model supports multiple
+classifications per paper. I think something like this _might_ be beneficial for
+our study as well.
+
 ### Characterizing Scientific Reporting in Security Literature:An analysis of ACM CCS and IEEE S&P Papers
 
 A criterion given here that would be nice to include in our analysis:
