@@ -84,6 +84,11 @@ category. It's also interesting that their model supports multiple
 classifications per paper. I think something like this _might_ be beneficial for
 our study as well.
 
+As an aside, I think that this paper will be useful to refer back to when I am
+conducting and writing up my own future research. They have a lot of solid ideas
+on how security research papers should be structured and written that I think
+can help make my own work more rigorous.
+
 ### Characterizing Scientific Reporting in Security Literature:An analysis of ACM CCS and IEEE S&P Papers
 
 A criterion given here that would be nice to include in our analysis:
