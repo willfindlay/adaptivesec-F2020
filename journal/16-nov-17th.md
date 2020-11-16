@@ -91,6 +91,15 @@ can help make my own work more rigorous.
 
 ### Characterizing Scientific Reporting in Security Literature:An analysis of ACM CCS and IEEE S&P Papers
 
+This is a nice follow-up paper to the original work. I think the most important
+thing to note here is how their criteria and research questions have changed
+since the previous work. It seems like they have at least partially simplified
+their original rubric.
+
+* Evaluation Subject Type: Stayed the same
+* Evaluation Subject Source: Completely new category, replacing the "Is New" category from before
+* Evaluation Approach: Case study and experiment have been combined into _empirical study_
+
 A criterion given here that would be nice to include in our analysis:
 
 * "Does the paper include an artifact?" -- A nice binary question with implications for practicality
