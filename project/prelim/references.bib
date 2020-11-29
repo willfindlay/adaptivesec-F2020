@@ -1,0 +1,838 @@
+-------------------------------------------------------------------------------
+Survey Papers
+-------------------------------------------------------------------------------
+
+A 2011 survey paper that talks about runtime policy enforcement.  Probably not
+worth citing on its own but raiding the bibliography might be prudent.
+@techreport{gheorghe2011_survey,
+  title        = {{A Survey of Runtime Policy Enforcement Techniques and Implementations}},
+  author       = {Gheorghe, Gabriela and Crispo, Bruno},
+  year         = {2011},
+  institution  = {University of Trento},
+  url          = {http://eprints.biblio.unitn.it/2268/1/techRep477.pdf},
+}
+
+-------------------------------------------------------------------------------
+Historical Process Confinement
+-------------------------------------------------------------------------------
+
+The original description of the process confinement problem
+@article{lampson1973_a_note,
+  author       = {Lampson, Butler W.},
+  title        = {{A Note on the Confinement Problem}},
+  year         = {1973},
+  publisher    = {Association for Computing Machinery},
+  address      = {New York, NY, USA},
+  volume       = {16},
+  number       = {10},
+  issn         = {0001-0782},
+  doi          = {10.1145/362375.362389},
+  journal      = {Communications of the ACM},
+  pages        = {613–615},
+  numpages     = {3},
+}
+
+@article{saltzer1975_protection,
+  author  = {J. H. {Saltzer} and M. D. {Schroeder}},
+  journal = {Proceedings of the IEEE},
+  title   = {{The Protection of Information in Computer Systems}},
+  year    = {1975},
+  volume  = {63},
+  number  = {9},
+  pages   = {1278-1308},
+  doi     = {10.1109/PROC.1975.9939}
+}
+
+Multics ring protection
+@article{graham1968_protection,
+  author       = {Graham, Robert M.},
+  title        = {Protection in an Information Processing Utility},
+  year         = {1968},
+  publisher    = {Association for Computing Machinery},
+  address      = {New York, NY, USA},
+  volume       = {11},
+  number       = {5},
+  issn         = {0001-0782},
+  doi          = {10.1145/363095.363146},
+  journal      = {Communications of the ACM},
+  pages        = {365–369},
+  numpages     = {5},
+}
+
+Morris worm
+@inproceedings{spafford1989_morris,
+  author       = {Eugene H. Spafford},
+  title        = {{The Internet Worm Incident}},
+  booktitle    = {{ESEC} '89, 2nd European Software Engineering Conference, University
+               of Warwick, Coventry, UK, September 11-15, 1989, Proceedings},
+  series       = {Lecture Notes in Computer Science},
+  volume       = {387},
+  pages        = {446--468},
+  publisher    = {Springer},
+  year         = {1989},
+  doi          = {10.1007/3-540-51635-2\_54},
+}
+
+
+Unix
+@inproceedings{ritchie1973_unix,
+  author       = {Ritchie, Dennis M. and Thompson, Ken},
+  title        = {{The UNIX Time-Sharing System}},
+  year         = {1973},
+  isbn         = {9781450373746},
+  publisher    = {Association for Computing Machinery},
+  address      = {New York, NY, USA},
+  doi          = {10.1145/800009.808045},
+  booktitle    = {Proceedings of the Fourth ACM Symposium on Operating System Principles},
+  pages        = {27},
+  numpages     = {1},
+  series       = {SOSP '73}
+}
+
+CTSS
+@inproceedings{corbato1962_ctss,
+  author       = {Corbat\'{o}, Fernando J. and Merwin{-}Daggett, Marjorie and Daley, Robert C.},
+  title        = {{An Experimental Time-Sharing System}},
+  year         = {1962},
+  isbn         = {9781450378758},
+  publisher    = {Association for Computing Machinery},
+  address      = {New York, NY, USA},
+  doi          = {10.1145/1460833.1460871},
+  booktitle    = {Proceedings of the May 1-3, 1962, Spring Joint Computer Conference},
+  pages        = {335–344},
+  numpages     = {10},
+  location     = {San Francisco, California},
+  series       = {AIEE-IRE '62 (Spring)}
+}
+
+@article{crowell2013_confinement_problem,
+  author       = {Alexander Crowell and Beng Heng Ng and Earlence Fernandes and Atul Prakash},
+  title        = {{The Confinement Problem: 40 Years Later}},
+  journal      = {Journal of Information Processing Systems},
+  volume       = {9},
+  number       = {2},
+  pages        = {189--204},
+  year         = {2013},
+  doi          = {10.3745/JIPS.2013.9.2.189},
+  url          = {http://jips-k.org/journals/jips/digital-library/manuscript/file/22579/JIPS-2013-9-2-189.pdf},
+}
+
+@article{cohen1996_secure,
+  author       = {Frederick B. Cohen},
+  title        = {{A Secure World-Wide-Web Daemon}},
+  journal      = {Comput. Secur.},
+  volume       = {15},
+  number       = {8},
+  pages        = {707--724},
+  year         = {1996},
+  doi          = {10.1016/S0167-4048(96)00009-0},
+}
+
+
+
+-------------------------------------------------------------------------------
+Process Confinement
+-------------------------------------------------------------------------------
+
+A comparison of Unix sandboxing techniques
+Comparing seccomp-bpf, capsicum, and pledge
+@article{anderson2017_comparison,
+  author       = {Anderson, James P.},
+  title        = {{A Comparison of Unix Sandboxing Techniques}},
+  journaltitle = {FreeBSD Journal},
+  %volume      = {NN},
+  %number      = {NN},
+  year         = {2017},
+  %pages       = {NN--NN}
+  url          = {http://www.engr.mun.ca/~anderson/publications/2017/sandbox-comparison.pdf},
+}
+
+
+My paper on bpfbox
+@inproceedings{findlay20_bpfbox,
+  title        = {{bpfbox: Simple Precise Process Confinement with eBPF}},
+  author       = {William Findlay and Anil Somayaji and David Barrera},
+  booktitle    = {Proceedings of the 2020 ACM Cloud Computing Security Workshop (CCSW'2020)},
+  month        = {Nov},
+  year         = {2020},
+  doi          = {10.1145/3411495.3421358},
+  note         = {To appear},
+  url          = {https://www.cisl.carleton.ca/~will/written/conference/bpfbox-ccsw2020.pdf}
+}
+
+@inproceedings{gamble1993_execution_controls,
+  author       = {Todd Gamble},
+  title        = {{Implementing Execution Controls in Unix}},
+  booktitle    = {Proceedings of the Seventh Large Installation System Administration Conference (LISA)},
+  publisher    = {The USENIX Association},
+  year         = {1993},
+  url          = {https://www.usenix.org/legacy/publications/library/proceedings/lisa93/full_papers/gamble.pdf},
+}
+
+Tron was an early effort at writing process-specific policies for Unix back in
+1995! Crazy stuff
+@inproceedings{berman1995_tron,
+  author       = {Andrew Berman and Virgil Bourassa and Erik Selberg},
+  title        = {{TRON: Process-Specific File Protection for the UNIX Operating System}},
+  booktitle    = {Proceedings of the USENIX 1995 Technical Conference},
+  publisher    = {The USENIX Association},
+  year         = {1995},
+  pages        = {165--175},
+  url          = {https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.56.9149&rep=rep1&type=pdf},
+}
+
+Janus implements process confinement in userspace using an extended version
+of ptrace (ptrace++)
+@inproceedings{goldberg96_janus,
+  author       = {Ian Goldberg and David Wagner and Randi Thomas and Eric Brewer},
+  title        = {{A Secure Environment for Untrusted Helper Applications (Confining the Wily Hacker)}},
+  booktitle    = {Proceedings of the Sixth USENIX UNIX Security Symposium},
+  publisher    = {The USENIX Association},
+  year         = {1996},
+  url          = {https://www.usenix.org/legacy/publications/library/proceedings/sec96/full_papers/goldberg/goldberg.pdf},
+}
+@mastersthesis{wagner1999_janus,
+  title        = {{Janus: An Approach for Confinement of Untrusted Applications}},
+  author       = {Wagner, David A.},
+  year         = {1999},
+  school       = {University of California, Berkeley},
+  url          = {https://www2.eecs.berkeley.edu/Pubs/TechRpts/1999/CSD-99-1056.pdf},
+}
+
+System call interposition for process confinement and intrustion detection.
+Allegedly this work is Janus 2.0
+@inproceedings{jain05_janus2,
+  author       = {Jain, K and Sekar, R},
+  title        = {{User-level infrastructure for system call interposition: A platform for intrusion detection and confinement}},
+  booktitle    = {Proceedings of the Network and Distributed Systems Security Symposium (NDSS)},
+  year         = {2005},
+}
+
+Provos
+@inproceedings{provos2003_systrace,
+  author       = {Niels Provos},
+  title        = {{Improving Host Security with System Call Policies}},
+  booktitle    = {Proceedings of the 13th USENIX UNIX Security Symposium},
+  publisher    = {The USENIX Association},
+  year         = {2003},
+  url          = {http://citi.umich.edu/u/provos/papers/systrace.pdf},
+}
+
+Usability study of AppArmor, SELinux, and FBAC-LSM
+@inproceedings{schreuders12_towards,
+  title        = {{Towards Usable Application-Oriented Access Controls}},
+  author       = {Schreuders, Z. Cliffe and McGill, Tanya Jane and Payne, Christian},
+  booktitle    = {{International Journal of Information Security and Privacy}},
+  volume       = {6},
+  number       = {1},
+  pages        = {57--76},
+  year         = {2012},
+  %doi          = {10.4018/jisp.2012010104},
+  url          = {https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.963.860&rep=rep1&type=pdf},
+}
+
+SELinux
+@inproceedings{smalley2001_selinux,
+  title         = {{Implementing SELinux as a Linux security module}},
+  author        = {Smalley, Stephen and Vance, Chris and Salamon, Wayne},
+  journal       = {{NAI Labs Report}},
+  volume        = {1},
+  number        = {43},
+  pages         = {139},
+  year          = {2001},
+  url           = {https://www.cs.unibo.it/~sacerdot/doc/so/slm/selinux-module.pdf},
+}
+
+Flask Architecture
+@inproceedings{spencer1999_flask,
+  author    = {Ray Spencer and
+               Stephen Smalley and
+               Peter Loscocco and
+               Mike Hibler and
+               Dave G. Andersen and
+               Jay Lepreau},
+  %editor   = {G. Winfield Treese},
+  title     = {{The Flask Security Architecture: System Support for Diverse Security
+               Policies}},
+  booktitle = {Proceedings of the 8th {USENIX} Security Symposium, Washington, DC,
+               USA, August 23-26, 1999},
+  publisher = {{USENIX} Association},
+  year      = {1999},
+  url       = {https://www.usenix.org/conference/8th-usenix-security-symposium/flask-security-architecture-system-support-diverse-security},
+}
+
+
+AppArmor
+@InProceedings{cowan2000_apparmor,
+  author        = {Crispin Cowan and Steve Beattie and Greg Kroah-Hartman and Calton Pu and Perry Wagle and Virgil Gligor},
+  title         = {{SubDomain: Parsimonious Server Security}},
+  booktitle     = {Proceedings of the 14st Large Installation Systems Administration Conference (LISA)},
+  year          = 2000,
+  address       = {New Orleans, LA, United States},
+  publisher     = {{USENIX} Association},
+  url           = {https://www.usenix.org/legacy/event/lisa2000/full_papers/cowan/cowan.pdf},
+}
+
+@inproceedings{harada2004_tomoyo,
+  title     = {{Task oriented management obviates your onus on Linux}},
+  author    = {Harada, Toshiharu and Horie, Takashi and Tanaka, Kazuo},
+  booktitle = {Linux Conference},
+  volume    = {3},
+  pages     = {23},
+  year      = {2004},
+  url       = {https://ja.osdn.net/projects/tomoyo/docs/lc2004-en.pdf/en/2/lc2004-en.pdf},
+}
+
+LSM Hooks
+@inproceedings{wright2002_lsm,
+  author    = {Chris Wright and
+               Crispin Cowan and
+               Stephen Smalley and
+               James Morris and
+               Greg Kroah{-}Hartman},
+  %editor    = {Dan Boneh},
+  title     = {{Linux Security Modules: General Security Support for the Linux Kernel}},
+  booktitle = {Proceedings of the 11th {USENIX} Security Symposium, San Francisco,
+               CA, USA, August 5-9, 2002},
+  pages     = {17--31},
+  publisher = {{USENIX}},
+  year      = {2002},
+  url       = {http://www.usenix.org/publications/library/proceedings/sec02/wright.html},
+}
+
+@misc{snap,
+  author       = {{Snapcraft}},
+  title        = {{Security Policy and Sandboxing}},
+  year         = {2020},
+  url          = {https://snapcraft.io/docs/security-sandboxing},
+  urldate      = {2020-10-25},
+}
+
+@misc{flatpak,
+  author       = {{Flatpak}},
+  title        = {{Sandbox Permissions}},
+  year         = {2020},
+  url          = {https://docs.flatpak.org/en/latest/sandbox-permissions.html},
+  urldate      = {2020-10-25},
+}
+
+@misc{docker,
+  author       = {Docker},
+  title        = {{Docker Security}},
+  year         = {2020},
+  url          = {https://docs.docker.com/engine/security/security},
+  urldate      = {2020-10-25},
+}
+
+@misc{bubblewrap,
+  author       = {{Bubblewrap}},
+  title        = {{Bubblewrap}},
+  year         = {2020},
+  url          = {https://github.com/containers/bubblewrap},
+  urldate      = {2020-10-25},
+}
+
+@misc{firejail,
+  author       = {{Firejail}},
+  title        = {{Firejail}},
+  year         = {2020},
+  url          = {https://firejail.wordpress.com},
+  urldate      = {2020-10-25},
+}
+
+@inproceedings{kim2013_mbox,
+  author    = {Taesoo Kim and
+               Nickolai Zeldovich},
+  %editor    = {Andrew Birrell and
+  %             Emin G{\"{u}}n Sirer},
+  title     = {{Practical and Effective Sandboxing for Non-root Users}},
+  booktitle = {2013 {USENIX} Annual Technical Conference, San Jose, CA, USA, June
+               26-28, 2013},
+  pages     = {139--144},
+  publisher = {{USENIX} Association},
+  year      = {2013},
+  url       = {https://www.usenix.org/conference/atc13/technical-sessions/presentation/kim},
+}
+
+@article{sultan2019_container_security,
+  author  = {S. {Sultan} and I. {Ahmad} and T. {Dimitriou}},
+  journal = {IEEE Access},
+  title   = {{Container Security: Issues, Challenges, and the Road Ahead}},
+  year    = {2019},
+  volume  = {7},
+  number  = {},
+  pages   = {52976-52996},
+  doi     = {10.1109/ACCESS.2019.2911732},
+}
+
+-------------------------------------------------------------------------------
+Policy Generation
+-------------------------------------------------------------------------------
+
+@inproceedings{macmillan07_madison,
+  title        = {{Madison: A new approach to policy generation}},
+  author       = {MacMillan, Karl},
+  booktitle    = {{SELinux Symposium}},
+  year         = {2007},
+  url          = {http://selinuxsymposium.org/2007/papers/08-polgen.pdf},
+}
+
+Reference Policy for Security Enhanced Linux
+@inproceedings{pebenito2006_refpol,
+  title        = {{Reference Policy for Security Enhanced Linux}},
+  author       = {Christopher J. PeBenito and Frank Mayer and Karl MacMillan},
+  booktitle    = {{SELinux Symposium}},
+  year         = {2006},
+  url          = {http://selinuxsymposium.org/2006/papers/05-refpol.pdf},
+}
+
+TODO: Add other systems cited in the madison paper
+
+@inproceedings{sniffen06_guided,
+  title        = {{Guided policy generation for application authors}},
+  author       = {Sniffen, Brian T. and Harris, David R. and Ramsdell, John D.},
+  booktitle    = {{SELinux Symposium}},
+  year         = {2006},
+  url          = {http://gelit.ch/td/SELinux/Publications/Mitre_Tools.pdf},
+}
+
+@misc{audit2allow,
+  title        = {{audit2allow(1)}},
+  author       = {Justin R. Smith and Yuichi Nakamura and Dan Walsh},
+  note         = {Linux user's manual},
+  url          = {http://linux.die.net/man/1/audit2allow},
+}
+
+@misc{aa_easyprof,
+  title        = {{aa-easyprof(8)}},
+  author       = {{AppArmor}},
+  note         = {Linux user's manual},
+  url          = {https://manpages.ubuntu.com/manpages/precise/man8/aa-easyprof.8.html},
+}
+
+@misc{aa_genprof,
+  title        = {{aa-genprof(8)}},
+  author       = {{AppArmor}},
+  note         = {Linux user's manual},
+  url          = {https://manpages.ubuntu.com/manpages/precise/man8/aa-genprof.8.html},
+}
+
+@misc{aa_logprof,
+  title        = {{aa-logprof(8)}},
+  author       = {{AppArmor}},
+  note         = {Linux user's manual},
+  url          = {https://manpages.ubuntu.com/manpages/precise/man8/aa-logprof.8.html},
+}
+
+
+@inproceedings{inoue05_java,
+  title        = {{Inferring Java Security Policies through Dynamic Sandboxing}},
+  author       = {Hajime Inoue and Stephanie Forrest},
+  url          = {https://www.cs.unm.edu/~forrest/publications/inoue-plc-05.pdf},
+  booktitle    = {International Conference on Programming Languages and Compilers (PLC’05)},
+  year         = {2005},
+}
+
+@phdthesis{inoue05_thesis,
+  title        = {{Anomaly detection in dynamic execution environments}},
+  author       = {Inoue, Hajime},
+  year         = {2005},
+  school       = {University of New Mexico},
+  url          = {https://www.cs.unm.edu/~forrest/dissertations/inoue-dissertation.pdf},
+}
+
+
+@article{gong1993_java2,
+  author    = {Li Gong and Gary Ellison and Mary Dageforde},
+  title     = {{Inside Java 2 Platform Security: Architecture, API Design, and Implementation}},
+  year      = {1993},
+  publisher = {Addison-Wesley},
+  note      = {Second Edition},
+}
+
+
+-------------------------------------------------------------------------------
+Policy Auditing
+-------------------------------------------------------------------------------
+
+@inproceedings{deshotels18_ioracle,
+  author       = {Deshotels, Luke and Deaconescu, Razvan and Carabas, Costin and Manda, Iulia and Enck, William and Chiroiu, Mihai and Li, Ninghui and Sadeghi, Ahmad{-}Reza},
+  title        = {{iOracle: Automated Evaluation of Access Control Policies in iOS}},
+  year         = {2018},
+  isbn         = {9781450355766},
+  publisher    = {Association for Computing Machinery},
+  address      = {New York, NY, USA},
+  doi          = {10.1145/3196494.3196527},
+  booktitle    = {Proceedings of the 2018 on Asia Conference on Computer and Communications Security},
+  pages        = {117–131},
+  numpages     = {15},
+  keywords     = {iphone, access control, mobile security, ios, policy modeling},
+  location     = {Incheon, Republic of Korea},
+  series       = {ASIACCS '18},
+}
+
+@inproceedings{chen09_vulsan,
+  author       = {Hong Chen and Ninghui Li and Ziqing Mao},
+  title        = {{Analyzing and Comparing the Protection Quality of Security Enhanced Operating Systems}},
+  booktitle    = {Proceedings of the Network and Distributed Systems Security Symposium (NDSS)},
+  year         = {2009},
+  url          = {https://www.ndss-symposium.org/wp-content/uploads/2017/09/Chen.pdf},
+}
+
+-------------------------------------------------------------------------------
+Taint Tracking
+-------------------------------------------------------------------------------
+
+TODO: maybe?
+Dynamic Taint Analysis for Automatic Detection,Analysis, and Signature Generation of Exploitson Commodity Software
+https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.307.8389&rep=rep1&type=pdf
+
+@misc{hurst2004_perl,
+  title  = {{Analysis of Perl’s Taint Mode}},
+  author = {Hurst, Andrew},
+  year   = {2004},
+  url    = {http://hurstdog.org/papers/hurst04taint.pdf}
+}
+
+@inproceedings{bello2012_taint,
+  author    = {Luciano Bello and
+               Alejandro Russo},
+  %editor    = {Sergio Maffeis and
+  %             Tamara Rezk},
+  title     = {{Towards a Taint Mode for Cloud Computing Web Applications}},
+  booktitle = {Proceedings of the 2012 Workshop on Programming Languages and Analysis
+               for Security, {PLAS} 2012, Beijing, China, 15 June, 2012},
+  pages     = {7},
+  publisher = {{ACM}},
+  year      = {2012},
+  %url       = {https://doi.org/10.1145/2336717.2336724},
+  doi       = {10.1145/2336717.2336724},
+}
+
+@inproceedings{conti2010_taint,
+  author    = {Juan Jos{\'{e}} Conti and
+               Alejandro Russo},
+  %editor    = {Tuomas Aura and
+  %             Kimmo J{\"{a}}rvinen and
+  %             Kaisa Nyberg},
+  title     = {{A Taint Mode for Python via a Library}},
+  booktitle = {Information Security Technology for Applications - 15th Nordic Conference
+               on Secure {IT} Systems, NordSec 2010, Espoo, Finland, October 27-29,
+               2010, Revised Selected Papers},
+  %series    = {Lecture Notes in Computer Science},
+  volume    = {7127},
+  pages     = {210--222},
+  publisher = {Springer},
+  year      = {2010},
+  %url       = {https://doi.org/10.1007/978-3-642-27937-9\_15},
+  doi       = {10.1007/978-3-642-27937-9\_15},
+}
+
+-------------------------------------------------------------------------------
+Langauge Generation
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+Anomaly Detection and Sequence Analysis
+-------------------------------------------------------------------------------
+
+@phdthesis{soma02_pH,
+  title        = {{Operating System Stability and Security through Process Homeostasis}},
+  url          = {https://people.scs.carleton.ca/~soma/pubs/soma-diss.pdf},
+  school       = {University of New Mexico},
+  author       = {Somayaji, Anil},
+  year         = {2002},
+}
+
+@inproceedings{forrest96_sense_of_self,
+  author       = {S. {Forrest} and S. A. {Hofmeyr} and A. {Somayaji} and T. A. {Longstaff}},
+  booktitle    = {{Proceedings 1996 IEEE Symposium on Security and Privacy}},
+  title        = {{A Sense of Self for Unix Processes}},
+  year         = {1996},
+  volume       = {},
+  number       = {},
+  pages        = {120-128},
+  doi          = {10.1109/SECPRI.1996.502675},
+  ISSN         = {1081-6011},
+  month        = {May},
+}
+
+@inproceedings{soma07_lookahead,
+  place        = {New York, New York},
+  title        = {{Lookahead Pairs and Full Sequences: A Tale of Two Anomaly Detection Methods}},
+  url          = {http://people.scs.carleton.ca/~soma/pubs/inoue-albany2007.pdf},
+  booktitle    = {{Proceedings of the 2nd Annual Symposium on Information Assurance Academic track of the 10th Annual 2007 NYS Cyber Security Conference}},
+  publisher    = {{NYS Cyber Security Conference}},
+  author       = {Somayaji, Anil and Inoue, Hajime},
+  year         = {2007},
+  pages        = {9–19}
+}
+
+@thesis{findlay20_ebpH,
+  title        = {{Host-Based Anomaly Detection with Extended BPF}},
+  author       = {William Findlay},
+  month        = {April},
+  year         = {2020},
+  institution  = {Carleton University},
+  type         = {Honours Thesis},
+  url          = {https://williamfindlay.com/written/thesis.pdf}
+}
+
+-------------------------------------------------------------------------------
+Semantic Meaning in Computing
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+eBPF Background
+-------------------------------------------------------------------------------
+
+Article on eBPF in LWN
+@article{fleming17_ebpf,
+  title   = {{A thorough introduction to eBPF}},
+  url     = {https://lwn.net/Articles/740157},
+  journal = {{LWN.net}},
+  author  = {Fleming, Matt},
+  year    = {2017},
+  month   = {Dec},
+  urldate = {2020-09-26},
+}
+
+The literal book on eBPF
+@book{gregg19_bpf,
+  title     = {{BPF Performance Tools}},
+  author    = {Gregg, Brendan},
+  year      = {2019},
+  isbn      = {0-13-655482-2},
+  publisher = {Addison-Wesley Professional}
+}
+
+-------------------------------------------------------------------------------
+Misc.
+-------------------------------------------------------------------------------
+
+Anderson Reference Monitor
+@techreport{anderson1973_reference_monitor,
+  author       = {Anderson, James P.},
+  title        = {{Computer Security Technology Planning Study}},
+  number       = {ESD-TR-73-51},
+  organization = {US Air Force Electronic Systems Division},
+  year         = {1973},
+  url          = {https://csrc.nist.gov/csrc/media/publications/conference-paper/1998/10/08/proceedings-of-the-21st-nissc-1998/documents/early-cs-papers/ande72.pdf},
+  note         = {Section 4.1.1}
+}
+
+Discord privacy policy
+@misc{discord,
+  author       = {{Discord}},
+  title        = {{Discord Privacy Policy}},
+  urldate      = {2020-10-25},
+  url          = {https://discord.com/privacy},
+}
+
+Return-Oriented Programming
+@inproceedings{shacham2007_rop,
+  author       = {Shacham, Hovav},
+  title        = {{The Geometry of Innocent Flesh on the Bone: Return-into-Libc without Function Calls (on the X86)}},
+  year         = {2007},
+  isbn         = {9781595937032},
+  publisher    = {Association for Computing Machinery},
+  address      = {New York, NY, USA},
+  url          = {https://doi-org.proxy.library.carleton.ca/10.1145/1315245.1315313},
+  doi          = {10.1145/1315245.1315313},
+  booktitle    = {Proceedings of the 14th ACM Conference on Computer and Communications Security},
+  pages        = {552–561},
+  numpages     = {10},
+  location     = {Alexandria, Virginia, USA},
+  series       = {CCS '07}
+}
+
+Rootkits
+@article{beegle2007_rootkit,
+  author       = {Lynn Erla Beegle},
+  title        = {{Rootkits and Their Effects on Information Security}},
+  journal      = {Information Systems Security},
+  volume       = {16},
+  number       = {3},
+  pages        = {164--176},
+  year         = {2007},
+  doi          = {10.1080/10658980701402049},
+}
+
+US Department of Defense Standard DOD 5200.58-STD
+@techreport{orange_book,
+  author       = {{US Department of Defense}},
+  title        = {{Trusted Computer System Evaluation Criteria}},
+  number       = {DOD 5200.58-STD},
+  year         = {1983},
+  %url         = {https://www.hjp.at/doc/rfc/rfc5281.html},
+  type         = {DOD Standard},
+  %note        = {Informational RFC},
+}
+
+Android Security Documentation
+@misc{android_security,
+  author       = {{Google}},
+  title        = {{Android Security Features}},
+  urldate      = {2020-10-26},
+  url          = {https://source.android.com/security/features},
+  note         = {Android security documentation},
+}
+
+@misc{posix_capabilities,
+  title        = {{capabilities(7)}},
+  author       = {{Linux}},
+  note         = {Linux user's manual},
+  url          = {https://linux.die.net/man/7/capabilities},
+}
+
+@article{corbet2006_capabities_a,
+  title        = {{A bid to resurrect Linux capabilities}},
+  author       = {Jonathan Corbet},
+  journal      = {{LWN}},
+  year         = {2006},
+  url          = {https://lwn.net/Articles/199004/},
+}
+
+@article{corbet2006_capabities_b,
+  title        = {{File-based capabilities}},
+  author       = {Jonathan Corbet},
+  journal      = {{LWN}},
+  year         = {2006},
+  url          = {https://lwn.net/Articles/211883/},
+}
+
+@article{padala2002_ptrace,
+  title        = {{Playing with ptrace, Part I}},
+  author       = {Padala, Pradeep},
+  journal      = {Linux Journal},
+  volume       = {2002},
+  number       = {103},
+  pages        = {5},
+  year         = {2002},
+  url          = {https://www.linuxjournal.com/article/6100}
+}
+
+@inproceedings{watson2010_capsicum,
+  author       = {Robert N. M. Watson and Jonathan Anderson and Ben Laurie and Kris Kennaway},
+  title        = {{Capsicum: Practical Capabilities for {UNIX}}},
+  booktitle    = {Proceedings of the 19th {USENIX} Security Symposium, Washington, DC, USA, August 11-13,
+               2010},
+  pages        = {29--46},
+  publisher    = {{USENIX} Association},
+  year         = {2010},
+  url          = {https://www.usenix.org/legacy/event/sec10/tech/full_papers/Watson.pdf},
+}
+
+@misc{capsicum,
+  title        = {{capsicum(4)}},
+  author       = {Robert N. M. Watson and Jonathan Anderson},
+  note         = {FreeBSD user's manual},
+  url          = {https://www.unix.com/man-page/freebsd/4/capsicum/},
+}
+
+@misc{pledge,
+  title        = {{pledge(2)}},
+  author       = {{OpenBSD}},
+  note         = {OpenBSD user's manual},
+  url          = {https://man.openbsd.org/pledge.2},
+}
+
+@misc{seccomp_bpf,
+  title        = {{Seccomp BPF (SECure COMPuting with filters)}},
+  author       = {{Linux}},
+  note         = {Linux kernel documentation},
+  url          = {https://static.lwn.net/kerneldoc/userspace-api/seccomp_filter.html},
+  urldate      = {2020-10-27},
+}
+
+@techreport{drewry2012_seccomp_bpf,
+  title   = {{Dynamic seccomp policies (using BPF filters)}},
+  author  = {Drewry, Will},
+  journal = {{LWN}},
+  year    = {2012},
+  url     = {https://lwn.net/Articles/475019/},
+  type    = {{Internet RFC}},
+}
+
+@misc{ipc_namespace,
+  author       = {Pavel Emelyanov},
+  title        = {{ipc/namespace.c}},
+  note         = {Linux kernel source tree},
+  url          = {https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/ipc/namespace.c},
+  urldate      = {2020-10-27},
+}
+
+@misc{pid_namespace,
+  author       = {Pavel Emelyanov and Sukadev Bhattiprolu},
+  title        = {{kernel/pid\_namespace.c}},
+  note         = {Linux kernel source tree},
+  url          = {https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/kernel/pid_namespace.c},
+  urldate      = {2020-10-27},
+}
+
+@misc{net_namespace,
+  author       = {{Linux}},
+  title        = {{net/core/net\_namespace.c}},
+  note         = {Linux kernel source tree},
+  url          = {https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/net/core/net_namespace.c},
+  urldate      = {2020-10-27},
+}
+
+@misc{time_namespace,
+  author       = {Andrei Vagin and Dmitry Safonov},
+  title        = {{kernel/time/namespace.c}},
+  note         = {Linux kernel source tree},
+  url          = {https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/kernel/time/namespace.c},
+  urldate      = {2020-10-27},
+}
+
+% Classic BPF
+@article{classic_bpf,
+  author  = {Steven McCanne and Van Jacobson},
+  year    = {1992},
+  title   = {{The BSD Packet Filter: A New Architecture for User-level Packet Capture}},
+  journal = {{USENIX Winter}},
+  url     = {https://www.tcpdump.org/papers/bpf-usenix93.pdf},
+  volume  = {93}
+}
+
+@misc{libseccomp,
+  author        = {{Seccomp Contributors}},
+  title         = {{libseccomp}},
+  url           = {https://github.com/seccomp/libseccomp},
+  urldate       = {2020-10-27},
+}
+
+@inproceedings{forrest2008_evolution,
+  author    = {Stephanie Forrest and
+               Steven A. Hofmeyr and
+               Anil Somayaji},
+  title     = {{The Evolution of System-Call Monitoring}},
+  booktitle = {Twenty-Fourth Annual Computer Security Applications Conference, {ACSAC}
+               2008, Anaheim, California, USA, 8-12 December 2008},
+  pages     = {418--430},
+  publisher = {{IEEE} Computer Society},
+  year      = {2008},
+  doi       = {10.1109/ACSAC.2008.54},
+}
+
+@misc{yaml,
+  author  = {Oren Ben-Kiki and Clark Evans and Ingy {d\"ot} Net},
+  title   = {{YAML Ain’t Markup Language (YAML™) Version 1.2}},
+  url     = {https://yaml.org/spec/1.2/spec.html},
+  urldate = {2020-11-29},
+  note    = {YAML specification},
+}
+
+@misc{strace,
+  author  = {{Strace Contributors}},
+  title   = {{strace: linux syscall tracer}},
+  url     = {https://strace.io},
+  urldate = {2020-11-29},
+  note    = {Official strace website},
+}
+
+
+
+
+https://github.com/torvalds/linux/blob/master/ipc/namespace.c
