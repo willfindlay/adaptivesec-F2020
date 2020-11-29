@@ -32,7 +32,7 @@ What's next:
 
 ## Thoughts on the Readings
 
-### Establishing a Baseline for Measuring Advancement in theScience of Security – an Analysis of the 2015 IEEESecurity & Privacy Proceedings
+### Establishing a Baseline for Measuring Advancement in the Science of Security - an Analysis of the 2015 IEEE Security & Privacy Proceedings
 
 The focus here is on the quality of scientific reporting in security papers.
 
@@ -89,7 +89,7 @@ conducting and writing up my own future research. They have a lot of solid ideas
 on how security research papers should be structured and written that I think
 can help make my own work more rigorous.
 
-### Characterizing Scientific Reporting in Security Literature:An analysis of ACM CCS and IEEE S&P Papers
+### Characterizing Scientific Reporting in Security Literature: An analysis of ACM CCS and IEEE S&P Papers
 
 This is a nice follow-up paper to the original work. I think the most important
 thing to note here is how their criteria and research questions have changed
