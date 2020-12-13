@@ -1,0 +1,508 @@
+===============================================================================
+                              eBPF and KRSI
+===============================================================================
+
+KRSI patch
+@techreport{singh2019_krsi,
+  author  = {Singh, KP},
+  journal = {{LWN.net}},
+  title   = {{MAC and Audit policy using eBPF (KRSI)}},
+  year    = {2019},
+  url     = {https://lwn.net/ml/linux-kernel/20191220154208.15895-1-kpsingh@chromium.org/},
+  type    ={Kernel patch},
+}
+
+KRSI article in LWN
+@article{corbet2019_krsi,
+  author  = {Corbet, Jonathan},
+  journal = {{LWN.net}},
+  title   = {{KRSI — the other BPF security module}},
+  year    = {2019},
+  month   = {December 27},
+  url     = {https://lwn.net/Articles/808048/},
+}
+
+Classic BPF
+@article{mccanne1993_bpf,
+  author={Steven McCanne and Van Jacobson},
+  year={1993},
+  title={{The BSD Packet Filter: A New Architecture for User-level Packet Capture}},
+  journal={{USENIX Winter}},
+  url={https://www.tcpdump.org/papers/bpf-usenix93.pdf},
+  volume={93}
+}
+
+Extended BPF
+@techreport{starovoitov2014_ebpf,
+  author={Alexei Starovoitov and Daniel Borkmann},
+  title={{Rework/optimize internal BPF interpreter's instruction set}},
+  year=2014,
+  month={March},
+  url={https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=bd4cf0ed331a275e9bf5a49e6d0fd55dffc551b8},
+  type={Kernel patch},
+}
+
+bcc front-end
+@misc{bcc,
+  author  = {{IOVisor}},
+  title   = {{iovisor/bcc}},
+  urldate = {2020-12-13},
+  url     = {https://github.com/iovisor/bcc},
+  note    = {GitHub repository}
+}
+
+libbpf front-end
+@misc{libbpf,
+  author  = {{libbpf contributors}},
+  title   = {{libbpf}},
+  url     = {https://github.com/libbpf/libbpf},
+  urldate = {2020-12-13},
+  note    = {GitHub repository}
+}
+
+eBPF book
+@book{gregg2019_bpf,
+  title={{BPF Performance Tools}},
+  author={Gregg, Brendan},
+  year={2019},
+  isbn={0-13-655482-2},
+  publisher={Addison-Wesley Professional}
+}
+
+LLVM BPF
+@misc{llvm_bpf,
+  author  = {{LLVM}},
+  title   = {{BPF Directory Reference}},
+  url     = {https://llvm.org/doxygen/dir_b9f4b12c13768d2acd91c9fc79be9cbf.html},
+  urldate = {2020-12-13},
+  note    = {Developer documenation},
+}
+
+FreeBSD BPF
+@misc{freebsd_bpf,
+  author = {{FreeBSD}},
+  title = {{bpf(4)}},
+  url = {https://www.unix.com/man-page/FreeBSD/4/bpf},
+  urldate = {2020-12-13},
+  note = {BSD Kernel Interfaces Manual},
+}
+
+OpenBSD BPF
+@misc{openbsd_bpf,
+  author = {{OpenBSD}},
+  title = {{bpf(4)}},
+  url = {https://man.openbsd.org/bpf},
+  urldate = {2020-12-13},
+  note = {Device Drivers Manual},
+}
+
+Linux BPF
+@misc{linux_bpf,
+  author = {{Linux}},
+  title = {{bpf(2)}},
+  url = {https://www.man7.org/linux/man-pages/man2/bpf.2.html},
+  urldate = {2020-12-13},
+  note = {Linux Programmer's Manual},
+}
+
+===============================================================================
+                            Confinement Problem
+===============================================================================
+
+First proposal of the confinement problem
+@article{lampson1973_a_note,
+  author       = {Lampson, Butler W.},
+  title        = {{A Note on the Confinement Problem}},
+  year         = {1973},
+  publisher    = {Association for Computing Machinery},
+  address      = {New York, NY, USA},
+  volume       = {16},
+  number       = {10},
+  issn         = {0001-0782},
+  doi          = {10.1145/362375.362389},
+  journal      = {Communications of the ACM},
+  pages        = {613–615},
+  numpages     = {3},
+}
+
+Confinement is mopstly unsolved to date
+@article{crowell2013_confinement_problem,
+  author       = {Alexander Crowell and Beng Heng Ng and Earlence Fernandes and Atul Prakash},
+  title        = {{The Confinement Problem: 40 Years Later}},
+  journal      = {Journal of Information Processing Systems},
+  volume       = {9},
+  number       = {2},
+  pages        = {189--204},
+  year         = {2013},
+  doi          = {10.3745/JIPS.2013.9.2.189},
+}
+
+Least-privilege
+@article{saltzer1975_protection,
+  author  = {J. H. {Saltzer} and M. D. {Schroeder}},
+  journal = {Proceedings of the IEEE},
+  title   = {{The Protection of Information in Computer Systems}},
+  year    = {1975},
+  volume  = {63},
+  number  = {9},
+  pages   = {1278-1308},
+  doi     = {10.1109/PROC.1975.9939}
+}
+
+US Department of Defense Standard DOD 5200.58-STD
+@techreport{orange_book,
+  author       = {{US Department of Defense}},
+  title        = {{Trusted Computer System Evaluation Criteria}},
+  number       = {DOD 5200.58-STD},
+  year         = {1983},
+  type         = {DOD Standard},
+}
+
+Android Security Documentation
+@misc{android_security,
+  author       = {{Google}},
+  title        = {{Android Security Features}},
+  urldate      = {2020-10-26},
+  url          = {https://source.android.com/security/features},
+  note         = {Android security documentation},
+}
+
+===============================================================================
+                          Confinement Mechanisms
+===============================================================================
+
+@misc{posix_capabilities,
+  title        = {{capabilities(7)}},
+  author       = {{Linux}},
+  note         = {Linux User's Manual},
+  url          = {https://linux.die.net/man/7/capabilities},
+}
+
+@article{corbet2006_capabities_a,
+  title        = {{A Bid to Resurrect Linux Capabilities}},
+  author       = {Jonathan Corbet},
+  journal      = {{LWN}},
+  year         = {2006},
+  url          = {https://lwn.net/Articles/199004/},
+}
+
+@article{corbet2006_capabities_b,
+  title        = {{File-Based Capabilities}},
+  author       = {Jonathan Corbet},
+  journal      = {{LWN}},
+  year         = {2006},
+  url          = {https://lwn.net/Articles/211883/},
+}
+
+@article{padala2002_ptrace,
+  title        = {{Playing with ptrace, Part I}},
+  author       = {Padala, Pradeep},
+  journal      = {Linux Journal},
+  volume       = {2002},
+  number       = {103},
+  pages        = {5},
+  year         = {2002},
+  url          = {https://www.linuxjournal.com/article/6100}
+}
+
+@inproceedings{watson2010_capsicum,
+  author       = {Robert N. M. Watson and Jonathan Anderson and Ben Laurie and Kris Kennaway},
+  title        = {{Capsicum: Practical Capabilities for {UNIX}}},
+  booktitle    = {Proceedings of the 19th {USENIX} Security Symposium, Washington, DC, USA, August 11-13,
+               2010},
+  pages        = {29--46},
+  publisher    = {{USENIX} Association},
+  year         = {2010},
+  url          = {https://www.usenix.org/legacy/event/sec10/tech/full_papers/Watson.pdf},
+}
+
+@misc{capsicum,
+  title        = {{capsicum(4)}},
+  author       = {Robert N. M. Watson and Jonathan Anderson},
+  note         = {FreeBSD user's manual},
+  url          = {https://www.unix.com/man-page/freebsd/4/capsicum/},
+}
+
+@misc{pledge,
+  title        = {{pledge(2)}},
+  author       = {{OpenBSD}},
+  note         = {OpenBSD user's manual},
+  url          = {https://man.openbsd.org/pledge.2},
+}
+
+A comparison of Unix sandboxing techniques
+Comparing seccomp-bpf, capsicum, and pledge
+@article{anderson2017_comparison,
+  author       = {Anderson, James P.},
+  title        = {{A Comparison of Unix Sandboxing Techniques}},
+  journaltitle = {FreeBSD Journal},
+  year         = {2017},
+  url          = {http://www.engr.mun.ca/~anderson/publications/2017/sandbox-comparison.pdf},
+}
+
+Seccomp BPF documentation
+@misc{seccomp_bpf,
+  title        = {{Seccomp BPF (SECure COMPuting with filters)}},
+  author       = {{Linux}},
+  note         = {Linux kernel documentation},
+  url          = {https://static.lwn.net/kerneldoc/userspace-api/seccomp_filter.html},
+  urldate      = {2020-10-27},
+}
+
+Seccomp BPF patch
+@techreport{drewry2012_seccomp_bpf,
+  title   = {{Dynamic seccomp policies (using BPF filters)}},
+  author  = {Drewry, Will},
+  journal = {{LWN}},
+  year    = {2012},
+  url     = {https://lwn.net/Articles/475019/},
+  type    = {{Kernel patch}},
+}
+
+Userspace library for seccomp-bpf
+@misc{libseccomp,
+  author        = {{Seccomp}},
+  title         = {{libseccomp}},
+  url           = {https://github.com/seccomp/libseccomp},
+  urldate       = {2020-10-27},
+}
+
+Snapcraft
+@misc{snap,
+  author       = {{Snapcraft}},
+  title        = {{Security Policy and Sandboxing}},
+  year         = {2020},
+  url          = {https://snapcraft.io/docs/security-sandboxing},
+  urldate      = {2020-10-25},
+}
+
+Flatpak
+@misc{flatpak,
+  author       = {{Flatpak}},
+  title        = {{Sandbox Permissions}},
+  year         = {2020},
+  url          = {https://docs.flatpak.org/en/latest/sandbox-permissions.html},
+  urldate      = {2020-10-25},
+}
+
+Docker
+@misc{docker,
+  author       = {{Docker}},
+  title        = {{Docker Security}},
+  year         = {2020},
+  url          = {https://docs.docker.com/engine/security/security},
+  urldate      = {2020-10-25},
+}
+
+Kubernetes
+@misc{kubernetes,
+  author  = {{Kubernetes}},
+  title   = {{Kubernetes}},
+  year    = {2020},
+  url     = {https://kubernetes.io},
+  urldate = {2020-11-30},
+}
+
+Bubblewrap
+@misc{bubblewrap,
+  author       = {{Bubblewrap}},
+  title        = {{Bubblewrap}},
+  year         = {2020},
+  url          = {https://github.com/containers/bubblewrap},
+  urldate      = {2020-10-25},
+}
+
+Firejail
+@misc{firejail,
+  author       = {{Firejail}},
+  title        = {{Firejail}},
+  year         = {2020},
+  url          = {https://firejail.wordpress.com},
+  urldate      = {2020-10-25},
+}
+
+MBox
+@inproceedings{kim2013_mbox,
+  author    = {Taesoo Kim and
+               Nickolai Zeldovich},
+  title     = {{Practical and Effective Sandboxing for Non-root Users}},
+  booktitle = {2013 {USENIX} Annual Technical Conference, San Jose, CA, USA, June
+               26-28, 2013},
+  pages     = {139--144},
+  publisher = {{USENIX} Association},
+  year      = {2013},
+  url       = {https://www.usenix.org/conference/atc13/technical-sessions/presentation/kim},
+}
+
+LSM Hooks
+@inproceedings{wright2002_lsm,
+  author    = {Chris Wright and
+               Crispin Cowan and
+               Stephen Smalley and
+               James Morris and
+               Greg Kroah-Hartman},
+  title     = {{Linux Security Modules: General Security Support for the Linux Kernel}},
+  booktitle = {Proceedings of the 11th {USENIX} Security Symposium, San Francisco,
+               CA, USA, August 5-9, 2002},
+  pages     = {17--31},
+  publisher = {{USENIX}},
+  year      = {2002},
+  url       = {http://www.usenix.org/publications/library/proceedings/sec02/wright.html}
+}
+
+Usability study of AppArmor, SELinux, and FBAC-LSM
+@inproceedings{schreuders12_towards,
+  title        = {{Towards Usable Application-Oriented Access Controls}},
+  author       = {Schreuders, Z. Cliffe and McGill, Tanya Jane and Payne, Christian},
+  booktitle    = {{International Journal of Information Security and Privacy}},
+  volume       = {6},
+  number       = {1},
+  pages        = {57--76},
+  year         = {2012},
+  %doi          = {10.4018/jisp.2012010104},
+  url          = {https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.963.860&rep=rep1&type=pdf},
+}
+
+SELinux
+@inproceedings{smalley2001_selinux,
+  title         = {{Implementing SELinux as a Linux security module}},
+  author        = {Smalley, Stephen and Vance, Chris and Salamon, Wayne},
+  journal       = {{NAI Labs Report}},
+  volume        = {1},
+  number        = {43},
+  pages         = {139},
+  year          = {2001},
+  url           = {https://www.cs.unibo.it/~sacerdot/doc/so/slm/selinux-module.pdf},
+}
+
+Flask Architecture
+@inproceedings{spencer1999_flask,
+  author    = {Ray Spencer and
+               Stephen Smalley and
+               Peter Loscocco and
+               Mike Hibler and
+               Dave G. Andersen and
+               Jay Lepreau},
+  %editor   = {G. Winfield Treese},
+  title     = {{The Flask Security Architecture: System Support for Diverse Security
+               Policies}},
+  booktitle = {Proceedings of the 8th {USENIX} Security Symposium, Washington, DC,
+               USA, August 23-26, 1999},
+  publisher = {{USENIX} Association},
+  year      = {1999},
+  url       = {https://www.usenix.org/conference/8th-usenix-security-symposium/flask-security-architecture-system-support-diverse-security},
+}
+
+
+AppArmor
+@InProceedings{cowan2000_apparmor,
+  author        = {Crispin Cowan and Steve Beattie and Greg Kroah-Hartman and Calton Pu and Perry Wagle and Virgil Gligor},
+  title         = {{SubDomain: Parsimonious Server Security}},
+  booktitle     = {Proceedings of the 14st Large Installation Systems Administration Conference (LISA)},
+  year          = 2000,
+  address       = {New Orleans, LA, United States},
+  publisher     = {{USENIX} Association},
+  url           = {https://www.usenix.org/legacy/event/lisa2000/full_papers/cowan/cowan.pdf},
+}
+
+@inproceedings{macmillan07_madison,
+  title        = {{Madison: A new approach to policy generation}},
+  author       = {MacMillan, Karl},
+  booktitle    = {{SELinux Symposium}},
+  year         = {2007},
+  url          = {http://selinuxsymposium.org/2007/papers/08-polgen.pdf},
+}
+
+Reference Policy for Security Enhanced Linux
+@inproceedings{pebenito2006_refpol,
+  title        = {{Reference Policy for Security Enhanced Linux}},
+  author       = {Christopher J. PeBenito and Frank Mayer and Karl MacMillan},
+  booktitle    = {{SELinux Symposium}},
+  year         = {2006},
+  url          = {http://selinuxsymposium.org/2006/papers/05-refpol.pdf},
+}
+
+TODO: Add other systems cited in the madison paper
+
+@inproceedings{sniffen06_guided,
+  title        = {{Guided policy generation for application authors}},
+  author       = {Sniffen, Brian T. and Harris, David R. and Ramsdell, John D.},
+  booktitle    = {{SELinux Symposium}},
+  year         = {2006},
+  url          = {http://gelit.ch/td/SELinux/Publications/Mitre_Tools.pdf},
+}
+
+@misc{audit2allow,
+  title        = {{audit2allow(1)}},
+  author       = {Justin R. Smith and Yuichi Nakamura and Dan Walsh},
+  note         = {Linux user's manual},
+  url          = {http://linux.die.net/man/1/audit2allow},
+}
+
+@misc{aa_easyprof,
+  title        = {{aa-easyprof(8)}},
+  author       = {{AppArmor}},
+  note         = {Linux user's manual},
+  url          = {https://manpages.ubuntu.com/manpages/precise/man8/aa-easyprof.8.html},
+}
+
+@misc{aa_genprof,
+  title        = {{aa-genprof(8)}},
+  author       = {{AppArmor}},
+  note         = {Linux user's manual},
+  url          = {https://manpages.ubuntu.com/manpages/precise/man8/aa-genprof.8.html},
+}
+
+@misc{aa_logprof,
+  title        = {{aa-logprof(8)}},
+  author       = {{AppArmor}},
+  note         = {Linux user's manual},
+  url          = {https://manpages.ubuntu.com/manpages/precise/man8/aa-logprof.8.html},
+}
+
+===============================================================================
+                      Containers and Container Security
+===============================================================================
+
+@article{sultan2019_container_security,
+  author    = {Sari Sultan and
+               Imtiaz Ahmad and
+               Tassos Dimitriou},
+  title     = {{Container Security: Issues, Challenges, and the Road Ahead}},
+  journal   = {{IEEE} Access},
+  volume    = {7},
+  pages     = {52976--52996},
+  year      = {2019},
+  doi       = {10.1109/ACCESS.2019.2911732},
+}
+
+===============================================================================
+                                Related Work
+===============================================================================
+
+===============================================================================
+                                    Misc.
+===============================================================================
+
+@misc{discord,
+  author   = {{Discord}},
+  title    = {{Discord Privacy Policy}},
+  urldate  = {2020-10-25},
+  url      = {https://discord.com/privacy},
+}
+
+@misc{yaml,
+  author  = {Oren Ben-Kiki and Clark Evans and Ingy {d\"ot} Net},
+  title   = {{YAML Ain’t Markup Language (YAML™) Version 1.2}},
+  url     = {https://yaml.org/spec/1.2/spec.html},
+  urldate = {2020-11-29},
+  note    = {YAML specification},
+}
+
+@misc{strace,
+  author  = {{Strace}},
+  title   = {{strace: linux syscall tracer}},
+  url     = {https://strace.io},
+  urldate = {2020-11-29},
+  note    = {Official strace website},
+}
