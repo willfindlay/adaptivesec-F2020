@@ -2,21 +2,11 @@
 
 \subsection{The Process Confinement Problem}
 
-The \textit{process confinement problem}, also known as the \textit{sandboxing
-problem}, refers to the goal of isolating a process or group of processes from
-the rest of the running system. In practice, this is often achieved by
-restricting an application's possible behaviour to its desired functionality,
-specifically targeting its access to security-sensitive system resources such as
-files, network interfaces, and other running applications.
-Despite decades of work following Lampson's \cite{lampson1973_a_note} first
-proposal of the process confinement problem in 1973, process confinement remains
-a somewhat open problem to date \cite{crowell2013_confinement_problem}.
-\todo{Probably a lot more to say here}
+The \textit{process confinement problem}, also known as the \textit{sandboxing problem}, refers to the goal of isolating a process or group of processes from the rest of the running system. In practice, this is often achieved by restricting an application's possible behaviour to its desired functionality, explicitly targeting its access to security-sensitive system resources such as files, network interfaces, and other running applications.  Despite decades of work following Lampson's \cite{lampson1973_a_note} first proposal of the process confinement problem in 1973, process confinement remains a somewhat open problem to date \cite{crowell2013_confinement_problem}.
 
-%Process confinement is not a new problem---it was first proposed by Lampson
-%\cite{lampson1973_a_note} in 1973 and has since been the focus of decades of
-%research, both in academia and in industry \cite{saltzer1975_protection, wagner1999_janus, jain05_janus2, crowell2013_confinement_problem, cohen1996_secure, gamble1993_execution_controls, berman1995_tron, goldberg96_janus, provos2003_systrace, kim2013_mbox, findlay20_bpfbox, inoue05_java, bubblewrap, firejail, docker, snap, flatpak}.
+\todo{Discuss OS facilities at a high level, the reference monitor abstraction for access control}
 
+% TODO: Graft parts of the following into threat model in section 3
 %\subsection{The Confinement Threat Model}
 %\label{subsection:threat_model}
 %
@@ -182,7 +172,41 @@ AppArmor (originally called SubDomain) \cite{cowan2000_apparmor} is often touted
 \subsection{Containers}
 \label{subsection:containers}
 
-\todo{This will be adapted from my literature review}
+\todo{Containers and Confinement}
+
+\todo{Containers vs Full Virtualization}
+
+\begin{figure}[htpb]
+  \centering
+  \includegraphics[width=0.8\linewidth]{figs/virtualization.pdf}
+  \caption{
+    Virtual machine and container architectures. Type I hypervisors \textbf{(a)} virtualize and control the underlying hardware directly, but require full guest operating systems on top of the virtualization layer. Type II hypervisors \textbf{(b)} run on top of a host operating system but still require full guest operating systems above the virtualization layer. Containers \textbf{(c)} achieve virtualization using a thin layer provided by the host operating system itself. They share the underlying operating system kernel and resources, and therefore require no guest operating system \cite{sultan2019_container_security}.
+  }%
+  \label{fig:name}
+\end{figure}
+
+A container management system generally seeks to achieve the following goals:
+\begin{enumerate}[label=\bfseries CG\arabic*., ref=CG\arabic*, labelindent=1em]
+  \item \textsc{Virtualization.}
+    Virtualization aims to provide each container a \textit{virtual view} of system resources. \todo{Describe what this virtual view is.} Containers generally achieve virtualization using a combination of Linux namespaces, cgroups, and filesystem mounts. Namespaces provide a private view of enumerable resources (i.e.~a virtual mapping of IDs to resources). Such enumerable resources include process IDs, user and group IDs, mountpoints, and the network interfaces. Cgroups similarly provide a virtual view of \textit{quantifiable resources} (i.e.~how much of a given resource is available). Such quantifiable resources include the CPU, persistent storage, memory, and I/O bandwidth. Filesystem mounts, combined with mount namespaces, provide a virtual view of visible files.
+
+    Although full virtualization may be desirable in the ideal case, containers often only implement partial virtualization \todo{cite} due to a variety of factors. Pragmatically, it is often beneficial for containers to have a shared view of specific system resources, depending on the use case. For instance, two containers might share a copy of the same shared library or require access to a shared IPC namespace to enable communication. In practice, containers often leverage layered filesystems such as overlayfs \cite{edge2010_overlayfs} to deduplicate files across containers and the host system \todo{cite}. Partial virtualization can enable lighter-weight containers and easier communication between two containers to satisfy the goal of composability.
+
+  \item \textsc{Least-Privilege.}
+    For a container to be considered secure, it must enforce least-privilege on its processes \cite{sultan2019_container_security}. This requirement makes practical sense, given that a container runs directly on the host system and must share the underlying OS kernel and resources with both other containers and the host system itself. Without least-privilege, a process running in a container has virtually the same access rights as an unconfined process. When the container itself is running with privileged access to the system (as is often the case \todo{cite}), this may even result in an \textit{escalation of privilege} compared to the scenario where the process runs directly on the host. For these reasons, it is neither practical nor advisable to rely on weak virtualization guarantees to protect the host system with no means of enforcing least-privilege \cite{sultan2019_container_security}.
+
+    Despite its clear importance for container security, least-privilege is often treated as a secondary goal in container management \cite{sultan2019_container_security}. \todo{Containers fall back to no security guarantees if the underlying mechanisms are not available.} \todo{Container policy is often over-permissive.} \todo{Containers often do not implement least-privilege by default (sensible defaults from Paul's book; maybe cite Paul's book here, saying something like \enquote{containers do not adhere to well-known security principles}).}
+
+  \item \label{item:composability} \textsc{Composability.}
+    \todo{Foo}
+
+  \item \textsc{Version/Dependency Management.}
+    \todo{Foo}
+\end{enumerate}
+
+\todo{Discuss prominent examples: Docker, Kubernetes}
+
+\todo{Discuss containerized package management: Snap, FlatPak}
 
 \subsection{Classic and Extended BPF}
 
@@ -202,7 +226,7 @@ In 2014, Starovoitov and Borkmann merged a complete rewrite of the Linux BPF eng
 \end{itemize}
 These extensions to the Classic BPF engine effectively turn eBPF into a general-purpose execution engine in the kernel with powerful system introspection and kernel extension capabilities. eBPF programs execute in the kernel with supervisor privileges but are limited by a restricted execution context and pre-checked for safety by an in-kernel verification engine. In particular, eBPF programs are limited to a 512-byte stack, cannot access unbounded memory regions, must not have back-edges in their control flow, and must provably terminate \cite{gregg2019_bpf}. As a consequence of these restrictions, eBPF programs are not Turing-complete. Where necessary, an eBPF program can make calls to a set of allow-listed kernel helpers to obtain additional functionality, such as access to external memory regions and various kernel facilities such as signalling or random number generation \cite{gregg2019_bpf}.
 
-A privileged userspace process may load an eBPF program into the kernel using Linux's \texttt{bpf(2)} system call. While it is possible to write eBPF bytecode by hand \cite{gregg2019_bpf}, several front-ends exist for compiling eBPF bytecode from a restricted subset of the C programming language\footnote{In principle, this language need not be C. For instance, a framework exists for writing eBPF programs in pure Rust \todo{cite}. However, C is a popular choice since it is tightly coupled with the underlying implementation of the kernel.}, including bcc \cite{bcc} and libbpf \cite{libbpf}. These front-ends typically use the LLVM \cite{llvm_bpf} compiler toolchain to produce BPF bytecode. When the kernel receives a request to load an eBPF program, it first checks the bytecode to ensure that it conforms to the safety invariants outlined above. If the verifier accepts the program, it may then be attached to one or more system events. When an event fires, the eBPF program is executed via just-in-time compilation to the native instruction set. eBPF programs can store data in several specialized in-kernel data structures, which are also made accessible to userspace via the \texttt{bpf(2)} system call or a direct memory mapping. \Cref{fig:ebpf} depicts this process in detail.
+A privileged userspace process may load an eBPF program into the kernel using Linux's \texttt{bpf(2)} system call. While it is possible to write eBPF bytecode by hand \cite{gregg2019_bpf}, several front-ends exist for compiling eBPF bytecode from a restricted subset of the C programming language\footnote{In principle, this language need not be C. For instance, a framework exists for writing eBPF programs in pure Rust \cite{redbpf}. However, C is a popular choice since it is tightly coupled with the underlying implementation of the kernel.}, including bcc \cite{bcc} and libbpf \cite{libbpf}. These front-ends typically use the LLVM \cite{llvm_bpf} compiler toolchain to produce BPF bytecode. When the kernel receives a request to load an eBPF program, it first checks the bytecode to ensure that it conforms to the safety invariants outlined above. If the verifier accepts the program, it may then be attached to one or more system events. When an event fires, the eBPF program is executed via just-in-time compilation to the native instruction set. eBPF programs can store data in several specialized in-kernel data structures, which are also made accessible to userspace via the \texttt{bpf(2)} system call or a direct memory mapping. \Cref{fig:ebpf} depicts this process in detail.
 
 \begin{figure}[htpb]
   \centering
