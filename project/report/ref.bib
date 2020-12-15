@@ -481,11 +481,21 @@ Overlayfs article
   urldate = {2020-12-13},
 }
 
+@misc{lockdown,
+  title        = {{kernel\_lockdown(7)}},
+  author       = {{Linux}},
+  note         = {Linux programmer's manual},
+  url          = {https://man7.org/linux/man-pages/man7/kernel_lockdown.7.html},
+  urldate      = {2020-12-13},
+}
+
+
 
 ===============================================================================
                       Containers and Container Security
 ===============================================================================
 
+Container security survey
 @article{sultan2019_container_security,
   author    = {Sari Sultan and
                Imtiaz Ahmad and
@@ -498,9 +508,55 @@ Overlayfs article
   doi       = {10.1109/ACCESS.2019.2911732},
 }
 
+Study of container security vulnerabilities, attacks, countermeasures
+  - Important finding -> However, the interdependence and mutual-influence relationship among these kernel security mechanisms may make them fall into the "short board effect" and impair their protection capability.
+@inproceedings{xin2018_container_security,
+  author    = {Lin, Xin and Lei, Lingguang and Wang, Yuewu and Jing, Jiwu and Sun, Kun and Zhou, Quan},
+  title     = {{A Measurement Study on Linux Container Security: Attacks and Countermeasures}},
+  year      = {2018},
+  isbn      = {9781450365697},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  doi       = {10.1145/3274694.3274720},
+  booktitle = {Proceedings of the 34th Annual Computer Security Applications Conference},
+  pages     = {418–429},
+  numpages  = {12},
+  location  = {San Juan, PR, USA},
+  series    = {ACSAC '18}
+}
+
+Study of LSMs and LSFs for hardening Docker containers
+@inproceedings{mp2016_hardening,
+  author    = {{Amith Raj MP} and A. {Kumar} and S. J. {Pai} and A. {Gopal}},
+  booktitle = {2016 2nd International Conference on Applied and Theoretical Computing and Communication Technology (iCATccT)},
+  title     = {Enhancing Security of Docker Using Linux Hardening Techniques},
+  year      = {2016},
+  pages     = {94-99},
+  doi       = {10.1109/ICATCCT.2016.7911971}
+}
+
 ===============================================================================
                                 Related Work
 ===============================================================================
+
+bpfbox
+@inproceedings{findlay2020_bpfbox,
+  author    = {Findlay, William and Somayaji, Anil and Barrera, David},
+  title     = {{bpfbox: Simple Precise Process Confinement with eBPF}},
+  year      = {2020},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  doi       = {10.1145/3411495.3421358},
+  booktitle = {Proceedings of the 2020 ACM SIGSAC Conference on Cloud Computing Security Workshop},
+  pages     = {91–103},
+  numpages  = {13},
+  location  = {Virtual Event, USA},
+  series    = {CCSW'20}
+}
+
+TODO: landlock LSM
+
+TODO: Security namespace: making linux security frameworks available to containers
 
 ===============================================================================
                                     Misc.
@@ -527,4 +583,15 @@ Overlayfs article
   url     = {https://strace.io},
   urldate = {2020-11-29},
   note    = {Official strace website},
+}
+
+@article{beegle2007_rootkit,
+  author       = {Lynn Erla Beegle},
+  title        = {{Rootkits and Their Effects on Information Security}},
+  journal      = {Information Systems Security},
+  volume       = {16},
+  number       = {3},
+  pages        = {164--176},
+  year         = {2007},
+  doi          = {10.1080/10658980701402049},
 }

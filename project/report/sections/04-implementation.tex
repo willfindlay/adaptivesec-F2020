@@ -79,7 +79,7 @@ labels that can be used in \bpfcontain{} policy.
     Grants or revokes access at the granularity of individual files. Access must be specified. \\
   \midrule
   \texttt{capability} & Capability  &
-    Grants or revokes access to the specified POSIX capability \todo{cite}. Note that this cannot be used to grant additional capabilities---it merely enforces on capabilities already granted to the process. \\
+    Grants or revokes access to the specified POSIX capability \todo{cite}. Note that this cannot be used to grant additional capabilities---it merely enforces on capabilities already granted to the process. Some capabilities are \textit{always} denied implicitly (see \Cref{tab:implicit}).\\
   \midrule
   \texttt{network}    & [Interface], [Access] &
     Grants or revokes access to network communications. A specific interface and access pattern may optionally be specified. \\
@@ -104,7 +104,7 @@ labels that can be used in \bpfcontain{} policy.
   \small
   \centering
   \caption{
-    Implicit policy in \bpfcontain{}, which is enforced regardless of a container's manifest. Implicit restrictions generally corresponds with resources which a well-behaved container should never need. Such accesses are generally recognized by the community as dangerous or enabling a container to escape confinement \todo{cite}. Implicit rights enable certain sane behaviours, such as interprocess communication between processes \textit{within} a container. These rights effectively constitute exceptions to ordinary enforcement. Note that implicit rights may still be overridden by an explicit restriction specified in the container's manifest.
+    Implicit policy in \bpfcontain{}, which is enforced regardless of a container's manifest. Implicit restrictions generally correspond with resources which a well-behaved container should never need. Such accesses are typically recognized by the community as dangerous or enabling a container to escape confinement \todo{cite}. Implicit rights permit certain sane behaviours, such as interprocess communication between processes \textit{within} a container. These rights effectively constitute exceptions to ordinary enforcement. Note that implicit rights may still be overridden by an explicit restriction specified in the container's manifest. A third category, implicit death, refers to accesses that cause \bpfcontain{} to send an uncatchable SIGKILL to the process.
   }
   \label{tab:implicit}
   \begin{tabular}{llp{25em}}
@@ -112,11 +112,11 @@ labels that can be used in \bpfcontain{} policy.
   Policy & Kind & Description \\
   \midrule
   BPF & Restriction &
-    A container is disallowed from making \textit{any} \texttt{bpf(2)} system calls. This prevents it from loading, unloading, and accessing any eBPF programs and maps, including those which belong to \bpfcontain{} itself. \\
+    A container is disallowed from making \textit{any} \texttt{bpf(2)} system calls. This restriction prevents a container from loading, unloading, and accessing any eBPF programs and maps, including those which belong to \bpfcontain{} itself. \\
   Ptrace & Restriction &
     A container may not use \texttt{ptrace(2)} to trace or control processes. \\
-  Lockdown & Restriction &
-    A container is subject to fill lockdown \todo{cite} restrictions, disabling all operations that could be used for arbitrary code execution in the kernel. \\
+  Kernel Lockdown & Restriction &
+    A container is subject to full Kernel Lockdown \cite{lockdown} restrictions, disabling all operations that could be used for arbitrary code execution in the kernel. \\
   Kernel Modules & Restriction &
     A container may not load any modules into the kernel. \\
   Kexec & Restriction &
@@ -130,7 +130,7 @@ labels that can be used in \bpfcontain{} policy.
   Rlimit & Restriction &
     A container cannot use the \texttt{getrlimit(2)}, \texttt{setrlimit(2)}, or \texttt{prlimit(2)} system calls to get or set resource limits. \\
   Scheduler & Restriction &
-    A container cannot modify scheduling or I/O scheduling priority. \\
+    A container cannot inspect or modify process scheduling or I/O scheduling priority. \\
   Mount & Restriction &
     A container cannot mount, remount, unmount filesystems or move filesystem mounts. \\
   Pivot Root & Restriction &
@@ -139,6 +139,9 @@ labels that can be used in \bpfcontain{} policy.
     A container cannot use the \texttt{syslog(2)} system call to access the kernel logs. \\
   Set Time & Restriction &
     A container cannot use the \texttt{settime(2)} system call to change the system time. \\
+  \midrule
+  Kernel Privilege Escalation & Death &
+    To prevent kernel privilege exploits which typically rely on forcing the execution of \texttt{commit\_creds} \cite{xin2018_container_security}, \bpfcontain{} will outright kill a contained process that invokes this function to try to escalate its privileges. \\
   \midrule
   IPC & Right &
     A process can always perform interprocess communication with another process within the same container. \\
