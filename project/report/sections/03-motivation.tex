@@ -25,20 +25,30 @@ In this threat model we consider three broad classes of attack vector, comprised
     Vulnerable applications running inside containers may become compromised by attackers, often with the goal of using these applications to orchestrate a more sophisticated attack on other applications running within the same container, other containers, or the host system itself \cite{sultan2019_container_security}. Common vulnerabilities here include code execution vulnerabilities on untrusted input, memory corruption bugs, and privilege escalation vulnerabilities in a container's configuration. Exploitation of kernel-level vulnerabilities are also a concern here, as an attacker can potentially abuse a legitimate application to target vulnerable code paths in the kernel \cite{xin2018_container_security}.
 \end{enumerate}
 
-Since containers are often co-located in large-scale, multi-tenant systems such as the cloud \cite{sultan2019_container_security}, the potential for exploitation or abuse by foreign threat actors is exacerbated. Thus, it is imperative that container management systems enforce least-privilege on containers to prevent such exploitation from negatively impacting the rest of the system.
+An attacker could have several goals under this threat model. Such goals might include \cite{sultan2019_container_security,xin2018_container_security}:
+\begin{enumerate}[label=\bfseries AG\arabic*., ref=AG\arabic*, labelindent=1em]
+  \item \textsc{Escalation of Privilege.}
+    An attacker that manages to escalate privileges within the context of a container may escape confinement altogether and interfere with the host or with other containers. In the worst case, the attacker may obtain root privileges and establish total control over the host system.
+
+  \item \textsc{Denial of Service.}
+    An attacker might abuse a poorly configured container to mount a denial of service attack on the host system or other containers. For instance, an attacker could consume resources on the host system, disable network interfaces, unmount filesystems, or kill other running processes.
+
+  \item \textsc{Remote Code Execution.}
+    Remote code execution vulnerabilities could allow an attacker to control a container or, in the worst case, the host itself. Kernelspace code execution vulnerabilities are particularly dangerous, as they can often be used for escalation of privilege, information leakage, or denial of service and affect the entire host system \cite{sultan2019_container_security, xin2018_container_security}.
+
+  \item \textsc{Information Disclosure.}
+    An attacker might attempt to disclose sensitive information, such as API keys, secret cryptographic keys, passwords, or other sensitive user data. In the worst case, they might be able to disclose information belonging to another container or the host itself.
+
+  \item \textsc{Tampering.}
+    Tampering attacks involve \todo{Finish this explanation}
+
+  \item \textsc{Backdoor Establishment.}
+    An attacker can establish a backdoor to obtain permanent or semi-permanent access to a container or the host system itself. For instance, an SSH backdoor (e.g.~installation of an attacker-controlled public key into SSH's list of authorized keys) can enable persistent network intrusions on the host system. In the worst case, this might involve the installation of a rootkit \cite{beegle2007_rootkit} in the host operating system to enable stealthy, overprivileged access.
+\end{enumerate}
+
+Since containers are often co-located in large-scale, multi-tenant systems such as the cloud \cite{sultan2019_container_security}, the potential for exploitation or abuse by foreign threat actors is exacerbated. Thus, it is imperative that container management systems enforce least-privilege on containers to prevent such exploitation from negatively impacting the rest of the system. A secure container management system with sensible defaults and strong protection mechanisms would be able to defeat most, if not all, of the attacks outlined above.
 
 \subsection{The Quest for Secure Containers}%
 \label{sub:secure_containers}
 
-\subsection{Why an eBPF Implementation?}%
-\label{sub:why_ebpf}
-
-\todo{
-\begin{itemize}
-  \item Can be dynamically loaded without rebooting the kernel
-  \item Guaranteed safety
-  \item Can be used in production without downtime
-  \item Container-specific LSM $\rightarrow$ Only apply policy to a given container
-  \item Dynamically instrument non-lsm functions in the kernel, such as \texttt{commit\_creds}, this allows us to prevent kernel privilege escalation attacks like the ones described in Xin \etal~\cite{xin2018_container_security}
-\end{itemize}
-}
+\todo{Write this, based on report}
