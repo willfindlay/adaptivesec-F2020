@@ -1,6 +1,10 @@
 \section{\bpfcontain{} Design and Implementation}
 \label{sec:design}
 
+\todo{Introduce \bpfcontain{} and talk about how it attempts to solve container security}
+
+\subsection{Design Goals}
+
 Five specific goals informed the design of \bpfcontain{}'s policy language and
 enforcement mechanism, enumerated below as Design Goals \ref{d:1} to \ref{d:5}.
 %Note that there is a natural interplay between some of these design goals, while
@@ -322,7 +326,7 @@ policy like the examples depicted in \Cref{lst:discord_a} and
   label={lst:discord_a},
   gobble=2]
   name: discord
-  command: /bin/discord
+  cmd: /bin/discord
   rights:
     - filesystem /
     - network

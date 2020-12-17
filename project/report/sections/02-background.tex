@@ -4,103 +4,11 @@
 
 The \textit{process confinement problem}, also known as the \textit{sandboxing problem}, refers to the goal of isolating a process or group of processes from the rest of the running system. In practice, this is often achieved by restricting an application's possible behaviour to its desired functionality, explicitly targeting its access to security-sensitive system resources such as files, network interfaces, and other running applications.  Despite decades of work following Lampson's \cite{lampson1973_a_note} first proposal of the process confinement problem in 1973, process confinement remains a somewhat open problem to date \cite{crowell2013_confinement_problem}.
 
-\todo{Discuss OS facilities at a high level, the reference monitor abstraction for access control}
+Anderson's 1972 introduction of the reference monitor architecture \cite{anderson1973_planning_study}  has informed the design and implementation of operating system access control mechanisms for nearly five decades. As subjects request access to system resources, the kernel's reference monitor validates requests and makes policy decisions. While all commodity operating systems support at least a basic notion of access control, many implement a coarse-grained, discretionary access control mechanism that is insufficient for providing the fine-grained protection required in security-sensitive or multi-tenant environments. For additional protection, we must turn to more advanced security features offered by the operating system.
 
-% TODO: Graft parts of the following into threat model in section 3
-%\subsection{The Confinement Threat Model}
-%\label{subsection:threat_model}
-%
-%To understand why process confinement is a desirable goal in operating system
-%security, we must first identify the credible threats that process confinement
-%addresses. To that end, here I describe three attack vectors
-%(\crefrange{a:1}{a:3}), followed by three attack goals (\crefrange{g:1}{g:3})
-%which highlight just a few of the threats posed by unconfined processes to
-%system security, stability, and user privacy.
-%
-%\begin{enumerate}[label=\bfseries A\arabic*., ref=A\arabic*, labelindent=1em]
-%    \item \label{a:1} \textsc{Compromised processes.} Unconfined running
-%    processes have classically presented a valuable target for attacker
-%    exploitation. With the advent of the Internet, web-facing processes that
-%    handle untrusted user input are especially vulnerable, particularly as they
-%    often run with heightened privileges \cite{cohen1996_secure}. An attacker
-%    may send specially crafted input to the target application, hoping to
-%    subvert its control flow integrity via a classic buffer overflow,
-%    return-oriented programming \cite{shacham2007_rop}, or some other means. The
-%    venerable Morris Worm, regarded as the first computer worm on the Internet,
-%    exploited a classic buffer overflow vulnerability in the \texttt{fingerd}
-%    service for Unix, as well as a development backdoor left in the
-%    \texttt{sendmail} daemon \cite{spafford1989_morris}. In both cases, proper
-%    process confinement would have eliminated the threat by preventing
-%    the compromised programs from impacting the rest of the system.
-%
-%    \item \label{a:2} \textsc{Semi-honest software.} Here, I define semi-honest
-%    software as that which appears to perform its desired functionality, but
-%    which additionally may perform some set of unwanted actions without the
-%    user's knowledge. Without putting a proper external confinement mechanism in
-%    place to restrict the behaviour of such an application, it may continue to
-%    perform the undesired actions \textit{ad infinitum}, so long as it remains
-%    installed on the host. As a topical example, an \texttt{strace} of the
-%    popular Discord \cite{discord} voice communication client on Linux reveals
-%    that it repeatedly scans the process tree and reports a list of \textit{all
-%    applications} running on the system, even when the user has turned off the
-%    \enquote{display active game} feature\footnote{This feature allows Discord
-%    to report, in the user's status message, what game the user is currently
-%    playing. The \enquote{display active game} feature appears to be the
-%    original motivation behind scanning the process tree.}. This scanning
-%    behaviour represents a clear violation of the user's privacy expectations.
-%
-%    \item \label{a:3} \textsc{Malicious software.} In contrast to semi-honest
-%    software, malicious software is that which is expressly designed and
-%    distributed with malicious intent. Typically, this software would be
-%    downloaded by an unsuspecting user either through social engineering
-%    (e.g.~fake antivirus scams) or without the user's knowledge (e.g.~a drive-by
-%    download attack). In the case of a computer virus, malicious software may
-%    replicate itself on the host by infecting other (originally benign) binaries.
-%    It would be useful to provide the user with a means of running such
-%    potentially untrustworthy applications in a sandbox so that they cannot
-%    damage the rest of the system.
-%\end{enumerate}
-%
-%\begin{enumerate}[label=\bfseries G\arabic*., ref=G\arabic*, labelindent=1em]
-%    \item \label{g:1} \textsc{Installation of backdoors/rootkits.} Potentially,
-%    the most dangerous attack goal in the exploitation of unconfined processes
-%    is the establishment of a backdoor on the target system.  A backdoor needn't
-%    be sophisticated---for example, installing the attacker's RSA public key in
-%    \texttt{ssh}'s list of authorized keys would be sufficient---however, the
-%    most sophisticated backdoors may result in permanent and virtually
-%    undetectable escalation of privilege. For instance, a sophisticated attacker
-%    with sufficient privileges may load a \textit{rootkit}
-%    \cite{beegle2007_rootkit} into the operating system kernel, at which point
-%    she has free reign over the system in perpetuity (unless the user manages
-%    to somehow remove the rootkit or reinstalls the infected operating system).
-%
-%    \item \label{g:2} \textsc{Information leakage.} An obvious goal for attacks
-%    on unconfined processes (and indeed the focus of the earliest literature on
-%    process confinement \cite{lampson1973_a_note}) is information leakage. An
-%    adversary may attempt to gain access to personal information or other
-%    sensitive data such as private keys, password hashes, or bank credentials.
-%    Depending on the type of information, an unauthorized party may not even
-%    necessarily require elevated privileges to access it---for instance, no
-%    special privileges are required to leak the list of processes running on
-%    a Linux system (as in the case of Discord \cite{discord} highlighted above).
-%
-%    \item \label{g:3} \textsc{Denial of service.} A compromised process could be
-%    used to mount a denial of service attack against the host system. For
-%    example, an attacker could take down network interfaces, consume system
-%    resources, kill important processes, or cause the system to shut down or
-%    reboot at an inopportune moment.
-%\end{enumerate}
-%
-%As shown in the examples above, unconfined processes can pose significant
-%threats to system security and stability as well as user privacy. The advent of
-%the Internet has exacerbated many of these threats. Unconfined network-facing
-%daemons continually process untrusted user input, resulting in an easy and
-%highly valuable target for attacker exploitation. Email and web browsers have
-%enabled powerful social engineering and drive-by download attacks, which often
-%result in the installation of malicious software. Semi-honest software can
-%violate user expectations of security and privacy by performing unwanted actions
-%without the user's knowledge. It is clear that a solution is needed to mitigate
-%these threats---for this, we turn to process confinement.
+A separate yet related problem involves constructing policy languages with which to express security policy. These policy languages need to offer a careful balance of terseness and expressiveness. A policy language must be terse enough to enable human policy authorship and audit yet expressive enough to enforce least-privilege. Similarly, careful consideration is required when developing policy language abstractions. Close conformity with the system's underlying semantics may improve policy expressiveness but impact usability. Significant abstractions might similarly impact the expressiveness of the policy language.
+
+These issues of policy enforcement and policy language design are at the heart of the process confinement problem. This paper seeks to tackle this problem from the perspective of containers and container management.
 
 \subsection{Low-Level Isolation Techniques}
 \label{subsection:low_level}
@@ -151,7 +59,7 @@ In Linux, \textit{namespaces} and \textit{cgroups} (short for control groups) al
 
 The Linux Security Modules (LSM) API \cite{wright2002_lsm} provides an extensible security framework for the Linux kernel, allowing for the implementation of powerful kernelspace security mechanisms that can be chained together. LSM works by integrating a series of strategically placed \textit{security hooks} into kernelspace code. These hooks roughly correspond with boundaries for the modification of kernel objects. Multiple security implementations can hook into these LSM hooks and provide callbacks that generate audit logs and make policy decisions. \Cref{fig:lsm} depicts the LSM architecture in detail.
 
-\begin{figure}[htpb]
+\begin{figure}[htb]
     \centering
     \includegraphics[width=0.8\linewidth]{figs/lsm.pdf}
     \caption{The LSM architecture. Note the many-to-many relation between access
@@ -174,9 +82,9 @@ AppArmor (originally called SubDomain) \cite{cowan2000_apparmor} is often touted
 
 Containers use OS-level virtualization and confinement mechanisms (c.f.~\Cref{subsection:low_level}) to provide a (semi-)isolated environment for the execution of processes \cite{sultan2019_container_security}. Since they run directly on the host operating system and share the underlying OS kernel, containers do not require a full guest operating system to implement virtualization. This technique has the advantage of offering a light-weight alternative to traditional hardware virtualization approaches using full virtual machines \cite{sultan2019_container_security}. Compared with containers, traditional approaches to virtualization involve hypervisors, which virtualize and provide access to the underlying hardware, either running on top of a host operating system or directly on top of the hardware itself. Full virtual machines run on top of these hypervisors, each running a guest operating system with a full userland and kernel. Full virtualization provides stronger isolation guarantees than containers but involves significantly more overhead imposed by the guest operating system \cite{sultan2019_container_security}. \Cref{fig:virt} depicts an overview of the architectural differences between containers and full hardware virtualization solutions (i.e.~virtual machines running on top of hypervisors).
 
-\begin{figure}[htpb]
+\begin{figure}[htb]
   \centering
-  \includegraphics[width=0.8\linewidth]{figs/virtualization.pdf}
+  \includegraphics[width=1\linewidth]{figs/virtualization.pdf}
   \caption{
     Virtual machine and container architectures. Type I hypervisors \textbf{(a)} virtualize and control the underlying hardware directly, but require full guest operating systems on top of the virtualization layer. Type II hypervisors \textbf{(b)} run on top of a host operating system but still require full guest operating systems above the virtualization layer. Containers \textbf{(c)} achieve virtualization using a thin layer provided by the host operating system itself. They share the underlying operating system kernel and resources, and therefore require no guest operating system \cite{sultan2019_container_security}.
   }%
@@ -223,7 +131,7 @@ In 2014, Starovoitov and Borkmann merged a complete rewrite of the Linux BPF eng
 \end{itemize}
 These extensions to the Classic BPF engine effectively turn eBPF into a general-purpose execution engine in the kernel with powerful system introspection and kernel extension capabilities. eBPF programs execute in the kernel with supervisor privileges but are limited by a restricted execution context and pre-checked for safety by an in-kernel verification engine. In particular, eBPF programs are limited to a 512-byte stack, cannot access unbounded memory regions, must not have back-edges in their control flow, and must provably terminate \cite{gregg2019_bpf}. As a consequence of these restrictions, eBPF programs are not Turing-complete. Where necessary, an eBPF program can make calls to a set of allow-listed kernel helpers to obtain additional functionality, such as access to external memory regions and various kernel facilities such as signalling or random number generation \cite{gregg2019_bpf}.
 
-\begin{figure}[htpb]
+\begin{figure}[htb]
   \centering
   \includegraphics[width=0.8\linewidth]{figs/ebpf.pdf}
   \caption{

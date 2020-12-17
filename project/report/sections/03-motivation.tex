@@ -40,7 +40,7 @@ An attacker could have several goals under this threat model. Such goals might i
     An attacker might attempt to disclose sensitive information, such as API keys, secret cryptographic keys, passwords, or other sensitive user data. In the worst case, they might be able to disclose information belonging to another container or the host itself.
 
   \item \textsc{Tampering.}
-    Tampering attacks involve \todo{Finish this explanation}
+    An attacker could tamper with other processes running within a container, other containers, or the host itself. Such tampering attacks might include the replacement or modification of file systems or data to deliberately induce incorrect computational results \cite{sultan2019_container_security}.
 
   \item \textsc{Backdoor Establishment.}
     An attacker can establish a backdoor to obtain permanent or semi-permanent access to a container or the host system itself. For instance, an SSH backdoor (e.g.~installation of an attacker-controlled public key into SSH's list of authorized keys) can enable persistent network intrusions on the host system. In the worst case, this might involve the installation of a rootkit \cite{beegle2007_rootkit} in the host operating system to enable stealthy, overprivileged access.
@@ -51,4 +51,4 @@ Since containers are often co-located in large-scale, multi-tenant systems such 
 \subsection{The Quest for Secure Containers}%
 \label{sub:secure_containers}
 
-\todo{Write this, based on report}
+\todo{Write this, based on presentation}
