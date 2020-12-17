@@ -257,7 +257,7 @@ Security policy in \bpfcontain{} falls into two categories: \textit{implicit} an
 \end{longtable}
 \endgroup
 
-Following the principle of least privilege \cite{saltzer1975_protection}, \bpfcontain{} implements strict default-deny enforcement. The user may optionally change this behaviour and elect to enforce a default-allow policy instead, by setting \lstinline[language=yaml]{default: allow} in the manifest. A default-allow policy enables the easy restriction of specific unwanted behaviour in a given program, without worrying about the details of constructing a rigorous security policy.  Unless a container has been marked as default-allow, all access requests which are not covered under the implicit or explicit policies for a container are denied by default, and the access request is logged to userspace by the \bpfcontain{} daemon.
+Following the principle of least privilege \cite{saltzer1975_protection}, \bpfcontain{} implements strict default-deny enforcement. The user may optionally change this behaviour and elect to enforce a default-allow policy instead, by setting \lstinline[language=yaml]|default: allow| in the manifest. A default-allow policy enables the easy restriction of specific unwanted behaviour in a given program, without worrying about the details of constructing a rigorous security policy.  Unless a container has been marked as default-allow, all access requests which are not covered under the implicit or explicit policies for a container are denied by default, and the access request is logged to userspace by the \bpfcontain{} daemon.
 
 \subsubsection{LSM Probes and Maps}
 
