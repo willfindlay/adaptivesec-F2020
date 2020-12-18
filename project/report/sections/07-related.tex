@@ -1,19 +1,12 @@
 \section{Related Work}
 
-Since the introduction of Docker
+Several researchers \cite{sultan2019_container_security,xin2018_container_security,mullinix2020_security_measures} have examined various aspects of the container security, across a variety of container management platforms and confinement mechanisms. Sultan \etal~\cite{sultan2019_container_security} examined the container security landscape in detail, identifying strengths, weaknesses, patterns in academic literature,  and promising future work opportunities. Their recommendations included work towards a container-specific LSM \cite{sultan2019_container_security}, which inspired the research direction for \bpfcontain{}. Xin \etal~\cite{xin2018_container_security} presented a detailed taxonomy of container security exploits and analyzed the security of container management platforms against their exploit database. Mullinix \etal~\cite{mullinix2020_security_measures} presented a detailed analysis of Docker security and its underlying mechanisms along with the state of the art solutions in academia for measuring and hardening Docker security.
 
-% Surveys about container security
-\todo{Sultan \etal~\cite{sultan2019_container_security} examined the container security landscape in detail and provided recommendations for future work in container security.}
-\todo{Xin \etal~\cite{xin2018_container_security} examined and provided a taxonomy for common container security attacks.}
-\todo{Mullinix \etal~\cite{mullinix2020_security_measures} examined existing solutions for container security}
+Vulnerability analysis of container images \cite{shu2017_image_vuln,kwon2020_divds,brady2020_docker_cloud} has proved a lucrative technique for identifying areas of weakness in container configurations. Shu \etal~\cite{shu2017_image_vuln} presented their DIVA framework for automatic Docker Hub image vulnerability analysis and aggregated vulnerability data from over 350,000 Docker Hub images. In particular, they found that Docker images contained an average of 180 security vulnerabilities and that these vulnerabilities often propagate between parent and child images \cite{shu2017_image_vuln}. Kwon and Lee \cite{kwon2020_divds} used a similar technique in DIVDS, extracting vulnerabilities from container images and offering an interface to compare vulnerability severity and optionally add specific vulnerabilities to an allowlist. Brady \etal~\cite{brady2020_docker_cloud} applied image vulnerability scanning to a continuous integration pipeline to identify container vulnerabilities in production deployments.
 
-% Analysis of image vilnerabilities
-\todo{Shu \etal~\cite{shu2017_image_vuln} presented DIVA, a framework for automatically analyzing Docker hub image vulnerabilities}
-\todo{Brady \etal~\cite{brady2020_docker_cloud} proposed using continuous integration workflows to analyze and identify security vulnerabilities in deployed Docker images}
-\todo{Kwon and Lee~\cite{kwon2020_divds} presented DIVDS as a diagnostic mechanism for Docker image vulnerabilities}
+Other approaches consider ways to harden container management platforms directly, using existing Linux security features. Chen \etal~\cite{chen2019_container_dos} proposed a framework for mitigating denial of service attacks against the host system mounted from containers, using a combination of cgroups and kernel-module-based enforcement to limit resource consumption. While such cgroup-based methods effectively restrict resource-based denial of service attacks, they are insufficient for implementing least-privilege. To rectify overprivileged access to system calls, Lei \etal~\cite{lei2017_speaker} introduced SPEAKER to partition a container's seccomp-bpf profile into multiple execution phases.
 
 % Other approaches to improve container security
-\todo{Chen \etal~\cite{chen2019_container_dos} proposed a cgroup-based framework for hardening the system against denial of service attacks mounted from containers}
 \todo{Lei \etal~\cite{lei2017_speaker} proposed SPEAKER which partitions a container's seccomp-bpf profile into two phases.}
 \todo{Loukidis \etal~\cite{loukidis2018_dockersec} introduced Docker-Sec as a fully automated mechanism for enhancing the security of Docker containers}
 \todo{mention Xin \etal~\cite{xin2018_container_security} proposed hardening Linux's \texttt{commit\_creds} kernel function against privilege escalation exploits for processes confined by a namespace}
