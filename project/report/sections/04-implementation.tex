@@ -14,41 +14,19 @@ enforcement mechanism, enumerated below as Design Goals \ref{d:1} to \ref{d:5}.
 
 \begin{enumerate}[label=\bfseries D\arabic*., ref=D\arabic*, labelindent=1em]
   \item \label{d:1} \textsc{Usability.}
-    \bpfcontain{}'s basic functionality should not impose unnecessary usability
-    barriers on end-users.  Its policy language should be easy to understand and
-    semantically meaningful to users without significant security knowledge. To
-    accomplish this goal, \bpfcontain{} takes some inspiration from other high-level
-    policy languages for containerized applications, such as those used in
-    Snapcraft \cite{snap}.
+    \bpfcontain{} should not impose unnecessary usability barriers on end-users.  Its policy language should be easy to understand and semantically meaningful to users without requiring significant security knowledge. To accomplish this goal, \bpfcontain{} takes some inspiration from other high-level policy languages for containerized applications, such as those used in Snapcraft \cite{snap}.
 
   \item \label{d:2} \textsc{Configurability.}
-    It should be easy for an end-user to reconfigure policy to match their
-    specific use case, without worrying about the underlying details of the
-    operating system or the policy enforcement mechanism. It should be possible
-    to use \bpfcontain{} to restrict specific unwanted behaviour in a given
-    application without needing to write a rigorous security policy from
-    scratch.
+    It should be easy for an end-user to reconfigure policy to match their specific use case without worrying about the operating system's underlying details or the policy enforcement mechanism. It should be possible to use \bpfcontain{} to restrict specific unwanted behaviour in a given application without needing to write a rigorous security policy from scratch.
 
   \item \label{d:3} \textsc{Transparency.}
-    Containing an application using \bpfcontain{} should not require modifying the
-    application's source code or running the application using a privileged SUID
-    (Set User ID root) binary. \bpfcontain{} should be entirely agnostic to the rest
-    of the system and should not interfere with its regular use.
+    Confining an application using \bpfcontain{} should not require modifying the application's source code or running the application using a privileged SUID (Set User ID root) binary. \bpfcontain{} should be entirely agnostic to the rest of the system and should not interfere with its regular use.
 
   \item \label{d:4} \textsc{Adoptability.}
-    \bpfcontain{} should be adoptable across a wide variety of system configurations
-    and should not negatively impact the running system. It should be possible
-    to deploy \bpfcontain{} in a production environment without impacting system
-    stability and robustness or exposing the system to new security
-    vulnerabilities. \bpfcontain{} relies on the underlying properties of its eBPF
-    implementation to achieve its adoptability guarantees.
+    \bpfcontain{} should be adoptable across a wide variety of system configurations and should not negatively impact the running system. It should be possible to deploy \bpfcontain{} in a production environment without impacting system stability and robustness or exposing the system to new security vulnerabilities. \bpfcontain{} relies on the underlying properties of its eBPF implementation to achieve its adoptability guarantees.
 
   \item \label{d:5} \textsc{Security.}
-    \bpfcontain{} should be built from the ground up with security in mind. In
-    particular, security should not be an opt-in feature and \bpfcontain{} should
-    adhere to the principle of least privilege \cite{saltzer1975_protection} by
-    default. It should be easy to tune a \bpfcontain{} policy to respond to new
-    threats.
+    \bpfcontain{} should be built from the ground up with security in mind. In particular, security should not be an opt-in feature, and \bpfcontain{} should adhere to the principle of least privilege \cite{saltzer1975_protection} by default. It should be easy to tune a \bpfcontain{} policy to respond to new threats.
 \end{enumerate}
 
 \subsection{Architectural Overview}

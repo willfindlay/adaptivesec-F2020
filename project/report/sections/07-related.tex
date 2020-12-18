@@ -1,4 +1,25 @@
 \section{Related Work}
 
-\todo{This will be adapted from my literature review.}
+Since the introduction of Docker
+
+% Surveys about container security
+\todo{Sultan \etal~\cite{sultan2019_container_security} examined the container security landscape in detail and provided recommendations for future work in container security.}
+\todo{Xin \etal~\cite{xin2018_container_security} examined and provided a taxonomy for common container security attacks.}
+\todo{Mullinix \etal~\cite{mullinix2020_security_measures} examined existing solutions for container security}
+
+% Analysis of image vilnerabilities
+\todo{Shu \etal~\cite{shu2017_image_vuln} presented DIVA, a framework for automatically analyzing Docker hub image vulnerabilities}
+\todo{Brady \etal~\cite{brady2020_docker_cloud} proposed using continuous integration workflows to analyze and identify security vulnerabilities in deployed Docker images}
+\todo{Kwon and Lee~\cite{kwon2020_divds} presented DIVDS as a diagnostic mechanism for Docker image vulnerabilities}
+
+% Other approaches to improve container security
+\todo{Chen \etal~\cite{chen2019_container_dos} proposed a cgroup-based framework for hardening the system against denial of service attacks mounted from containers}
+\todo{Lei \etal~\cite{lei2017_speaker} proposed SPEAKER which partitions a container's seccomp-bpf profile into two phases.}
+\todo{Loukidis \etal~\cite{loukidis2018_dockersec} introduced Docker-Sec as a fully automated mechanism for enhancing the security of Docker containers}
+\todo{mention Xin \etal~\cite{xin2018_container_security} proposed hardening Linux's \texttt{commit\_creds} kernel function against privilege escalation exploits for processes confined by a namespace}
+
+% LSM stuff
+\todo{Sun \etal~\cite{sun2018_security_namespace} proposed security namespaces, allowing individual containers to opt-in to a specific LSM without impacting the rest of the system}
+\todo{Findlay \etal~\cite{findlay2020_bpfbox} presented bpfbox, which uses eBPF LSM probes to implement a process confinement mechanism for Linux applications. \bpfcontain{} can be thought of as a natural extension to bpfbox, taking the generic approach to runtime security and focusing it specifically on container-specific applications.}
+\todo{Landlock LSM~\cite{landlockio,landlock_patch} is an attempt at providing unprivileged LSMs to userspace as BPF programs, but it has since been recognized that is not possible to securely allow userspace to load arbitrary BPF programs into the kernel, and landlock remains an out-of-tree patch}
 

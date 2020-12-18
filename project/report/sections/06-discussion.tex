@@ -4,4 +4,18 @@
 
 \subsection{Limitations}
 
+\todo{eBPF map size restrictions; can make the maps bigger, but too big leads to high memory consumption; a non-prealloc maps are a nice compromise, but has been known to cause deadlocks \cite{starovoitov2016_prealloc}}
+
+\todo{Current prototype only focuses on least-privilege}
+
 \subsection{Future Work}
+
+\todo{New helpers for virtualization $\rightarrow$ \texttt{bpf\_enter\_namespace}, \texttt{bpf\_enter\_cgroup}, \texttt{bpf\_mountns\_remount}?}
+
+\todo{Combine virtualization rules and least-privilege; for example create an overlay filesystem and then restrict read and write to that filesystem only. this would eliminate the need for explicit filesystem and file rules}
+
+\todo{Inode local storage and task local storage maps in 5.10}
+
+\todo{Add other control flow integrity features to harden the kernel}
+
+\todo{Direct integration with existing container management systems like Docker}

@@ -135,6 +135,16 @@ bcc front-end
   doi       = {10.1109/SP.2019.00002}
 }
 
+https://lwn.net/Articles/679074/
+@techreport{starovoitov2016_prealloc,
+  author  = {Alexei Starovoitov},
+  journal = {{LWN.net}},
+  title   = {{bpf: hash map pre-alloc }},
+  year    = {2016},
+  url     = {https://lwn.net/Articles/679074/},
+  type    = {Kernel patch},
+}
+
 ===============================================================================
                             Confinement Problem
 ===============================================================================
@@ -565,9 +575,77 @@ Study of LSMs and LSFs for hardening Docker containers
   doi       = {10.1109/ICATCCT.2016.7911971}
 }
 
+Study of security measures for containerized applications in docker
+@article{mullinix2020_security_measures,
+  author    = {Samuel P. Mullinix and
+               Erikton Konomi and
+               Renee Davis Townsend and
+               Reza M. Parizi},
+  title     = {{On Security Measures for Containerized Applications Imaged with Docker}},
+  journal   = {CoRR},
+  volume    = {abs/2008.04814},
+  year      = {2020},
+  url       = {https://arxiv.org/abs/2008.04814},
+}
+
 ===============================================================================
                                 Related Work
 ===============================================================================
+
+@inproceedings{chen2019_container_dos,
+  author    = {Jiyang Chen and
+               Zhiwei Feng and
+               Jen-Yang Wen and
+               Bo Liu and
+               Lui Sha},
+  title     = {{A Container-Based DoS Attack-Resilient Control Framework for Real-Time
+               {UAV} Systems}},
+  booktitle = {Design, Automation {\&} Test in Europe Conference {\&} Exhibition,
+               {DATE} 2019, Florence, Italy, March 25-29, 2019},
+  pages     = {1222--1227},
+  publisher = {{IEEE}},
+  year      = {2019},
+  doi       = {10.23919/DATE.2019.8714888},
+}
+
+Security namespace: making linux security frameworks available to containers
+@inproceedings{sun2018_security_namespace,
+  author    = {Yuqiong Sun and
+               David Safford and
+               Mimi Zohar and
+               Dimitrios Pendarakis and
+               Zhongshu Gu and
+               Trent Jaeger},
+  title     = {{Security Namespace: Making Linux Security Frameworks Available to
+               Containers}},
+  booktitle = {27th {USENIX} Security Symposium, {USENIX} Security 2018, Baltimore,
+               MD, USA, August 15-17, 2018},
+  pages     = {1423--1439},
+  publisher = {{USENIX} Association},
+  year      = {2018},
+  url       = {https://www.usenix.org/conference/usenixsecurity18/presentation/sun},
+}
+
+SPEAKER
+@inproceedings{lei2017_speaker,
+  author    = {Lingguang Lei and
+               Jianhua Sun and
+               Kun Sun and
+               Chris Shenefiel and
+               Rui Ma and
+               Yuewu Wang and
+               Qi Li},
+  title     = {{SPEAKER: Split-Phase Execution of Application Containers}},
+  booktitle = {Detection of Intrusions and Malware, and Vulnerability Assessment
+               - 14th International Conference, {DIMVA} 2017, Bonn, Germany, July
+               6-7, 2017, Proceedings},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {10327},
+  pages     = {230--251},
+  publisher = {Springer},
+  year      = {2017},
+  doi       = {10.1007/978-3-319-60876-1\_11},
+}
 
 bpfbox
 @inproceedings{findlay2020_bpfbox,
@@ -584,9 +662,78 @@ bpfbox
   series    = {CCSW'20}
 }
 
-TODO: landlock LSM
+landlock LSM
+@misc{landlockio,
+  author       = {Salaun, Mickael},
+  title        = {{landlock.io}},
+  year         = {2020},
+  url          = {https://landlock.io},
+  urldate      = {2020-12-17},
+}
 
-TODO: Security namespace: making linux security frameworks available to containers
+@techreport{landlock_patch,
+  title        = {{Landlock LSM: Toward unprivileged sandboxing}},
+  author       = {Salaun, Mickael},
+  journal      = {Linux Kernel Mailing List},
+  year         = {2017},
+  url          = {https://lkml.org/lkml/2017/8/20/192},
+  urldate      = {2020-12-17},
+  type         = {Kernel patch {RFC}},
+}
+
+
+@inproceedings{brady2020_docker_cloud,
+  author    = {Kelly Brady and
+               Seung Moon and
+               Tuan Nguyen and
+               Joel Coffman},
+  title     = {Docker Container Security in Cloud Computing},
+  booktitle = {10th Annual Computing and Communication Workshop and Conference, {CCWC}
+               2020, Las Vegas, NV, USA, January 6-8, 2020},
+  pages     = {975--980},
+  publisher = {{IEEE}},
+  year      = {2020},
+  doi       = {10.1109/CCWC47524.2020.9031195},
+}
+
+@inproceedings{shu2017_image_vuln,
+  author    = {Rui Shu and
+               Xiaohui Gu and
+               William Enck},
+  title     = {{A Study of Security Vulnerabilities on Docker Hub}},
+  booktitle = {Proceedings of the Seventh {ACM} Conference on Data and Application
+               Security and Privacy, {CODASPY} 2017, Scottsdale, AZ, USA, March 22-24,
+               2017},
+  pages     = {269--280},
+  publisher = {{ACM}},
+  year      = {2017},
+  doi       = {10.1145/3029806.3029832},
+}
+
+@article{kwon2020_divds,
+  author    = {Soonhong Kwon and
+               Jong-Hyouk Lee},
+  title     = {{DIVDS:} Docker Image Vulnerability Diagnostic System},
+  journal   = {{IEEE} Access},
+  volume    = {8},
+  pages     = {42666--42673},
+  year      = {2020},
+  doi       = {10.1109/ACCESS.2020.2976874},
+}
+
+@inproceedings{loukidis2018_dockersec,
+  author    = {Fotis Loukidis-Andreou and
+               Ioannis Giannakopoulos and
+               Katerina Doka and
+               Nectarios Koziris},
+  title     = {{Docker-Sec: A Fully Automated Container Security Enhancement Mechanism}},
+  booktitle = {38th {IEEE} International Conference on Distributed Computing Systems,
+               {ICDCS} 2018, Vienna, Austria, July 2-6, 2018},
+  pages     = {1561--1564},
+  publisher = {{IEEE} Computer Society},
+  year      = {2018},
+  doi       = {10.1109/ICDCS.2018.00169},
+}
 
 ===============================================================================
                                     Misc.

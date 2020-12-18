@@ -46,39 +46,11 @@
 \begin{abstract}
 \noindent
 \todo{Redo this abstract when I have time}
-Containers are becoming an increasingly important part of the Linux ecosystem.
-Containerized package managers like Snapcraft \cite{snap} and FlatPak
-\cite{flatpak} enable easy distribution and dependency management for desktop
-applications, while Docker \cite{docker} and Kubernetes \cite{kubernetes}
-provide a framework for scaling and composing micro-services, especially in the
-cloud.  While containers offer a convenient abstraction for distributing and
-configuring software, they are also often used as a light-weight alternative to
-heavier virtualization techniques, such as virtual machines. Thus, containers
-can also be thought of as security mechanisms, implementing a form of isolation
-between processes that share the resources of the underlying operating system.
+Containers are becoming an increasingly important part of the Linux ecosystem.  Containerized package managers like Snapcraft \cite{snap} and FlatPak \cite{flatpak} enable easy distribution and dependency management for desktop applications, while Docker \cite{docker} and Kubernetes \cite{kubernetes} provide a framework for scaling and composing micro-services, especially in the cloud.  While containers offer a convenient abstraction for distributing and configuring software, they are also often used as a light-weight alternative to heavier virtualization techniques, such as virtual machines. Thus, containers can also be thought of as security mechanisms, implementing a form of isolation between processes that share the resources of the underlying operating system.
 
-Despite this clear security use case, existing container implementations do not
-consider security as a primary goal, and often fall back to insecure defaults
-when the host does not support the correct security abstractions. Further,
-container security implementations are often complex, relying on a myriad of
-virtualization techniques and security abstractions provided by the host
-operating system to isolate processes and enforce least-privilege. These
-security abstractions often paradoxically require elevated permissions to use in
-the first place, resulting in additional security risks when applications are
-able to escape confinement.
+Despite this clear security use case, existing container implementations do not consider security as a primary goal, and often fall back to insecure defaults when the host does not support the correct security abstractions. Further, container security implementations are often complex, relying on a myriad of virtualization techniques and security abstractions provided by the host operating system to isolate processes and enforce least-privilege. These security abstractions often paradoxically require elevated permissions to use in the first place, resulting in additional security risks when applications are able to escape confinement.
 
-To rectify these container security issues, I present
-\bpfcontain{}\footnote{\bpfcontain{} is a working title and is subject to change in the
-future.}, a novel approach to containers under the Linux kernel. \bpfcontain{} is
-built from the ground up as a light-weight yet secure process confinement
-solution for modern applications. Implemented in eBPF, an emerging technology
-for safely extending the Linux kernel, \bpfcontain{} enforces least privilege in
-containerized applications without requiring any additional privileges from the
-host operating system. Policies are written in a high-level language that is
-designed to be readable and modifiable by end-users without requiring
-significant security expertise. In this paper, I describe \bpfcontain{}'s design and
-implementation, evaluate its performance and security, and discuss how it
-compares with existing container solutions.
+To rectify these container security issues, I present \bpfcontain{}, a novel approach to containers under the Linux kernel. \bpfcontain{} is built from the ground up as a light-weight yet secure process confinement solution for modern applications. Implemented in eBPF, an emerging technology for safely extending the Linux kernel, \bpfcontain{} enforces least privilege in containerized applications without requiring any additional privileges from the host operating system. Policies are written in a high-level language that is designed to be readable and modifiable by end-users without requiring significant security expertise. In this paper, I describe \bpfcontain{}'s design and implementation, evaluate its performance and security, and discuss how it compares with existing container solutions.
 
 \end{abstract}
 \vfill
@@ -131,7 +103,6 @@ compares with existing container solutions.
 \input{sections/09-ack}
 
 % Uncomment for bibliography:
-\clearpage
 \printbibliography
 
 \end{document}
