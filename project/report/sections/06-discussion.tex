@@ -1,6 +1,6 @@
 \section{Discussion}
 
-\todo{Write this}
+%\todo{Write this}
 
 \subsection{Limitations}
 
@@ -17,10 +17,8 @@ Linux 5.10 and Linux 5.11 introduced \texttt{inode\_local\_storage} \cite{singh2
 
 While \bpfcontain{} currently only implements least-privilege for containers, there is potential to add full support for virtualization through new eBPF helpers in the kernel. These helpers could, for instance, be used to transparently move process groups into new namespaces and cgroups or manage filesystem mounts within a mount namespace, transparently to the target application. \bpfcontain{} could integrate these helpers into its container lifecycle management probes to enforce namespace, cgroup, and mount policy automatically and transparently to the target application. Not only would this extension enable fully application-transparent namespace and cgroup management, but it would also obviate the need for the root privileges required to use some generic kernel virtualization techniques.
 
-Another
+On the policy language side, the integration of virtualization with \bpfcontain{}'s enforcement mechanism presents opportunities for streamlining the configuration and policy associated with \bpfcontain{} containers. For instance, filesystem and mount namespace rules could be combined into one explicit \texttt{mount} rule. Under a given mount rule, \bpfcontain{} would mount an overlay filesystem in the container's mount namespace and automatically allow access to this mounted filesystem in its LSM policy. This new integration would not only significantly streamline container configuration, but it would also obviate the need for complex filesystem and file rules. For example, one mount rule could replace a series of file rules specifying access to required shared libraries.
 
-\todo{Combine virtualization rules and least-privilege; for example create an overlay filesystem and then restrict read and write to that filesystem only. this would eliminate the need for explicit filesystem and file rules}
-
-\todo{Direct integration with existing container management systems like Docker}
+An alternative route for adding virtualization support to \bpfcontain{} would be integration with existing container management frameworks such as Docker \cite{docker}, Kubernetes \cite{kubernetes}, and OpenShift \cite{openshift}. In principle, such integration could extend to any other container management framework, so long as it is compliant with the OCI (Open Container Initiative) standards \cite{oci}. This integration would have similar benefits to the eBPF helpers approach outlined above. Policy generation and enforcement could be tied directly with container configuration, offering a streamlined and more secure policy.
 
 To harden the kernel against the privilege escalation attacks described by Xin \etal~\cite{xin2018_container_security}, \bpfcontain{} leverages a kprobe eBPF program to instrument the kernel's \texttt{commit\_creds} function. Future versions of \bpfcontain{} could apply this same technique to other security-critical code paths in the kernel to further protect against kernel-level exploits mounted from containers. Similar techniques (using uprobes instead of kprobes) would also work on security-critical userspace applications that might be invoked within containers. Future work will involve identifying critical code paths in the kernel and the userspace TCB (trusted computing base) and building \bpfcontain{} kprobes and uprobes to harden them against exploitation.
