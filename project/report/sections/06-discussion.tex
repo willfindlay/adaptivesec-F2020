@@ -4,18 +4,23 @@
 
 \subsection{Limitations}
 
-\todo{eBPF map size restrictions; can make the maps bigger, but too big leads to high memory consumption; a non-prealloc maps are a nice compromise, but has been known to cause deadlocks \cite{starovoitov2016_prealloc}}
+Due to eBPF's safety constraints, conventional maps must be constrained to some fixed size, determined at map creation time (according to the arguments of the \texttt{bpf(2)} system call used to create the map). Since \bpfcontain{} uses eBPF maps to store per-container policy, this means that, in practice, the maximum map size bounds the number of possible rules for each policy category. This upper bound is not strictly an issue since \bpfcontain{}'s current design relies on loading policy when the daemon first starts, and thus map sizes can be predetermined based on policy files' contents. However, it would be desirable to add dynamically loadable policy into future versions of \bpfcontain{}, which would require some means of handling this map size restriction at runtime.
 
-\todo{Current prototype only focuses on least-privilege}
+To support dynamically loadable policy, \bpfcontain{}'s policy maps would either need to be very large or be dynamically resizable at runtime. The former option would increase \bpfcontain{}'s memory overhead on the running system. While eBPF maps do support runtime allocation within a fixed size upper bound using the \texttt{BPF\_NO\_PREALLOC} flag, this runtime allocation comes at the cost of potential deadlocks when instrumenting critical sections in the kernel \cite{starovoitov2016_prealloc}. Its use is generally discouraged for this reason. Linux 5.10 and 5.11 introduce some new garbage collected map types \cite{singh2020_task_local_storage, singh2020_inode_local_storage}, which could alleviate this problem in practice. Integration with these new maps is discussed as topics for future work in \Cref{sub:future_work}.
+
+Another limitation of the current research prototype is that it purely focuses on least-privilege and composability, ignoring the important goal of virtualization that is so central to the concept of containers. As explained in \Cref{subsection:containers} and \Cref{sub:secure_containers}, the goal of the initial \bpfcontain{} prototype was to provide a least-privilege-first approach to containers; thus, virtualization support is left as a topic for future work. The path forward for virtualization support in \bpfcontain{} could proceed in two disparate (yet not mutually exclusive) directions: (1) the introduction of application-transparent virtualization BPF helpers in the kernel; and (2) the direct integration of \bpfcontain{} with existing container management implementations. \Cref{sub:future_work} covers both options in detail.
 
 \subsection{Future Work}
+\label{sub:future_work}
+
+\todo{Inode local storage and task local storage maps in 5.10}
+
+Linux 5.11 \todo{finish}
+
+\todo{Direct integration with existing container management systems like Docker}
 
 \todo{New helpers for virtualization $\rightarrow$ \texttt{bpf\_enter\_namespace}, \texttt{bpf\_enter\_cgroup}, \texttt{bpf\_mountns\_remount}?}
 
 \todo{Combine virtualization rules and least-privilege; for example create an overlay filesystem and then restrict read and write to that filesystem only. this would eliminate the need for explicit filesystem and file rules}
 
-\todo{Inode local storage and task local storage maps in 5.10}
-
-\todo{Add other control flow integrity features to harden the kernel}
-
-\todo{Direct integration with existing container management systems like Docker}
+To harden the kernel against the privilege escalation attacks described by Xin \etal~\cite{xin2018_container_security}, \bpfcontain{} leverages a kprobe eBPF program to instrument the kernel's \texttt{commit\_creds} function. Future versions of \bpfcontain{} could apply this same technique to other security-critical code paths in the kernel to further protect against kernel-level exploits mounted from containers. Similar techniques (using uprobes instead of kprobes) would also work on security-critical userspace applications that might be invoked within containers. Future work will involve identifying critical code paths in the kernel and the userspace TCB (trusted computing base) and building \bpfcontain{} kprobes and uprobes to harden them against exploitation.
