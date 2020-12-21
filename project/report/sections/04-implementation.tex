@@ -146,7 +146,7 @@ For the bulk of its policy enforcement \bpfcontain{} leverages the KRSI (kernel 
 
 Network policy in \bpfcontain{} enforces at the socket level, across various granularities. The most basic network policy consists of a single rule \texttt{network} which grants coarse-grained access to the entire networking stack. A specific address family and level of access may also be specified for finer-grained policy. Network policy is closely related to IPC policy, which grants or revokes permission to perform interprocess communication between containers. Support IPC mechanisms include System V IPC, signals, and Unix sockets (which must also be declared under network policy). For inter-container IPC to be valid, \textit{both} containers must mutually declare IPC access to each other. In other words, if container $A$ wishes to perform IPC with container $B$, container $A$ must list an \lstinline[language=yaml]{ipc: B} right and container $B$ must also list an \lstinline[language=yaml]{ipc: A} right.
 
-\todo{Maybe cover some policy examples}
+%\todo{Maybe cover some policy examples}
 
 \subsection{Launching a \bpfcontain{} Container}
 \label{sub:launching}
@@ -235,17 +235,13 @@ Security policy in \bpfcontain{} falls into two categories: \textit{implicit} an
 \end{longtable}
 \endgroup
 
-Following the principle of least privilege \cite{saltzer1975_protection}, \bpfcontain{} implements strict default-deny enforcement. The user may optionally change this behaviour and elect to enforce a default-allow policy instead, by setting \lstinline[language=yaml]|default: allow| in the manifest. A default-allow policy enables the easy restriction of specific unwanted behaviour in a given program, without worrying about the details of constructing a rigorous security policy.  Unless a container has been marked as default-allow, all access requests which are not covered under the implicit or explicit policies for a container are denied by default, and the access request is logged to userspace by the \bpfcontain{} daemon.
+Following the principle of least privilege \cite{saltzer1975_protection}, \bpfcontain{} implements strict default-deny enforcement. The user may optionally change this behaviour and elect to enforce a default-allow policy instead, by setting \lstinline[language=yaml]|default: allow| in the manifest. A default-allow policy enables the easy restriction of specific unwanted behaviour in a given program, without worrying about the details of constructing a rigorous security policy.  Unless a container has been marked as default-allow, all access requests which are not covered under the implicit or explicit policies for a container are denied by default, and the access request is logged to userspace by the \bpfcontain{} daemon. %[ <-- workaround for annoying VimTex syntax highlighting bug
 
 \subsubsection{LSM Probes and Maps}
 
-\todo{Probably redo this entire section}
+At runtime, \bpfcontain{} stores representations of explicit policy rules using several eBPF maps. In particular, it uses two maps for each major policy category, one to store allowed access patterns and another to store denied access patterns. \bpfcontain{} keys each policy map using a composite key comprised of a unique container ID combined with another unique identifier for the given resource. For instance, a filesystem policy key consists of the container ID and a unique filesystem device ID provided by the kernel. File policy keys are similar, but with the addition of an inode number to identify a specific file. Each key in a policy map maps to a vector describing the allowed or denied access pattern.
 
-\todo{go over this}
-\bpfcontain{} policy is stored in kernelspace using several eBPF maps, one for each policy category. These maps are keyed using a composite key comprised of a unique ID associated with each container combined with another unique identifier for the given resource. For instance, filesystem policy is keyed using the container's ID and the unique identifier associated with the mounted device. Each key in a policy map is mapped to a vector describing the allowed or denied access, depending on the rule's granularity and its associated parameters.
-
-\todo{completely reword this, grammarly hates it}
-As instrumented LSM hooks are invoked, \bpfcontain{} queries the map of active processes to determine which container the process is associated with, if any.  \bpfcontain{} then queries the corresponding policy map using the appropriate key, derived from the container ID associated with the currently running process and the unique identifiers corresponding to the requested resource. If no matching entry is found, access is denied (assuming that the policy has not been marked default-allow).  Otherwise, the requested access is compared with the value found in the map, and access is only granted if the values match.
+\bpfcontain{} also maintains a few other eBPF maps in addition to its policy maps, used to track the state of running processes, the containers they belong to, and other aspects of the running system, such as which procfs inodes belong to which containers. When \bpfcontain{} makes a policy decision, it considers the policy associated with the current container and the current state stored in these maps. For explicit policy, \bpfcontain{} compares the requested access vector with the values stored in its policy maps. For access to be allowed, the entire access vector must be a subset of the value stored in the \enquote{allow} policy map. On the other hand, a denial occurs if any one of the accesses in the \enquote{deny} map matches any part of the access vector. If no matching entry is found in either policy map and the container has not been marked default-allow, access is denied by default.
 
 \subsubsection{Preventing Kernel Privilege Escalation}
 
@@ -274,23 +270,25 @@ Xin \etal~\cite{xin2018_container_security} identified a common class of contain
  This technique enables \bpfcontain{} to enforce simple control flow integrity in the kernel, preventing the privilege escalation exploit. Thanks to eBPF, \bpfcontain{} can do this at runtime without requiring a kernel patch or even a system reboot. Further, the seamless integration provided by eBPF maps enables \bpfcontain{} to apply this enforcement exclusively on its own containers and only on invalid code paths. These factors result in a flexible yet effective solution to the kernel privilege escalation problem.
 
 \subsection{Case Study: Discord}
+\label{sub:case_studies}
 
-\todo{Go over this entire subsection}
+%\todo{Rework this, since the threat model section is now new}
+%As a motivating example of \bpfcontain{} security policy, consider the Discord
+%client, discussed briefly in \Cref{subsection:threat_model}. Discord is a popular
+%cross-platform voice chat client designed for gamers and comes with an optional
+%feature, \enquote{Display Active Game}, which displays whatever game the user is
+%currently playing in their status message. To accomplish this, the Linux Discord
+%client periodically scans the \texttt{procfs} filesystem to obtain a list of all
+%running processes.  While this feature may seem innocuous at first glance, an
+%\texttt{strace} \cite{strace} of Discord reveals that it continually scans the
+%process tree even when the \enquote{Display Active Game} feature is
+%\textit{disabled}. This behaviour represents a gross violation of the user's
+%privacy expectations. To rectify this issue, a user might write a \bpfcontain{}
+%policy like the examples depicted in \Cref{lst:discord_a} and
+%\Cref{lst:discord_b}.
 
-\todo{Rework this, since the threat model section is now new}
-As a motivating example of \bpfcontain{} security policy, consider the Discord
-client, discussed briefly in \Cref{subsection:threat_model}. Discord is a popular
-cross-platform voice chat client designed for gamers and comes with an optional
-feature, \enquote{Display Active Game}, which displays whatever game the user is
-currently playing in their status message. To accomplish this, the Linux Discord
-client periodically scans the \texttt{procfs} filesystem to obtain a list of all
-running processes.  While this feature may seem innocuous at first glance, an
-\texttt{strace} \cite{strace} of Discord reveals that it continually scans the
-process tree even when the \enquote{Display Active Game} feature is
-\textit{disabled}. This behaviour represents a gross violation of the user's
-privacy expectations. To rectify this issue, a user might write a \bpfcontain{}
-policy like the examples depicted in \Cref{lst:discord_a} and
-\Cref{lst:discord_b}.
+As a motivating example of how \bpfcontain{} policy might be used in practice, consider the Discord voice chat client. Discord \cite{discord} is a popular, cross-platform voice chat client designed for gamers. It comes with an optional feature called \enquote{Display Active Game} which automatically displays whatever game the user is currently playing in their status message. Naturally, there are privacy concerns here because some users might not want to broadcast their current activity to the rest of the world; therefore, Discord provides an option to turn this feature off. However, an strace \cite{strace} of the Linux Discord client reveals that Discord continually scans the entire process tree every 5 seconds and queries the full path of every executable running on the system, even when \enquote{Display Active Game} has been turned off. This scanning behaviour represents a gross violation of an end-user's privacy expectations\footnotemark{}, as Discord could be, in principle, doing whatever they like with this data. Naturally, it would be useful for an end-user to be able to write a \bpfcontain{} policy to restrict this behaviour. \Cref{lst:discord_a} and \Cref{lst:discord_b} depict two examples of what such a policy might look like.
+\footnotetext{See \url{https://www.reddit.com/r/privacy/comments/coo3h6/discord_uses_ptrace_wildly} and \url{https://www.reddit.com/r/discordapp/comments/g2nwa0/how_can_i_disable_discord_from_scanning_the} for examples of user frustration.}
 
 \begin{listing}[
   language=yaml,
@@ -338,15 +336,7 @@ policy like the examples depicted in \Cref{lst:discord_a} and
     - filesystem /proc
 \end{listing}
 
-In the first example (\Cref{lst:discord_a}), the container grants access to the
-root filesystem, networking capabilities, and video and sound devices. It
-explicitly restricts access to the \texttt{procfs} filesystem, preventing
-Discord from scanning the process tree. In the second example
-(\Cref{lst:discord_b}), a more permissive policy is defined which serves
-\textit{only} to restrict access to \texttt{procfs}. The choice of which
-alternative to use is left entirely up to the user, and may depend on various
-factors such as the existence of a pre-configured policy file, the desired use
-case, and the user's level of comfort with \bpfcontain{}'s policy semantics.
+In the first example (\Cref{lst:discord_a}), the container grants access to the root filesystem, networking capabilities, and video and sound devices. It explicitly restricts access to the \texttt{procfs} filesystem, preventing Discord from scanning the process tree. In the second example (\Cref{lst:discord_b}), a more permissive policy is defined which serves \textit{only} to restrict access to \texttt{procfs}. The choice of which alternative to use is left entirely up to the user. It may depend on various factors such as the existence of a pre-configured policy file, the desired use case, and the user's level of comfort with \bpfcontain{}'s policy semantics.
 
 \subsection{Why an eBPF Implementation?}%
 \label{sub:why_ebpf}

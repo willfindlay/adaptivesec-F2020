@@ -2,8 +2,27 @@
 
 \subsection{Usability}
 
+Informally, the usability argument for \bpfcontain{} is obvious. By exposing a high-level policy language to end-users with familiar semantics, \bpfcontain{}
+\todo{The basic policy language is fairly high-level, focusing on the user's understanding of container behaviour rather than underlying operating system semantics. For instance, graphics, video, sound, and pts rules abstract away the underlying details of granting specific access to devices on the system.} For use cases that focus on limiting specific behaviours in a confined application, the default-allow policy option provides a convenient way to write ad-hoc policy without needing to worry about the underlying details. For instance, the default allow policy for restricting Discord's procfs scanning behaviour (c.f.~\Cref{lst:discord_b} in \Cref{sub:case_studies}) is only nine lines long, and consists of three actual policy rules.
+
+To properly evaluate \bpfcontain{}'s usability, we must establish a strong basis for comparing it to other policy mechanisms, container-focused and otherwise. To that end, I propose conducting a user study, wherein different stakeholders are requested to evaluate \bpfcontain{} based on its perceived security level, ease of policy authorship, and alignment with user expectations. \todo{During this evaluation, a participant would be expected to use \bpfcontain{} to confine some commonly-used applications, such as text editors,} In particular, we might consider participant agreement with the following statements, evaluated on a Likert scale:
+\begin{enumerate}[label=\bf Q\arabic*.]
+  \item I was able to write the policy I needed for my use case.
+  \item I was confident that my confined applications were more secure.
+  \item \todo{Figure out more questions}
+\end{enumerate}
+To establish a basis for comparison with other policy mechanisms, participants would be asked to provide the same evaluation for an existing policy mechanism, such as AppArmor.
+
 \subsection{Security}
 
-Since \bpfcontain{} is implemented as a Linux security module,
+\todo{Reason more about the security properties of the reference monitor}
+
+Since \bpfcontain{} is implemented as an eBPF-based Linux security module, the totality of its mediation reduces to that of the Linux Security Module framework itself. \todo{But we also have additional mediation, such as the kprobe for kernel privilege escalation}
+
+\todo{Testing plan: test against the exploit database presented by Xin \etal~\cite{xin2018_container_security}}
 
 \subsection{Performance}
+
+\bpfcontain{}'s performance will be evaluated using a variety of Linux benchmarking tests.
+
+\todo{Describe the benchmarking tests we will use}
