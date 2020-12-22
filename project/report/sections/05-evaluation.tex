@@ -1,34 +1,13 @@
 \section{Evaluation}
 \label{sec:eval}
 
-\subsection{Usability}
-
-Informally, the usability argument for \bpfcontain{} is obvious. By exposing a high-level policy language to end-users with familiar semantics, \bpfcontain{}
-\todo{The basic policy language is fairly high-level, focusing on the user's understanding of container behaviour rather than underlying operating system semantics. For instance, graphics, video, sound, and pts rules abstract away the underlying details of granting specific access to devices on the system.} For use cases that focus on limiting specific behaviours in a confined application, the default-allow policy option provides a convenient way to write ad-hoc policy without needing to worry about the underlying details. For instance, the default allow policy for restricting Discord's procfs scanning behaviour (c.f.~\Cref{lst:discord_b} in \Cref{sub:case_studies}) is only nine lines long, and consists of three actual policy rules.
-
-To properly evaluate \bpfcontain{}'s usability, we must establish a strong basis for comparing it to other policy mechanisms, container-focused and otherwise. To that end, I propose conducting a user study, wherein different stakeholders are requested to evaluate \bpfcontain{} based on its perceived security level, ease of policy authorship, and alignment with user expectations. \todo{During this evaluation, a participant would be expected to use \bpfcontain{} to confine some commonly-used applications, such as text editors,} In particular, we might consider participant agreement with the following statements, evaluated on a Likert scale:
-\begin{enumerate}[label=\bf Q\arabic*.]
-  \item I was able to write the policy I needed for my use case.
-  \item I was confident that my confined applications were more secure.
-  \item \todo{Figure out more questions}
-\end{enumerate}
-To establish a basis for comparison with other policy mechanisms, participants would be asked to provide the same evaluation for an existing policy mechanism, such as AppArmor.
-
 \subsection{Security}
 
-According the Anderson's reference monitor model \cite{anderson1973_planning_study}, a secure reference validation mechanism must satisfy the properties of \textit{complete mediation}, \textit{tamper resistance}, and \textit{verifiability}. Complete mediation refers to the property of mediating all possible accesses to a security-sensitive resource with no ability to bypass the reference monitor. Tamper resistance means that it should not be possible for an external actor to interfere with or change the reference monitor's behaviour. Finally, verifiability refers to the ability to formally or informally verify the correctness of a reference monitor \cite{jaeger2011_reference_monitor}. As a least-privilege implementation, \bpfcontain{} must adhere to all three of these properties (at least within the scope of container security) to be considered secure. I discuss each in the paragraphs that follow.
-
-%Informally, we can reason about the first two properties. The third will require either formal verification methods, extensive security analysis, or a demonstration of robustness against known container exploits, covering a wide variety of attacks. I leave the verifiability argument to future work but propose a concrete plan for testing \bpfcontain{} at the end of this section.
+According the Anderson's reference monitor model \cite{anderson1973_planning_study}, a secure reference validation mechanism must satisfy the properties of \textit{complete mediation}, \textit{tamper resistance}, and \textit{verifiability}. Complete mediation refers to the property of mediating all possible accesses to a security-sensitive resource with no ability to bypass the reference monitor. Tamper resistance means that it should not be possible for an external actor to interfere with or change the reference monitor's behaviour. Finally, verifiability refers to the ability to formally or informally verify the correctness of a reference monitor. Generally speaking, this means that the underlying implementation should be terse and simple enough that its efficacy can be reasoned about in practice \cite{jaeger2011_reference_monitor}. As a least-privilege implementation, \bpfcontain{} must adhere to all three of these properties (at least within the scope of container security) to be considered secure. I discuss each in the paragraphs that follow.
 
 \paragraph*{Complete Mediation}
 
-Since \bpfcontain{} is implemented as an eBPF-based Linux security module, the totality of its mediation reduces to that of the Linux Security Module framework itself. \todo{But we also have additional mediation, such as the kprobe for kernel privilege escalation}
-
-\begin{enumerate}
-  \item Totality of mediation of the LSM framework itself;
-  \item Totality of mediation within the LSM framework;
-  \item Granularity of the policy language;
-\end{enumerate}
+Recall that the majority of \bpfcontain{}'s policy enforcement mechanism leverages the Linux Security Modules framework exposed by the kernel. We assume that the property of complete mediation holds for the LSM framework itself. Therefore, we can say that \bpfcontain{} achieves complete mediation insofar as its LSM-level policy is concerned. Other aspects of \bpfcontain{}'s policy enforcement, such as its instrumentation of the \texttt{commit\_creds} function in the kernel, serve only to complement its LSM-level policy, rather than replace it. Such extensions provide additional kernel-level hardening against attacks mounted from containers and, thus, increase the strength of \bpfcontain{}'s complete mediation guarantees. In summary, we can say that \bpfcontain{}'s complete mediation at least reduces to that of the LSM framework itself, and in the best case, extends it.
 
 \paragraph*{Tamper Resistance}
 
@@ -38,7 +17,7 @@ With the integrity of \bpfcontain{}'s policy and state maps guaranteed, all that
 
 \paragraph*{Verifiability}
 
-\todo{The code base is even smaller than most conventional LSM implementations, which means that it is more verifiable.} \todo{Since eBPF programs must pass a formal verification process before being loaded into the kernel, we can also be confident that \bpfcontain{}'s enforcement mechanism contains no memory corruption bugs and will not crash or damage the host system.}
+\bpfcontain{} has a comparatively small codebase (well under 2000 lines of kernelspace code) compared to conventional LSM implementations such as SELinux or AppArmor. Much of its functionality, such as policy management, is offloaded entirely to userspace, further reducing the amount of kernelspace code that must be verified. Finally, because of its eBPF implementation, \bpfcontain{}'s kernelspace code must pass automated, formal verification checks before it can even be loaded into the kernel. Because of these checks, we can be confident that \bpfcontain{}'s enforcement mechanism does not suffer from the memory safety issues and other security-critical bugs that plague conventional C programs. Therefore, we can say that \bpfcontain{} achieves the verifiability property.
 
 \subsubsection{Evaluating \bpfcontain{}'s Security in Practice}
 
@@ -46,8 +25,39 @@ Evaluation of \bpfcontain{}'s security in practice will require demonstration th
 
 In addition to container-specific exploits, we can also test \bpfcontain{}'s efficacy for ad-hoc confinement by constructing relevant \bpfcontain{} policy for commodity applications and testing against known CVEs or a set of undesired behaviour for these applications. For instance, these tests might involve verifying prevention of a code execution exploit in a web server or stopping Discord's unwanted procfs scanning behaviour using the policy depicted in \Cref{sub:case_studies}.
 
+\subsection{Usability}
+
+Informally, the usability argument for \bpfcontain{} is obvious. By exposing a high-level policy language with semantics that will be familiar to end-users, \bpfcontain{} makes it easy to write secure policies that pertain to a container's specific needs. Higher level rules may be combined with lower level rules for finer-grained enforcement where required. For use cases that focus on limiting specific behaviours in a confined application, the default-allow policy option provides a convenient way to write ad-hoc policy without needing to worry about the underlying details. For instance, the default allow policy for restricting Discord's procfs scanning behaviour (c.f.~\Cref{lst:discord_b} in \Cref{sub:case_studies}) is only nine lines long, and consists of three actual policy rules.
+
+To properly evaluate \bpfcontain{}'s usability, we must establish a strong basis for comparing it to other confinement mechanisms, container-focused and otherwise. To that end, I propose conducting a user study, wherein different stakeholders are requested to evaluate \bpfcontain{} based on its perceived security level, ease of policy authorship, and alignment with user expectations. \todo{During this evaluation, a participant would be expected to use \bpfcontain{} to confine some commonly-used applications, such as text editors,} In particular, we might consider participant agreement with the following statements, evaluated on a Likert scale:
+\begin{enumerate}[label=\bf Q\arabic*.]
+  \item I was able to write the policy I needed for my use case.
+  \item I was confident that my confined applications were more secure.
+  \item \todo{Figure out more questions}
+\end{enumerate}
+To establish a basis for comparison with other policy mechanisms, participants would be asked to provide the same evaluation for an existing policy mechanism, such as AppArmor.
+
 \subsection{Performance}
 
-\bpfcontain{}'s performance will be evaluated using a variety of Linux benchmarking tests.
+\bpfcontain{}'s performance overhead can be measured using a variety of benchmarking techniques. \Cref{tab:perf_tests}
 
-\todo{Describe the benchmarking tests we will use}
+Tests will be conducted on a dedicated host system using a specially-configured KVM virtual machine for maximal reproducibility.
+
+{
+\small
+\begin{longtable}[c]{lp{25em}}
+  \caption{
+    Benchmarking tests that will be used to evaluate the performance overhead of \bpfcontain{}.
+  }
+  \label{tab:perf_tests}\\
+  \toprule
+  Test               & Description \\
+  \midrule
+  \endfirsthead
+  Phoronix OSBench    & TODO \\
+  Kernel Compilation  & TODO \\
+  System Calls        & TODO \\
+  BPF Microbenchmarks & TODO \\
+  \bottomrule
+\end{longtable}
+}
