@@ -1,4 +1,5 @@
 \section{Conclusion}
+\label{sec:conclusion}
 
 This paper has presented \bpfcontain{}, a novel least-privilege implementation for container security that leverages the power of eBPF to provide safe and flexible policy enforcement at the container level. Due to its implementation as an eBPF-based enforcement mechanism, \bpfcontain{} both hardens the kernel against privilege escalation exploits and secures the container-host boundary against undesired (and potentially dangerous) misuse of system resources. Further, \bpfcontain{} exposes a simple YAML-based policy configuration language to userspace that conforms with the semantics of existing container management mechanisms. This policy language is designed to be highly configurable and to support ad-hoc confinement use cases through high-level policy rules and optional default-allow enforcement.
 

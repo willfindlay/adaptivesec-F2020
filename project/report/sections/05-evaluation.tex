@@ -1,4 +1,5 @@
 \section{Evaluation}
+\label{sec:eval}
 
 \subsection{Usability}
 
@@ -19,7 +20,9 @@ To establish a basis for comparison with other policy mechanisms, participants w
 
 Since \bpfcontain{} is implemented as an eBPF-based Linux security module, the totality of its mediation reduces to that of the Linux Security Module framework itself. \todo{But we also have additional mediation, such as the kprobe for kernel privilege escalation}
 
-\todo{Testing plan: test against the exploit database presented by Xin \etal~\cite{xin2018_container_security}}
+Evaluation of \bpfcontain{}'s security in practice will require demonstration that a correctly configured \bpfcontain{} policy can defend against container exploitation. This will involve three phases: (1) identifying relevant exploits for a set of container images; (2) constructing a security policy for these images; (3) testing that the security policy effectively prevents the exploits without affecting the desired functionality of the container image. Xin \etal~\cite{xin2018_container_security} presented a rigorous dataset of container exploits up to the year 2018, which can be used to bootstrap the testing dataset for \bpfcontain{} and will also serve as a strong basis for comparison against existing container security measures. This dataset will then be augmented with additional CVEs from 2019 and 2020.
+
+In addition to container-specific exploits, we can also test \bpfcontain{}'s efficacy for ad-hoc confinement by constructing relevant \bpfcontain{} policy for commodity applications and testing against known CVEs or a set of undesired behaviour for these applications. For instance, these tests might involve verifying prevention of a code execution exploit in a web server or stopping Discord's unwanted procfs scanning behaviour using the policy depicted in \Cref{sub:case_studies}.
 
 \subsection{Performance}
 
