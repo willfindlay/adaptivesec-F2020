@@ -16,9 +16,31 @@ To establish a basis for comparison with other policy mechanisms, participants w
 
 \subsection{Security}
 
-\todo{Reason more about the security properties of the reference monitor}
+According the Anderson's reference monitor model \cite{anderson1973_planning_study}, a secure reference validation mechanism must satisfy the properties of \textit{complete mediation}, \textit{tamper resistance}, and \textit{verifiability}. Complete mediation refers to the property of mediating all possible accesses to a security-sensitive resource with no ability to bypass the reference monitor. Tamper resistance means that it should not be possible for an external actor to interfere with or change the reference monitor's behaviour. Finally, verifiability refers to the ability to formally or informally verify the correctness of a reference monitor \cite{jaeger2011_reference_monitor}. As a least-privilege implementation, \bpfcontain{} must adhere to all three of these properties (at least within the scope of container security) to be considered secure. I discuss each in the paragraphs that follow.
+
+%Informally, we can reason about the first two properties. The third will require either formal verification methods, extensive security analysis, or a demonstration of robustness against known container exploits, covering a wide variety of attacks. I leave the verifiability argument to future work but propose a concrete plan for testing \bpfcontain{} at the end of this section.
+
+\paragraph*{Complete Mediation}
 
 Since \bpfcontain{} is implemented as an eBPF-based Linux security module, the totality of its mediation reduces to that of the Linux Security Module framework itself. \todo{But we also have additional mediation, such as the kprobe for kernel privilege escalation}
+
+\begin{enumerate}
+  \item Totality of mediation of the LSM framework itself;
+  \item Totality of mediation within the LSM framework;
+  \item Granularity of the policy language;
+\end{enumerate}
+
+\paragraph*{Tamper Resistance}
+
+Due to \bpfcontain{}'s eBPF-based implementation, the presence of the \texttt{bpf(2)} system call on the host system introduces certain risks that must be carefully managed to achieve tamper resistance. The primary risk involves unwanted modification of \bpfcontain{}'s policy maps. To mitigate this risk, \bpfcontain{} includes specific logic in its LSM probe on the \texttt{bpf(2)} system call itself, preventing any userspace process besides the \bpfcontain{} daemon itself from directly accessing or modifying its policy maps. Additionally, maps responsible for managing process and container state are restricted using the \texttt{BPF\_F\_READONLY} flag, meaning that they can only be modified from within \bpfcontain{}'s LSM probes, and never via the \texttt{bpf(2)} system call \cite{linux_bpf}. Even without all of these safeguards, the kernel gates access to eBPF maps with the CAP\_SYS\_ADMIN capability. This requirement means that a process would effectively require root privileges before accessing any map on the system \cite{linux_bpf}.
+
+With the integrity of \bpfcontain{}'s policy and state maps guaranteed, all that remains is to show that its maps and eBPF programs are also protected from being removed or replaced in the kernel. For this, we rely on the inherent properties of how the kernel manages the lifecycle of eBPF maps and programs. For each \textit{BPF object}\footnote{Think of this as an umbrella term covering both eBPF maps and programs.}, the kernel maintains a reference counter, keeping track of the number of open file descriptors referring to the object. The kernel only detaches and cleans up a given BPF object once its reference counter reaches zero \cite{starovoitov2018_lifetime}. Thus, so long as the \bpfcontain{} daemon remains running and does not close these open file descriptors, its programs and maps are guaranteed to be loaded in the kernel. As an extra precaution, \bpfcontain{} also pins all of its maps and programs to a special filesystem called \texttt{bpffs}. Pinning an object to \texttt{bpffs} increments its reference counter by one until an \texttt{unlink(2)} system call removes the pinned inode \cite{starovoitov2018_lifetime}. Thus, \bpfcontain{}'s eBPF objects persist even when \bpfcontain{} is killed, for example, by a malicious privileged process. To protect its pinned objects, \bpfcontain{} instruments an LSM probe preventing any other process from calling \texttt{unlink(2)} on its pinned file descriptors.
+
+\paragraph*{Verifiability}
+
+\todo{The code base is even smaller than most conventional LSM implementations, which means that it is more verifiable.} \todo{Since eBPF programs must pass a formal verification process before being loaded into the kernel, we can also be confident that \bpfcontain{}'s enforcement mechanism contains no memory corruption bugs and will not crash or damage the host system.}
+
+\subsubsection{Evaluating \bpfcontain{}'s Security in Practice}
 
 Evaluation of \bpfcontain{}'s security in practice will require demonstration that a correctly configured \bpfcontain{} policy can defend against container exploitation. This will involve three phases: (1) identifying relevant exploits for a set of container images; (2) constructing a security policy for these images; (3) testing that the security policy effectively prevents the exploits without affecting the desired functionality of the container image. Xin \etal~\cite{xin2018_container_security} presented a rigorous dataset of container exploits up to the year 2018, which can be used to bootstrap the testing dataset for \bpfcontain{} and will also serve as a strong basis for comparison against existing container security measures. This dataset will then be augmented with additional CVEs from 2019 and 2020.
 
