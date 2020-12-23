@@ -58,7 +58,7 @@ To establish \bpfcontain{}'s performance overhead on the running system, we can 
   Test               & Description \\
   \midrule
   \endfirsthead
-  Phoronix OSBench   & The Phoronix OSBench benchmarking suite \todo{cite} is a macro-benchmarking suite that measures basic operating system functionality, such as program execution, filesystem access, and memory allocations. \\
+  Phoronix OSBench   & The Phoronix OSBench benchmarking suite \cite{phoronix} is a macro-benchmarking suite that measures basic operating system functionality, such as program execution, filesystem access, and memory allocations. \\
 
   System Calls       & This test will involve writing micro-benchmarking programs whose only purpose is to continually invoke system calls interposed on by \bpfcontain{}'s LSM probes. Some particularly relevant system calls might be \texttt{read}, \texttt{write}, \texttt{mmap}, \texttt{clone}, and \texttt{execve}. The programs will measure the average time taken to perform each system call. \\
 
